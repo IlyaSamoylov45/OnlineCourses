@@ -1,0 +1,127 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INTRODUCTION AND RELATIONAL DATABASES NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 1.1 MANAGING DATA
+  - The gap between how users think of their data and how the data is ultimately stored is bridged through several levels of abstraction
+
+Chapter 1.2 A HISTORICAL PERSPECTIVE
+  - Users write programs as if they are to be run by themselves, and the responsibility for running them concurrently is given to the DBMS.
+  - Data warehouses: consolidating data from several databases, and for carrying out specialized analysis.
+
+Chapter 1.3 FILE SYSTEMS VERSUS A DBMS
+  -  By storing data in a DBMS rather than as files, we can use the DBMS's features to manage the data in a robust and efficient way
+
+Chapter 1.4 ADVANTAGES OF A DBMS
+  - Benefits:
+    1. Data Independence
+    2. Efficient Data Access
+    3. Data Integrity and Security
+    4. Data Administration
+    5. Concurrent Access and Crash Recovery
+    6. Reduced Application Development Time
+
+  - If specialized performance or data manipulation requirements are central to an application, the application may choose not to use a DBMS
+
+Chapter 1.5 DESCRIBING AND STORING DATA IN A DBMS
+  - A data model is a collection of high-level data description constructs that hide many low-level storage details.
+  - Most DBMS today are based on the relational data model
+  - You should not use fields whose values are constantly changing.
+
+Chapter 1.5.1 The Relational Model
+  - Relation can be thought of as a set of records.
+  - A description of data in terms of a data model is called a schema.
+  - The Ability to specify uniqueness of the values in a field increases the accuracy with which we can describe our data.
+
+Chapter 1.5.2 Levels of Abstraction in a DBMS
+  - The database description consists of a schema at each of these three levels of abstraction: the conceptual, physical, and external.
+  - A data definition language (DDL) is used to define the external and conceptual schemas.
+  - The three levels of abstraction are:
+    1. Conceptual Schema
+      - Describes all relations that are stored in the database.
+      - The process of arriving at a good conceptual schema is called conceptual database design.
+    2. Physical Schema
+      - Summarizes how the relations described in the conceptual schema are actually stored on secondary storage devices
+      - The process of arriving at a good physical schema is called physical database design.
+    3. External Schema
+      - Allow data access to be customized at the level of individual users or groups of users.
+
+Chapter 1.5.3 Data Independence
+  - Data independence: application programs are insulated from changes in the way the data is structured and stored
+  - Logical data independence:  users can be shielded from changes in the logical structure of the data, or changes in the choice of relations to be stored.
+  - Physical data independence: the conceptual schema insulates users from changes in physical storage details.
+
+Chapter 1.6 QUERIES IN A DBMS
+  - The query language is a specialized language in which queries can be posed.
+  - A DBMS enables users to create, modify, and query data through a data manipulation language (DML).
+
+Chapter 3.1 INTRODUCTION TO THE RELATIONAL MODEL
+  - A relation consists of a relation schema and a relation instance. The relation instance is a table
+  - The relation schema describes the column heads for the table.
+  - The schema specifies the relation's name, the name of each field, and the domain of each field
+  - Relational Schema example:
+    ex: Students(sid: string, name: string, login: string, age: integer, gpa: real)
+    - The field name has a domain of string.
+  - An instance of a relation is a set of tuples, also called records (row in the table)
+  - The domain of a field is essentially the type of that field.
+  - The degree, also called arity, of a relation is the number of fields.
+  - The cardinality of a relation instance is the number of tuples in it.
+
+Chapter 3.1.1 Creating and Modifying Relations Using SQL
+  - The SQL language standard uses the word table to denote relation
+  - The subset of SQL that supports the creation, deletion, and modification of tables is called the Data Definition Language (DDL).
+  - CREATE TABLE command creates table:
+      CREATE TABLE <table-name>(
+      <attributes>
+      )
+  - Tuples inserted with INSERT command:
+      INSERT
+      INTO <table-name>(<attributes>)
+      VALUES (<values>)
+    - You do not need to list of column names and just list values in appropriate order but it is better to be explicit
+  - Delete Tuples with DELETE command:
+      DELETE
+      FROM <table>
+      WHERE <attribute> = <value>
+  - Modify value in existing row with UPDATE command:
+      UPDATE <table>
+      SET <attributes> = <values>
+      WHERE <attribute> = <value>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+XML DATA NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7.4.1 Introduction to XML
+7.4.2 XML DTDs
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RELATIONAL ALGEBRA NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+XPATH AND XQUERY NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+XSLT NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RELATIONAL DESIGN THEORY NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UNIFIED MODELING LANGUAGE NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INDEXES AND TRANSACTIONS NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CONSTRAINTS AND TRIGGERS NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+VIEWS AND AUTHORIZATION NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ON-LINE ANALYTICAL PROCESSING NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECURSION IN SQL NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
