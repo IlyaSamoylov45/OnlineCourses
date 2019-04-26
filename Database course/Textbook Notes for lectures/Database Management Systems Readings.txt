@@ -91,7 +91,30 @@ Chapter 3.1.1 Creating and Modifying Relations Using SQL
 XML DATA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 7.4.1 Introduction to XML
+  1. Elements:
+     - Elements (tags) are the primary building blocks of an XML document.
+     - XML elements are case sensitive.
+  2. Attributes:
+     - All attribute values must be enclosed in quotes.
+  3. Entity References:
+     - Entities are shortcuts for portions of common text or the content of external files
+  - We call an XML document well-formed if it has no associated DTD but follows these structural guidelines:
+    1. The document starts with an XML declaration.
+    2. A root element contains all the other elements.
+    3. All elements must be properly nested.
+
 7.4.2 XML DTDs
+  - A DTD is a set of rules that allows us to specify our own set of elements, attributes, and entities.
+  - We call a document valid if a DTD is associated with it and the document is structured according to the rules set by the DTD.
+  - Possible element content type:
+    1. Other elements
+    2. The special symbol #PCDATA, which indicates (parsed) character data.
+    3. The special symbol EMPTY that means element has no content. These are required to have an end tag.
+    4. The special symbol ANY, which indicates that any content is permitted. This should be avoided
+    5. A regular expression
+  - Attributes of elements are declared outside the element.
+  - The keyword ATTLIST indicates the beginning of an attribute declaration.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

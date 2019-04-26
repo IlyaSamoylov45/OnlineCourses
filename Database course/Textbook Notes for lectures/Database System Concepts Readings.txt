@@ -1,7 +1,19 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INTRODUCTION AND RELATIONAL DATABASES NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Chapter
+Chapter 1.1 Database-System Applications
+
+
+Chapter 3.1 Overview of the SQL Query Language
+  - Originally called Sequel but renamed to Structured Query Language
+  - The SQL language has several parts:
+    - Data-deﬁnition language(DDL): DDL provides commands for deﬁning relation schemas, deleting relations, and modifying relation schemas.
+    - Data-manipulation language (DML): provides the ability to query information from the database and work with tuples.
+    - Integrity: integrity constraints, updates that violate integrity constraints are not allowed
+    - View Definition
+    - Transaction control
+    - Embedded SQL and dynamic SQL (define how SQL can be embedded in languages like C, Java, C++)
+    - Authorization: specifying access rights to relations and views.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XML DATA NOTES
