@@ -190,12 +190,12 @@ Chapter 11.2.2 XML With and Without a Schema
 Chapter 11.2.3 Well-Formed XML
 - The minimal requirement for well-formed XML is that the document begin with a declaration that it is XML, and that it have a root element that is the entire body of the text.
 - Well-Formed will look something like this:
-
+  ```xml
   <? xml version = "1.0" encoding = "utf-8" standalone = "yes" ?>
   <Book>
   ***************
   </Book>
-
+  ```
 - The first like says it is XML doc.
 - Standalone="yes" indicates there's no DTD for this particular document.
 - Initial declaration has form <? . . . . . ?>
@@ -222,10 +222,12 @@ Chapter 11.3 Document Type Definitions
 
 Chapter 11.3.1 The Form of a DTD
   - The structure of a DTD is:
+  ```xml
     <! DOCTYPE root-tag [
       <! ELEMENT element-name (components) >
         more elements
     ]>
+  ```
   - There are two important special cases of components:
     1.(#PCDATA) (“parsed character data”) after an element name means that element has a value that is text there are no elements nested within.
       ex. <!ELEMENT Title (#PCDATA)>
@@ -262,18 +264,22 @@ Chapter 11.4.1 The Form of an XML Schema
   - An XML Schema description of a schema is itself an XML document. It uses the namespace at the URL:
     http://www.w3.org/2001/XMLSchema
   - Each XML-Schema document thus has the form:
+    ```xml
     <? xml version = "1.0" encoding = "utf-8" ?> <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     . . . . . . . . . . . . . . . . . . . . . . . . .
     </xs:schema>
+    ```
     - First line indicates XML
     - Second line indicates that this is the root tag for the document that is the schema.
     - The attribute xmlns (XML namespace) makes the variable xs stand for the namespace for XML Schema.
 
 Chapter 11.4.2 Elements
-- The form of an element definition in XML Schema is:
+  - The form of an element definition in XML Schema is:
+  ```xml
   <xs: element name = element name type = element type >
     constraints and/or structure information
   </xs:element>
+  ```
 
 Chapter 11.4.3 Complex Types
 - The most common is a sequence of elements. These elements are required to occur in the sequence given, but the number of
@@ -283,42 +289,50 @@ Chapter 11.4.3 Complex Types
 
 Chapter 11.4.4 Attributes
   - A complex type can have attributes
-  - notation:
+  - Notation:
+  ```xml
     <xs: attribute name = attribute name type = type name
       other information about the attribute />
-
-    example:
+  ```    
+  - Example:
+  ```xml
     <xs:attribute name = "year" type = "xs:integer" default="0" use = "required" />
+  ```
 
   - Attribute definitions are placed within a complex-type definition.
 
 Chapter 11.4.5 Restricted Simple Types
   - It is possible to create a restricted version of a simple type such as integer or string by limiting the values the type can take.
   - notation:
+  ```xml
     <xs: simpleType name = type name >
       <xs:restriction base = base type >
         upper and/or lower bounds
       </xs:restriction>
     </xs:simpleType>
+  ```
     - Our second way to restrict a simple type is to provide an enumeration of values.
       enumeration notation (haha):
       <xs: enumeration value = some value />
 
 Chapter 11.4.6 Keys in XML Schema
   - FORM:
+  ```xml
   <xs:key name = key name >
     <xs: selector xpath = path description >
     <xs:field xpath = path description >
   </xs:key>
+  ```
 
 Chapter 11.4.7 Foreign Keys in XML Schema
   - We can also declare that an element has, a field or fields that serve as a reference to the key for some other element.
   - FORM:
+  ```xml
     <xs:keyref name = foreign-key name refer = key name >
       <xs: selector xpath = path description >
       <xs: field xpath = path description >
     </xs:keyref>
-
+  ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

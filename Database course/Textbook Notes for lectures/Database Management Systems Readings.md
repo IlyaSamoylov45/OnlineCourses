@@ -70,23 +70,30 @@ Chapter 3.1.1 Creating and Modifying Relations Using SQL
   - The SQL language standard uses the word table to denote relation
   - The subset of SQL that supports the creation, deletion, and modification of tables is called the Data Definition Language (DDL).
   - CREATE TABLE command creates table:
+  ```SQL
       CREATE TABLE <table-name>(
       <attributes>
       )
+  ```
   - Tuples inserted with INSERT command:
+  ```SQL
       INSERT
       INTO <table-name>(<attributes>)
       VALUES (<values>)
+  ```
     - You do not need to list of column names and just list values in appropriate order but it is better to be explicit
   - Delete Tuples with DELETE command:
+  ```SQL
       DELETE
       FROM <table>
       WHERE <attribute> = <value>
+  ```
   - Modify value in existing row with UPDATE command:
+  ```SQL
       UPDATE <table>
       SET <attributes> = <values>
       WHERE <attribute> = <value>
-
+  ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XML DATA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

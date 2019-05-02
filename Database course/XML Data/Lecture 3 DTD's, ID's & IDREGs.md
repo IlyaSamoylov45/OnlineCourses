@@ -1,8 +1,8 @@
 DTD's, IDs & IDREFS
 
-- DTDs (Document type descriptors)
-- IDs
-- IDREFS
+	- DTDs (Document type descriptors)
+	- IDs
+	- IDREFS
 
 "VALID" XML
 
@@ -13,9 +13,9 @@ DTD's, IDs & IDREFS
 
 DOCUMENT TYOE DESCRIPTOR (DTD)
 
-- Grammar like language for specifying elements, attributes, nesting, ordering, # of occurrences
-- Also special attribute types ID and IDREFS
-- IDs and IDREFs are special attributes that allow you to specify pointers
+	- Grammar like language for specifying elements, attributes, nesting, ordering, # of occurrences
+	- Also special attribute types ID and IDREFS
+	- IDs and IDREFs are special attributes that allow you to specify pointers
 
 DTD/XCD versus none(well-formed)
 
