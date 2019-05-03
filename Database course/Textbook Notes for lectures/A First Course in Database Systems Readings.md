@@ -311,9 +311,11 @@ Chapter 11.4.5 Restricted Simple Types
       </xs:restriction>
     </xs:simpleType>
   ```
-    - Our second way to restrict a simple type is to provide an enumeration of values.
-      enumeration notation (haha):
-      <xs: enumeration value = some value />
+  - Our second way to restrict a simple type is to provide an enumeration of values.
+    enumeration notation (haha):
+  ```xml
+    <xs: enumeration value = some value />
+  ```
 
 Chapter 11.4.6 Keys in XML Schema
   - FORM:
@@ -333,6 +335,10 @@ Chapter 11.4.7 Foreign Keys in XML Schema
       <xs: field xpath = path description >
     </xs:keyref>
   ```
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+JSON NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NONE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

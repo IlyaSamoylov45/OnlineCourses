@@ -29,10 +29,77 @@ Chapter 1.3.1 Data Abstraction
 
 Chapter 1.3.2 Instances and Schemas
   - The collection of information stored in the DB at a particular moment is called an instance of the DB.
+  - Overall design of DB is called database schema.
+  - The physical schema is hidden beneath the logical schema, and can usually be changed easily without affecting application programs.
+
+Chapter 1.3.3 Data Models
+  - Data model: a collection of conceptual tools for describing data, data relationships, data semantics, and consistency constraints.
 
 Chapter 1.4 Database Languages
+  - A database system provides a data-deﬁnition language to specify the database schema and a data-manipulation language to express database queries and updates. They are not really two separate languages but instead form parts of a single database language.
+
+Chapter 1.4.1 Data-Manipulation Language
+  - A data-manipulation language (DML) is a language that enables users to access or manipulate data as organized by the appropriate data model.
+  - Types of accesses:
+    1. Retrieve information
+    2. Insert information
+    3. Delete information
+    4. Modify information
+  - Two Types:
+    1. Procedural DMLs: user specify what data and how to get the data.
+    2. Declarative DMLs: user specify what data are needed not how to get it.
+  - The portion of a DML that involves information retrieval is called a query language.   
+
+Chapter 1.4.2 Data-Deﬁnition Language
+  - Database schema is expressed by a special language known as the DDL
+  - Database systems implement integrity constraints that can be tested with minimal overhead:
+    1. Domain Constraints
+    2. Referential Integrity
+    3. Assertions
+       - An assertion is any condition that the database must always satisfy.
+       - Domain constraints and referential-integrity constraints are special forms of assertions.
+       -  When an assertion is created, the system tests it for validity. If the assertion is valid, then any future modiﬁcation to the database is allowed only if it does not cause that assertion to be violated.
+    4. Authorization
+       1. Read authorization, which allows reading, but not modiﬁcation, of data
+       2. Insert authorization, which allows insertion of new data, but not modiﬁcation of existing data
+       3. Update authorization, which allows modiﬁcation, but not deletion of data
+       4. Delete authorization, which allows deletion of data.
 
 Chapter 1.5 Relational Databases
+
+Chapter 1.5.1 Tables
+  - The relational model is an example of a record-based model.
+  - Record-based models are so named because the database is structured in ﬁxed-format records of several types
+Chapter 1.6 Database Design
+  - Database design mainly involves the design of the database schema.
+
+Chapter 1.5.2 Data-Manipulation Language
+  - The SQL query language is nonprocedural. A query takes as input several tables (possibly only one) and always returns a single table.
+
+Chapter 1.5.3 Data-Deﬁnition Language
+  - SQL provides a rich DDL that allows one to deﬁne tables, integrity constraints, assertions, etc.
+
+Chapter 1.5.4 Database Access from Application Programs
+  - SQL also does not support actions such as input from users, output to displays, or communication over the network.
+  - Application programs are programs that are used to interact with the database
+Chapter 1.6.1 Design Process
+  - The focus at this point is on describing the data and their relationships, rather than on specifying physical storage details.
+  - In a speciﬁcation of functional requirements, users describe the kinds of operations (or transactions) that will be performed on the data
+
+Chapter 1.6.2 Database Design for a University Organization
+
+Chapter 1.6.3 The Entity-Relationship Model
+  - The entity-relationship (E-R) data model uses a collection of basic objects, called entities, and relationships among these objects.
+  - A relationship is an association among several entities
+  - Entity sets are represented by a rectangular box with the entity set name in the header and the attributes listed below it.
+  - Relationship sets are represented by a diamond connecting a pair of related entity sets. The name of the relationship is placed inside the diamond.
+  - One important constraint is mapping cardinalities, which express the number of entities to which another entity can be associated via a relationship set.
+
+Chapter 1.6.4 Normalization
+  -  Among the undesirable properties that a bad design may have are:
+     1. Repetition of information
+     2. Inability to represent certain information
+  - The goal of Normalization is to generate a set of relation schemas that allows us to store information without unnecessary redundancy, yet also allows us to retrieve information easily.
 
 Chapter 1.7 Data Storage and Querying
   - The query processor is important because it helps the database system to simplify and facilitate access to data.
@@ -171,6 +238,10 @@ Chapter 23.3.2 XML Schema
         <xs:ﬁeld xpath = “dept name”/>
     </xs:keyref>
   ```
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+JSON NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NONE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
