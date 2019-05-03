@@ -11,7 +11,7 @@ DTD's, IDs & IDREFS
 			- Document type Descriptors (DTD)
 			- XML Schema (XSD)
 
-DOCUMENT TYOE DESCRIPTOR (DTD)
+DOCUMENT TYPE DESCRIPTOR (DTD)
 
 	- Grammar like language for specifying elements, attributes, nesting, ordering, # of occurrences
 	- Also special attribute types ID and IDREFS
