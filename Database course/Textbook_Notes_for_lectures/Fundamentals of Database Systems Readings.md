@@ -227,13 +227,110 @@ Chapter 12.3.2 XML Schema
       - However, when unique, primary key and foreign key constraints need to be specified; we must define complex types to specify the element structures.
     8. Composite (compound) attributes
       - Composite attributes from Figure 7.2 are also specified as complex types
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 JSON NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-NONE
+  - NONE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6.1 Unary Relational Operations: SELECT and PROJECT
+
+6.1.1 The SELECT Operation
+  - The SELECT operation is used to choose a subset of the tuples from a relation that satisfies a selection condition
+  - In general, the SELECT operation is denoted by
+    - ``` σ <selection condition> (R) ```
+    - where the symbol σ (sigma) is used to denote the SELECT operator and the selection condition is a Boolean expression (condition) specified on the attributes of relation R.
+  - The Boolean expression specified in <selection condition> is made up of a number of clauses of the form
+    - ```<attribute name> <comparison op> <constant value>```
+  - or
+    - ```<attribute name> <comparison op> <attribute name>```
+  - If the domain of an attribute is a set of unordered values, then only the comparison operators in the set {=,≠} can be used. An example of an unordered domain is the domain Color = { ‘red’, ‘blue’, ‘green’, ‘white’, ‘yellow’, ...},where no order is specified among the various colors.
+  - The SELECT operator is unary; that is, it is applied to a single relation.
+  - The degree of the relation resulting from a SELECT operation—its number of attributes—is the same as the degree of R.
+  - The fraction of tuples selected by a selection condition is referred to as the selectivity of the condition.
+  - A sequence of SELECTs can be applied in any order. In addition, we can always combine a cascade (or sequence) of SELECT operations into a single SELECT operation with a conjunctive (AND) condition
+
+6.1.2 The PROJECT Operation
+  - If we think of a relation as a table, the SELECT operation chooses some of the rows from the table while discarding other rows.
+  - The PROJECT operation, on the other hand, selects certain columns from the table and discards the other columns.
+  - The general form of the PROJECT operation is ```π<attribute list>(R)```
+  - The result of the PROJECT operation has only the attributes specified in (attribute list) in the same order as they appear in the list. Hence, its degree is equal to the number of attributes in (attribute list).
+  - The PROJECT operation removes any duplicate tuples, so the result of the PROJECT operation is a set of distinct tuples, and hence a valid relation. This is known as duplicate elimination.
+  - If duplicates are not eliminated, the result would be a multiset or bag of tuples rather than a set.
+  - The number of tuples in a relation resulting from a PROJECT operation is always less than or equal to the number of tuples in R.
+  - In SQL, the PROJECT attribute list is specified in the SELECT clause of a query.
+  - ```π <Sex, Salary>(EMPLOYEE) ```
+    - would correspond to the following SQL query:
+    ```SQL
+    SELECT DISTINCT Sex, Salary FROM EMPLOYEE
+    ```
+    - Notice that if we remove the keyword DISTINCT from this SQL query, then duplicates will not be eliminated. This option is not available in the formal relational algebra
+
+6.1.3 Sequences of Operations and the RENAME Operation
+  - Either we can write the operations as a single relational algebra expression by nesting the operations, or we can apply one operation at a time and create intermediate result relations.
+  - It is sometimes simpler to break down a complex sequence of operations by specifying intermediate result relations than to write a single relational algebra expression.
+  - Renaming in SQL is accomplished by aliasing using AS, as in the following example:
+  ```SQL
+  SELECT E.Fname AS First_name, E.Lname AS Last_name, E.Salary AS Salary
+  FROM EMPLOYEE AS E
+  WHERE E.Dno=5
+  ```
+
+6.2 Relational Algebra Operations from Set Theory
+
+6.2.1 The UNION, INTERSECTION, and MINUS Operations
+  - Several set theoretic operations are used to merge the elements of two sets in various ways, including UNION, INTERSECTION, and SET DIFFERENCE (also called MINUS or EXCEPT).
+  - Two relations R(A1,A2,...,An) and S(B1,B2,...,Bn) are said to be union compatible (or type compatible) if they have the same degree n and if dom(Ai) = dom(Bi) for 1 fi fn. This means that the two relations have the same number of attributes and each corresponding pair of attributes has the same domain.
+  - Three operations UNION, INTERSECTION, and SET DIFFERENCE
+    1. UNION: The result of this operation, denoted by R ∪ S, is a relation that includes all tuples that are either in R or in S or in both R and S. Duplicate tuples are eliminated.
+    2. INTERSECTION: The result of this operation, denoted by R ∩ S, is a relation that includes all tuples that are in both R and S.
+    3. SET DIFFERENCE (or MINUS): The result of this operation, denoted by R – S, is a relation that includes all tuples that are in R but not in S.
+  - Both UNION and INTERSECTION are commutative operations; that is,
+  - ```R ∪ S = S ∪ R and R ∩ S = S ∩ R```
+  - Both UNION and INTERSECTION can be treated as n-ary operations applicable to any number of relations because both are also associative operations;
+  - ```R ∪ (S ∪ T)=(R ∪ S) ∪ T and  (R ∩ S) ∩ T = R ∩ (S ∩ T)```
+  - The MINUS operation is not commutative; that is, in general,
+  - ```R − S ≠ S − R```
+  - Note that INTERSECTION can be expressed in terms of union and set difference as follows:
+  - ```R ∩ S = ((R ∪ S) − (R − S)) − (S − R) ```
+  - In SQL, there are three operations — UNION, INTERSECT, and EXCEPT—that correspond to the set operations.  
+
+6.2.2 The CARTESIAN PRODUCT (CROSS PRODUCT) Operation
+  - CARTESIAN PRODUCT operation — also known as CROSS PRODUCT or CROSS JOIN — which is denoted by ×.
+  - This is also a binary set operation, but the relations on which it is applied do not have to be union compatible.
+  - In general, the CARTESIAN PRODUCT operation applied by itself is generally meaningless. It is mostly useful when followed by a selection that matches values of attributes coming from the component relations.
+
+6.3 Binary Relational Operations: JOIN and DIVISION
+
+6.3.1 The JOIN Operation
+  - The JOIN operation can be specified as a CARTESIAN PRODUCT operation followed by a SELECT operation.
+  - ``` R ⋈ <join condition>S ```
+  - The result of the JOIN is a relation Q with n + m attributes Q(A1, A2, ...,An, B1, B2, ...,Bm) in that order
+  - In JOIN, only combinations of tuples satisfying the join condition appear in the result, whereas in the CARTESIAN PRODUCT all combinations of tuples are included in the result.
+  - Each tuple combination for which the join condition evaluates to TRUE is included in the resulting relation Q as a single combined tuple.
+  - In general ``` <condition> AND <condition> AND...AND <condition>  ```
+
+6.3.2 Variations of JOIN: The EQUIJOIN and NATURAL JOIN
+  - A JOIN, where the only comparison operator used is =, is called an EQUIJOIN.
+  - Notice that in the result of an EQUIJOIN we always have one or more pairs of attributes that have identical values in every tuple.
+  - A new operation called NATURAL JOIN—denoted by *  was created to get rid of the second (superfluous) attribute in an EQUIJOIN condition
+  - The standard definition of NATURAL JOIN requires that the two join attributes (or each pair of join attributes) have the same name in both relations. If this is not the case, a renaming operation is applied first. 
+  - If the attributes on which the natural join is specified already have the same names in both relations, renaming is unnecessary.
+  - The expected size of the join result divided by the maximum size nR * nS leads to a ratio called join selectivity, which is a property of each join condition.
+  - If there is no join condition, all combinations of tuples qualify and the JOIN degenerates into a CARTESIAN PRODUCT, also called CROSS PRODUCT or CROSS JOIN.
+
+6.3.3 A Complete Set of Relational Algebra Operations
+  - It has been shown that the set of relational algebra operations {σ,π,∪,ρ, –,×} is a complete set; that is, any of the other original relational algebra operations can be expressed as a sequence of operations from this set.
+
+6.3.4 The DIVISION Operation
+  - The DIVISION operation, denoted by ÷, is useful for a special kind of query that sometimes occurs in database applications.
+  - The DIVISION operation is defined for convenience for dealing with queries that involve universal quantification or the all condition. Most RDBMS implementations with SQL as the primary query language do not directly implement division. SQL has a roundabout way of dealing with the type of query.
+
+6.3.5 Notation for Query Trees
+  - A query tree is a tree data structure that corresponds to a relational algebra expression.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SQL NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

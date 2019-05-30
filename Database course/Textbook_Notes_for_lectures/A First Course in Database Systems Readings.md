@@ -338,9 +338,90 @@ Chapter 11.4.7 Foreign Keys in XML Schema
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 JSON NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-NONE
+  - NONE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 2.4 An Algebraic Query Language
+  - Relational algebra, that consists of some simple but powerful ways to construct new relations from given relations.
+  - Relational algebra is not used today as a query language in commercial DBMS’s, although some of the early prototypes did use this algebra directly.
+  - The “real” query language, SQL, incorporates relational algebra at its center, and many SQL programs are really “syntactically sugared” expressions of relational algebra.
+
+Chapter 2.4.1 Why Do We Need a Special Query Language?
+  - Relational algebra is useful because it is less powerful than C or Java.
+  - By limiting what we can say or do in our query language, we get two huge rewards — ease of programming and the ability of the compiler to produce highly optimized code
+
+Chapter 2.4.2 What is an Algebra?
+  - Relational algebra is another example of an algebra. Its atomic operands are:
+    1. Variables that stand for relations.
+    2. Constants, which are finite relations.
+
+Chapter 2.4.3 Overview of Relational Algebra
+  - Operations of traditional relational algebra:
+    a) The usual set operations — union, intersection, and difference — applied to relations.
+    b) Operations that remove parts of a relation: “selection” eliminates some rows, and “projection” eliminates some columns.
+    c) Operations that combine the tuples of two relations
+    d) An operation called “renaming” that does not affect the tuples of a relation, but changes the relation schema (names of attributes/relation name)
+  - Expressions of relational algebra care referred to as queries
+
+Chapter 2.4.4 Set Operations on Relations
+  - Most common operations, where R and S are sets:
+    - Union : R ⋃ S (union of R and S An element appears only once in the union even if it is present in both R and S.)
+    - Intersection : R ⋂ S (elements in both R and S)
+    - Difference : R - S (Elements in R but not in S. S - S /= S - R)
+  - When we apply these operations to relations we must put some conditions on S and R:
+    1. R and S must have schemas with identical sets of attributes, and the types (domains) for each attribute must be the same in R and S.
+    2. The columns of R and S must be ordered so that the order of attributes is the same for both relations before we compute the union, intersection or difference.
+
+Chapter 2.4.5 Projection
+  - The projection operator is used to produce from a relation R a new relation that has only some of R’s columns.
+  - π(A1, A2, A3 ... An)(R) is a relation that has only columns for attributes A1, A2, A3 ... An of R.  
+
+Chapter 2.4.6 Selection
+  - The selection operator, applied to a relation R, produces a new relation with a subset of R’s tuples.
+  - σ(c)(R)
+  - σ(length > 2 AND Color = 'red')(R)
+
+Chapter 2.4.7 Cartesian Product
+  - This product is denoted R x S.
+  - The relation schema for the resulting relation is the union of the schemas for R and S.
+  - If R and S should happen to have some attributes in common, then we need to invent new names for at least one of each pair of identical attributes.
+
+Chapter 2.4.8 Natural Joins
+  - Simplest join is the natural join of two relations R and S
+  - R ⋈ S : we pair only those tuples from R and S that agree in whatever attributes are common to the schemas of R and S.
+
+Chapter 2.4.9 Theta-Joins
+  - The notation for a theta-join of relations R and S based on condition C is R ⋈(c) S.
+    1. Take the product of R and S.
+    2. Select from the product only those tuples that satisfy the condition C.
+  - The theta-join contrasts with natural join, since in the latter common attributes are merged into one copy.
+
+Chapter 2.4.10 Combining Operations to Form Queries
+  - Expression trees are evaluated bottom-up by applying the operator at an interior node to the arguments, which are the results of its children.
+  - There is often more than one relational algebra expression that represents the same computation.
+  - An important job of the query “optimizer” is to replace one expression of relational algebra by an equivalent expression that is more efficiently evaluated.
+
+Chapter 2.4.11 Naming and Renaming
+  - It is often convenient to use an operator that explicitly renames relations.
+  - Rename operator: ρ
+  - ρs(A1,A2,... ,An)(R) to rename a relation R.
+  - If we only want to change the name of the relation to S and leave the attributes as they are in R, we can just say ρs(R)
+  - R x ρs(X ,C ,D )(S) is the relation R x S
+
+Chapter 2.4.12 Relationships Among Operations
+  - Some of the operations can be expressed in terms of other relational-algebra operations.
+  - R ⋂ S = R - (R - S)
+  - R ⋈c S = σc(R x S)
+  - R x S : R.A1 = S.A1 AND R.A2 = S.A2 AND . . . AND R.An = S.An
+
+Chapter 2.4.13 A Linear Notation for Algebraic Expressions
+  - An alternative is to invent names for the temporary relations that correspond to the interior nodes of the tree and write a sequence of assignments that create a value for each.
+  - The notation for assignment statements is:
+    1. A relation name and parenthesized list of attributes for that relation. The name Answer will be used conventionally for the result of the final step; i.e., the name of the relation at the root of the expression tree.
+    2. The assignment symbol :=.
+    3. Any algebraic expression on the right. We can choose to use only one operator per assignment, in which case each interior node of the tree gets its own assignment statement. 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SQL NOTES

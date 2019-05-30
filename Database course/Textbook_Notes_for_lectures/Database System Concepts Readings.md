@@ -241,10 +241,120 @@ Chapter 23.3.2 XML Schema
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 JSON NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-NONE
+  - NONE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 6.1 The Relational Algebra
+  - The relational algebra is a procedural query language.
+  - The fundamental operations in the relational algebra are select, project, union, set difference, Cartesian product, and rename.
+  - In addition to the fundamental operations, there are several other operations—namely, set intersection, natural join, and assignment.
+
+Chapter 6.1.1 Fundamental Operations
+  - The select, project, and rename operations are called unary operations, because they operate on one relation.
+  - The other three operations operate on pairs of relations and are, therefore, called binary operations.
+
+Chapter 6.1.1.1 The Select Operation
+  - The select operation selects tuples that satisfy a given predicate. We use the lowercase Greek letter sigma (σ) to denote selection.
+  - In general, we allow comparisons using <,>,=,≤,≥, and ≠ in the selection predicate. Furthermore, we can combine several predicates into a larger predicate by using the connectives and (∧), or (∨), and not (¬).
+  - In relational algebra, the term select corresponds to what we refer to in SQL as where.
+
+Chapter 6.1.1.2 The Project Operation
+  - The project operation is a unary operation that returns its argument relation, with certain attributes left out.
+  - Since a relation is a set, any duplicate rows are eliminated.
+  - Projection is denoted by the uppercase Greek letter pi (π).
+
+Chapter 6.1.1.3 Composition of Relational Operations
+  - The fact that the result of a relational operation is itself a relation is important.
+  - In general, since the result of a relational-algebra operation is of the same type (relation) as its inputs, relational-algebra operations can be composed together into a relational-algebra expression.
+
+Chapter 6.1.1.4 The Union Operation
+  - In general, we must ensure that unions are taken between compatible relations.
+  - For a union operation r ∪ s to be valid, we require that two conditions hold:
+    1. The relations r and s must be of the same arity. That is, they must have the same number of attributes.
+    2. The domains of the ith attribute of r and the ith attribute of s must be the same, for all i.
+
+Chapter 6.1.1.5 The Set-Difference Operation
+  - The set-difference operation, denoted by ¬, allows us to ﬁnd tuples that are in one relation but are not in another.
+  - As with the union operation, we must ensure that set differences are taken between compatible relations.
+
+Chapter 6.1.1.6 The Cartesian-Product Operation
+  - The Cartesian-product operation, denoted by a cross (×), allows us to combine information from any two relations.
+  - Assume that we have n1 tuples in instructor and n2 tuples in teaches. Then, there are n1∗n2 ways of choosing a pair of tuples — one tuple from each relation; so there are n1∗n2 tuples in r.
+
+Chapter 6.1.1.7 The Rename Operation
+  - The rename operator, denoted by the lowercase Greek letter rho(p)
+    - p(x)(E) : returns the result of expression E under the name x
+    - p(x)(A1,A2, . . . , An)(E) : returns the result of expression E under the name x, and with the attributes renamed to A1, A2,...,An.
+  - We can name attributes of a relation implicitly by using a positional notation, where $1,$2, ... refer to the ﬁrst attribute, the second attribute, and so on.
+
+Chapter 6.1.2 Formal Deﬁnition of the Relational Algebra
+  - A basic expression in the relational algebra consists of either one of the following:
+    - A relation in the database
+    - A constant relation
+  - Let E1 and E2 be relational-algebra expressions. Then, the following are all relational-algebra expressions:
+    - E1 ∪ E2
+    - E1 − E2
+    - E1 × E2
+    - σ(p)(E1), where P is a predicate on attributes in E1
+    - π(s)(E1), where S is a list consisting of some of the attributes in E1
+    - p(x) (E1), where x is the new name for the result of E1
+
+Chapter 6.1.3 Additional Relational-Algebra Operations
+
+Chapter 6.1.3.1 The Set-Intersection Operation
+  - set intersection (∩).
+  - We can rewrite any relational-algebra expression that uses set intersection by replacing the intersection operation with a pair of set-difference operations as:
+    - r ∩ s = r − (r − s)
+
+Chapter 6.1.3.2 The Natural-Join Operation
+  - The natural join is a binary operation that allows us to combine certain selections and a Cartesian product into one operation. It is denoted by the join symbol ⋈.
+  - Please note that if r(R) and s(S) are relations without any attributes in common, that is, R ∩ S = ∅, then r ⋈ s = r × s.
+
+Chapter 6.1.3.3 The Assignment Operation
+  - The assignment operation, denoted by ←, works like assignment in a programming language. To illustrate this operation, consider the deﬁnition of the natural-join operation.
+  - The result of the expression to the right of the ← is assigned to the relation variable on the left of the ←.
+
+Chapter 6.1.3.4 Outer join Operations
+  - The outer-join operation is an extension of the join operation to deal with missing information.
+  - The outer join operation works in a manner similar to the natural join operation we have already studied, but preserves those tuples that would be lost in an join by creating tuples in the result containing null values.
+  - There are actually three forms of the operation: left outer join, right outer join, and full outer join.
+  - The left outer join takes all tuples in the left relation that did not match with any tuple in the right relation, pads the tuples with null values for all other attributes from the right relation, and adds them to the result of the natural join.
+  - The right outer join is symmetric with the left outer join: It pads tuples from the right relation that did not match any from the left relation with nulls and adds them to the result of the natural join.
+  - The full outer join does both the left and right outer join operations, padding tuples from the left relation that did not match any from the right relation, as well as tuples from the right relation that did not match any from the left relation, and adding them to the result of the join.
+
+Chapter 6.1.4 Extended Relational-Algebra Operations
+  - Queries that cannot be expressed using the basic relational-algebra operations, these operations are called extended relational-algebra operations.
+
+Chapter 6.1.4.1 Generalized Projection
+  - The ﬁrst operation is the generalized-projection operation, which extends the projection operation by allowing operations such as arithmetic and string functions to be used in the projection list.
+  - The generalized-projection operation has the form: π(F1,F2,...,Fn)(E)
+    - where E is any relational-algebra expression, and each of F1, F2,...,Fn is an arithmetic expression involving constants and attributes in the schema of E.
+  - In general, an expression can use arithmetic operations such as +, −, ∗, and ÷ on numeric valued attributes, numeric constants, and on expressions that generate a numeric result.
+  - Generalized projection also permits operations on other data types, such as concatenation of strings.
+    - For example, the expression:
+      - π(ID,name,dept_name,salary÷12)(instructor)
+      - Gives the ID, name, dept_name, and the monthly salary of each instructor.
+
+Chapter 6.1.4.2 Aggregation
+  - Permits the use of aggregate functions such as min or average, on sets of values.
+  - Aggregate functions take a collection of values and return a single value as a result.
+    - Example: count, sum, avg, min, max
+  - The collections on which aggregate functions operate can have multiple occurrences of a value; the order in which the values appear is not relevant. Such collections are called multisets.
+  - Sets are a special case of multisets where there is only one copy of each element.
+  - G(sum(salary))(instructor)
+    -  The relational-algebra operation G signiﬁes that aggregation is to be applied, and its subscript speciﬁes the aggregate operation to be applied.
+  - There are cases where we must eliminate multiple occurrences of a value before computing an aggregate function. If we do want to eliminate duplicates, we use the same function names as before, with the addition of the hyphenated string “distinct” appended to the end of the function name.
+  - The aggregate function count-distinct ensures that even if an instructor teaches more than one course, she is counted only once in the result.
+  - There are circumstances where we would like to apply the aggregate function not to a single set of tuples, but instead to a group of sets of tuples.
+    - (dept_name)G(average(salary))(instructor) vs G(average(salary))(instructor)
+  - The general form of the aggregation operation G is as follows:
+    - (G1,G2,...,Gn)G(F1(A1), F2(A2),..., Fm(Am))(E)
+    - where E is any relational-algebra expression; G1, G2,..., Gn constitute a list of attributes on which to group; each Fi is an aggregate function; and each Ai is an attribute name.
+    - The meaning of the operation is as follows: The tuples in the result of expression E are partitioned into groups in such a way that:
+      1. All tuples in a group have the same values for G1,G2,...,Gn.
+      2. Tuples in different groups have different values for G1,G2,...,Gn.
+      
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SQL NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
