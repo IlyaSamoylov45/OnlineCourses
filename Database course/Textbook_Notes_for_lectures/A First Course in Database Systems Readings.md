@@ -476,7 +476,7 @@ Chapter 6.1.7 The Truth-Value UNKNOWN
   -  Similarly, we might reason that x - x has the value 0, since whatever integer x is, its difference with itself is 0. However, again the rule about operations on nulls applies, and the result is NULL.
 
 Chapter 6.1.8 Ordering the Output
-  - ORDER BY <list of attributes> 
+  - ORDER BY ```<list of attributes> ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
