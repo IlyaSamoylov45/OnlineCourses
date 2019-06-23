@@ -729,7 +729,39 @@ Chapter 6.4.6 Grouping, Aggregation, and Nulls
     - The value NULL is ignored in any aggregation. It does not contribute to a sum, average, or count of an attribute, nor can it be the minimum or maximum in its column.
     - On the other hand, NULL is treated as an ordinary value when forming groups. That is, we can have a group in which one or more of the grouping attributes are assigned the value NULL.
     - When we perform any aggregation except count over an empty bag of values, the result is NULL. The count of an empty bag is 0.
+  - Suppose we have a relation R(A, B) with one tuple, both of whose components are NULL
+    - Then the result of the following query is the one tuple (NULL, 0).
+    ```SQL
+    SELECT A, COUNT(B)
+    FROM R
+    GROUP BY A;
+    ```
+    - The result of is the one tuple (NULL, NULL)
+    ```SQL
+    SELECT A, SUM(B)
+    FROM R
+    GROUP BY A;
+    ```
+    - Thus, we are summing an empty bag of values, and this sum is defined to be NULL.
+    - Order of Clauses in SQL Queries: SELECT, FROM, WHERE, GROUP BY, HAVING, and ORDER BY. Only the SELECT and FROM clauses are required. Whichever additional clauses appear must be in the order listed above.
 
+Chapter 6.4.7 HAVING Clauses
+  - The keyword HAVING followed by a condition about the group.
+  - Ex: Suppose we want to print the total film length for only those producers who made at least one film prior to 1930.
+  ```SQL
+  HAVING MIN(year) < 1930
+  ```
+  - There are several rules we must remember about HAVING clauses:
+    1. An aggregation in a HAVING clause applies only to the tuples of the group being tested.
+    2. Any attribute of relations in the FROM clause may be aggregated in the HAVING clause, but only those attributes that are in the GROUP BY list may appear unaggregated in the HAVING clause.
+  - Ex: Computing the total length of film for early producers
+  ```SQL
+  SELECT name, SUM(length)
+  FROM MovieExec, Movies
+  WHERE producerC# = cert#
+  GROUP BY name
+  HAVING MIN(year) < 1930;
+  ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
