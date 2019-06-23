@@ -425,6 +425,13 @@ Chapter 2.4.13 A Linear Notation for Algebraic Expressions
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SQL NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 5.2.7 Outerjoins
+  - A property of the join operator is that it is possible for certain tuples to be “dangling”; that is, they fail to match any tuple of the other relation in the common attributes.
+  - Dangling tuples do not have any trace in the result of the join, so the join may not represent the data of the original relations completely.
+  - The left outerjoin R ⋈l S is like the outerjoin, but only dangling tuples of the left argument R are padded with ⊥. and added to the result.
+  - The right outerjoin R ⋈r S is like the outerjoin, but only the dangling tuples of the right argument S are padded with ⊥ and added to the result.
+  - All three natural outerjoin operators have theta-join analogs, where first a theta-join is taken and then those tuples that failed to join with any tuple of the other relation, when the condition of the theta-join was applied, are padded with ⊥ and added to the result.
+
 Chapter 6.1 Simple Queries in SQL
   - The FROM clause gives the relation or relations to which the query refers.
   - The WHERE clause is a condition, much like a selection-condition in relational algebra.
@@ -578,8 +585,150 @@ Chapter 6.3.2 Conditions Involving Relations
   - The EXISTS, ALL, and ANY operators can be negated by putting NOT in front of the entire expression, NOT s >= ALL R is true if and only if s is not the maximum value in R, and NOT s > ANY R is true if and only if s is the minimum value in R.
 
 Chapter 6.3.3 Conditions Involving Tuples
-  -
+  - Ex: Finding the producers of Harrison Ford’s movies:
+  ```SQL
+  SELECT name
+  FROM MovieExec
+  WHERE cert# IN
+    (SELECT producerC#
+     FROM Movies
+     WHERE (title, year) IN
+        (SELECT movieTitle, movieYear
+         FROM Starsln
+         WHERE starName = ’Harrison Ford’
+        )
+    );
+  ```
 
+Chapter 6.3.4 Correlated Subqueries
+  - Ex: Finding movie titles that appear more than once
+  ```SQL
+  SELECT title
+  FROM Movies Old
+  WHERE year < ANY
+    (SELECT year
+      FROM Movies
+      WHERE title = Old.title
+    );
+  ```
+
+Chapter 6.3.5 Subqueries in FROM Clauses   
+  - Another use for subqueries is as relations in a FROM clause. In a FROM list, instead of a stored relation, we may use a parenthesized subquery.
+  - Ex: Finding the producers of Ford’s movies using a subquery in the FROM clause
+  ```SQL
+  SELECT name
+  FROM MovieExec, (SELECT producerC#
+                  FROM Movies, Starsln
+                  WHERE title = movieTitle AND
+                        year = movieYear AND
+                        starName = ’Harrison Ford’
+                  ) Prod
+  WHERE cert# = Prod.producerC#;      
+  ```
+
+Chapter 6.3.6 SQL Join Expressions
+  - Variants include products, natural joins, theta- joins, and outerjoins.
+  - A more conventional theta-join is obtained with the keyword ON.
+  ```SQL
+  SELECT title, year, length, genre, studioName,
+    producerC#, starName
+  FROM Movies JOIN Starsln ON
+    title = movieTitle AND year = movieYear;
+  ```
+
+Chapter 6.3.7 Natural Joins
+  - A natural join differs from a theta-join in that:
+    1. The join condition is that all pairs of attributes from the two relations having a common name are equated, and there are no other conditions.
+    2. One of each pair of equated attributes is projected out.
+
+Chapter 6.3.8 Outerjoins
+  - SQL refers to the standard outerjoin, which pads dangling tuples from both of its arguments, as a full outerjoin.
+    ```SQL
+    MovieStar NATURAL FULL OUTER JOIN MovieExec;
+    ```
+
+Chapter 6.4 Full-Relation Operations
+  - SQL uses relations that are bags rather than sets, and a tuple can appear more than once in a relation.
+
+Chapter 6.4.1 Eliminating Duplicates
+  - A relation, being a set, cannot have more than one copy of any given tuple.
+  - When a SQL query creates a new relation, the SQL system does not ordinarily eliminate duplicates.
+  - If we do not wish duplicates in the result, then we may follow the keyword SELECT by the keyword DISTINCT.
+
+Chapter 6.4.2 Duplicates in Unions, Intersections, and Differences
+  - The union, intersection, and difference operations, normally delete duplicates
+  - In order to prevent the elimination of duplicates, we must follow the operator UNION, INTERSECT, or EXCEPT by the keyword ALL.
+  ```SQL
+  (SELECT title, year FROM Movies)
+    UNION ALL
+  (SELECT movieTitle AS title, movieYear AS year FROM Starsln);
+  ```
+  - Now, a title and year will appear as many times in the result as it appears in each of the relations Movies and Starsln put together.
+
+Chapter 6.4.3 Grouping and Aggregation in SQL
+  - SQL provides all the capability of the 7 operator through the use of aggregation operators in SELECT clauses and a special GROUP BY clause.
+
+Chapter 6.4.4 Aggregation Operators
+  - SQL uses the five aggregation operators SUM, AVG, MIN, MAX, and COUNT
+  - We have the option of eliminating duplicates from the column before applying the aggregation operator by using the keyword DISTINCT.
+  - COUNT (DISTINCT x) counts the number of distinct values in column x.
+  - We could use any of the other operators in place of COUNT here, but expressions such as SUM (DISTINCT x) rarely make sense
+  - Ex: the average net worth of all movie executives
+    ```SQL
+    SELECT AVG(netWorth)
+    FROM MovieExec;
+    ```
+  - Ex: Count the number of tuples in the StarsIn relation
+    ```SQL
+    SELECT COUNT(*)
+    FROM Starsln;
+    ```
+  - Ex: counts the number of values in the starName column of the relation.
+    ```SQL
+    SELECT COUNT(starName)
+    FROM Starsln;
+    ```
+  - Since duplicate values are not eliminated when we project onto the starName column in SQL, this count should be the same as the count produced by the query with COUNT( * ).
+  - Ex: count each star once:
+    ```SQL
+    SELECT COUNT(DISTINCT starName)
+    FROM Starsln;
+    ```
+
+Chapter 6.4.5 Grouping
+  - Ex: the sum of the lengths of all movies for each studio
+  ```SQL
+  SELECT studioName, SUM(length)
+  FROM Movies
+  GROUP BY studioName;
+  ```
+  - Ex: Same queries
+  ```SQL
+  SELECT studioName
+  FROM Movies
+  GROUP BY studioName;
+  ```
+  ```SQL
+  SELECT DISTINCT studioName
+  FROM Movies;
+  ```
+  - It is also possible to use a GROUP BY clause in a query about several relations interpreted in following sequence of steps.
+    1. Evaluate the relation R expressed by the FROM and WHERE clauses. That is, relation R is the Cartesian product of the relations mentioned in the FROM clause, to which the selection of the WHERE clause is applied.
+    2. Group the tuples of R according to the attributes in the GROUP BY clause.
+    3. Produce as a result the attributes and aggregations of the SELECT clause, as if the query were about a stored relation R.
+  - Ex: Computing the length of movies for each producer
+  ```SQL
+  SELECT name, SUM(length)
+  FROM MovieExec, Movies
+  WHERE producerC# = cert#
+  GROUP BY name;
+  ```
+
+Chapter 6.4.6 Grouping, Aggregation, and Nulls
+  - When tuples have nulls, there are a few rules we must remember:
+    - The value NULL is ignored in any aggregation. It does not contribute to a sum, average, or count of an attribute, nor can it be the minimum or maximum in its column.
+    - On the other hand, NULL is treated as an ordinary value when forming groups. That is, we can have a group in which one or more of the grouping attributes are assigned the value NULL.
+    - When we perform any aggregation except count over an empty bag of values, the result is NULL. The count of an empty bag is 0.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
