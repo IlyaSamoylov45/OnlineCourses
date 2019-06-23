@@ -577,6 +577,8 @@ Chapter 6.3.2 Conditions Involving Relations
   4. s > ANY R is true if and only if s is greater than at least one value in unary relation R.
   - The EXISTS, ALL, and ANY operators can be negated by putting NOT in front of the entire expression, NOT s >= ALL R is true if and only if s is not the maximum value in R, and NOT s > ANY R is true if and only if s is the minimum value in R.
 
+Chapter 6.3.3 Conditions Involving Tuples
+  -
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
