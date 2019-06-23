@@ -518,7 +518,59 @@ Chapter 6.2.3 Tuple Variables
     ```
     - If we used <> (not-equal) as the comparison operator, then we would produce pairs of married stars twice
 
-Chapter 6.2.4 Interpreting Multirelation Queries 
+Chapter 6.2.4 Interpreting Multirelation Queries
+
+Chapter 6.2.5 Union, Intersection, and Difference of Queries
+  - UNION, INTERSECT, and EXCEPT for U, ∩, and —, respectively.
+    - Ex: Suppose we wanted the names and addresses of all female movie stars who are also movie executives with a net worth over $10,000,000. Using the following two relations:
+      - MovieStar(name, address, gender, birthdate)
+      - MovieExec(name, address, cert#, netWorth)
+      ```SQL
+        (SELECT name, address  
+         FROM MovieStar
+         WHERE gender = ’F’)
+            INTERSECT  
+        (SELECT name, address  
+         FROM MovieExec  
+         WHERE netWorth > 10000000);
+      ```
+      ```SQL
+        (SELECT name, address FROM MovieStar)
+          EXCEPT
+        (SELECT name, address FROM MovieExec);
+      ```
+      - gives the names and addresses of movie stars who are not also movie executives, regardless of gender or net worth.
+    - Ex: All the titles and years of movies that appeared in either the Movies or StarsIn relation:
+      - Movies(title, year, length, genre, studioName, producerC#)
+      - StarsIn(movieTitle, movieYear, starName)
+      ```SQL
+      (SELECT title, year FROM Movie)
+        UNION
+      (SELECT movieTitle AS title, movieYear AS year FROM Starsln);  
+      ```
+
+Chapter 6.3 Subqueries
+  - A query that is part of another is called a subquery.
+    1. Subqueries can return a single constant, and this constant can be compared with another value in a WHERE clause.
+    2. Subqueries can return relations that can be used in various ways in WHERE clauses.
+    3. Subqueries can appear in FROM clauses, followed by a tuple variable that represents the tuples in the result of the subquery.
+
+Chapter 6.3.1 Subqueries that Produce Scalar Values
+  - An atomic value that can appear as one component of a tuple is referred to as a scalar.
+  - Ex: producer of Star Wars. We had to query the two relations
+    - Movies(title, year, length, genre, studioName, producerC#)
+    - MovieExec(name, address, cert#, netWorth)
+    ```SQL
+    SELECT name
+    FROM MovieExec
+    WHERE cert# =
+      (SELECT producerC#
+      FROM Movies  
+      WHERE title = ’Star Wars’
+      );
+
+    ```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
