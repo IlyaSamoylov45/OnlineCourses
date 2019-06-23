@@ -762,6 +762,52 @@ Chapter 6.4.7 HAVING Clauses
   GROUP BY name
   HAVING MIN(year) < 1930;
   ```
+
+Chapter 6.5 Database Modifications
+  - Three types of modification statements:
+    1. Insert tuples into a relation.
+    2. Delete certain tuples from a relation.
+    3. Update values of certain components of certain existing tuples.
+
+Chapter 6.5.1 Insertion
+  - The basic form of insertion statement is:
+  ```SQL
+  INSERT INTO R(A1,... , An) VALUES (vi,... , vn);
+  ```
+  - If the list of attributes does not include all attributes of the relation R, then the tuple created has default values for all missing attributes.
+  - Ex: add Sydney Greenstreet to the list of stars of The Maltese Falcon.
+  ```SQL
+  INSERT INTO StarsIn(movieTitle, movieYear, starName)
+  VALUES(’The Maltese Falcon’, 1942, ’Sydney Greenstreet’);
+  ```
+  - If, we provide values for all attributes of the relation, then we may omit the list of attributes that follows the relation name.
+  ```SQL
+  INSERT INTO StarsIn
+  VALUES(’The Maltese Falcon’, 1942, ’Sydney Greenstreet’);
+  ```
+  - If we take the option above, we must be sure that the order of the values is the same as the standard order of attributes for the relation.
+  - If you are not sure of the declared order for the attributes, it is best to list them in the INSERT clause in the order you choose for their values in the VALUES clause.
+
+Chapter 6.5.2 Deletion
+  - The form of a deletion is
+  ```SQL
+  DELETE FROM R WHERE <condition>
+  ```
+  - The effect of executing this statement is that every tuple satisfying the condition will be deleted from relation R.
+  - Unlike the insertion statement we cannot simply specify a tuple to be deleted. Rather, we must describe the tuple exactly by a WHERE clause.
+  ```SQL
+  DELETE FROM Starsln
+  WHERE movieTitle = ’The Maltese Falcon’
+        AND movieYear = 1942
+        AND starName = ’Sydney Greenstreet’
+  ```
+
+Chapter 6.5.3 Updates
+  - The general form of an update statement is:
+  ```SQL
+  UPDATE R SET <new-value assignments> WHERE <condition>;
+  ```
+  
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
