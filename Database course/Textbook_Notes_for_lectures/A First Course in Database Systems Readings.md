@@ -477,6 +477,20 @@ Chapter 6.1.7 The Truth-Value UNKNOWN
 
 Chapter 6.1.8 Ordering the Output
   - ORDER BY ```<list of attributes> ```
+  - To get the movies listed by length, shortest first, and among movies of equal length, alphabetically, we can say:
+  ```SQL
+    SELECT *
+    FROM Movies
+    WHERE studioName = ’Disney’ AND year = 1990
+    ORDER BY length, title;
+  ```
+  - A subtlety of ordering is that all the attributes of Movies are available at the time of sorting, even if they are not part of the SELECT clause. Thus, we could replace SELECT * by SELECT producerC#, and the query would still be legal.
+  - An additional option in ordering is that the list following ORDER BY can include expressions, just as the SELECT clause can. For instance, we can order the tuples of a relation R(A, B) by the sum of the two components of the tuples, highest first, with:
+  ```SQL
+    SELECT *
+    FROM R
+    ORDER BY A+B DESC;
+  ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
