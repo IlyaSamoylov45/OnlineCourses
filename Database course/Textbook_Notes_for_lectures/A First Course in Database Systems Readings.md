@@ -491,6 +491,34 @@ Chapter 6.1.8 Ordering the Output
     FROM R
     ORDER BY A+B DESC;
   ```
+
+Chapter 6.2 Queries Involving More Than One Relation
+  - Much of the power of relational algebra comes from its ability to combine two or more relations through joins, products, unions, intersections, and differences.
+
+Chapter 6.2.1 Products and Joins in SQL
+  - SQL has a simple way to couple relations in one query: list each relation in the FROM clause. Then, the SELECT and WHERE clauses can refer to the attributes of any of the relations in the FROM clause.
+
+Chapter 6.2.2 Disambiguating Attributes
+  ```SQL
+    SELECT MovieStar.name, MovieExec.name
+    FROM MovieStar, MovieExec
+    WHERE MovieStar.address = MovieExec.address;
+  ```
+  - The relation name, followed by a dot, is permissible even in situations where there is no ambiguity.
+
+Chapter 6.2.3 Tuple Variables
+  - SQL allows us to define, for each occurrence of R in the FROM clause, an “alias” which we shall refer to as a tuple variable.
+  - In the SELECT and WHERE clauses, we can disambiguate attributes of R by preceding them by the appropriate tuple variable and a dot.
+  - Two stars who share an address:
+    ```SQL
+      SELECT Starl.name, Star2.name
+      FROM MovieStar Starl, MovieStar Star2
+      WHERE Starl.address = Star2.address
+            AND Starl.name < Star2.name;
+    ```
+    - If we used <> (not-equal) as the comparison operator, then we would produce pairs of married stars twice
+
+Chapter 6.2.4 Interpreting Multirelation Queries 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
