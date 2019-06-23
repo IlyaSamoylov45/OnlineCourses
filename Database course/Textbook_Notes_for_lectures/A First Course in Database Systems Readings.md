@@ -448,9 +448,8 @@ Chapter 6.1.3 Comparison of Strings
   - ’bar’ < ’bargain’ because the former is a proper prefix of the latter.
 
 Chapter 6.1.4 Pattern Matching in SQL
-  -  An alternative form of comparison expression is
-    - s LIKE p
-  - Where s is a string and p is a pattern, that is, a string with the optional use of the two special characters %, and _.
+  -  An alternative form of comparison expression is s LIKE p
+  - Where s is a string and p is a pattern, that is, a string with the optional use of the two special characters %, and _ .
 
 Chapter 6.1.5 Dates and Times
   - Implementations of SQL generally support dates and times as special data types.
@@ -461,6 +460,23 @@ Chapter 6.1.5 Dates and Times
   - Thus, TIMESTAMP ’1948-05-14 12:00:00’ represents noon on May 14, 1948.
   - We can compare dates or times using the same comparison operators we use for numbers or strings.
 
+Chapter 6.1.6 Null Values and Comparisons Involving NULL
+  - There are many different interpretations that can be put on null values.
+    1. Value unknown
+    2. Value inapplicable
+    3. Value withheld
+  - SQL allows outerjoins and also produces NULL’s when a query involves outerjoins
+  - There are two important rules to remember when we operate upon a NULL value:
+    1. When we operate on a NULL and any value, including another NULL, using an arithmetic operator like x or +, the result is NULL.
+    2. When we compare a NULL value and any value, including another NULL, using a comparison operator like = or >, the result is UNKNOWN.
+  - Although NULL is a value that can appear in tuples, it is not a constant.
+
+Chapter 6.1.7 The Truth-Value UNKNOWN
+  - We might reason that 0 * x surely has the value 0, since no matter what integer x is, its product with 0 is 0. However, if x has the value NULL, the product of 0 and NULL is NULL.
+  -  Similarly, we might reason that x - x has the value 0, since whatever integer x is, its difference with itself is 0. However, again the rule about operations on nulls applies, and the result is NULL.
+
+Chapter 6.1.8 Ordering the Output
+  - ORDER BY <list of attributes> 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
