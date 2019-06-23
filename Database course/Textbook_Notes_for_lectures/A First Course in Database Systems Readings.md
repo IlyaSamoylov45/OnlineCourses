@@ -568,8 +568,16 @@ Chapter 6.3.1 Subqueries that Produce Scalar Values
       FROM Movies  
       WHERE title = ’Star Wars’
       );
-
     ```
+
+Chapter 6.3.2 Conditions Involving Relations
+  1. EXISTS R is a condition that is true if and only if R is not empty.
+  2. s IN R is true if and only if s is equal to one of the values in R. s NOT IN R is true if and only if s is equal to no value in R.
+  3. s > ALL R is true if and only if s is greater than every value in unary relation R.
+  4. s > ANY R is true if and only if s is greater than at least one value in unary relation R.
+  - The EXISTS, ALL, and ANY operators can be negated by putting NOT in front of the entire expression, NOT s >= ALL R is true if and only if s is not the maximum value in R, and NOT s > ANY R is true if and only if s is the minimum value in R.
+
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
