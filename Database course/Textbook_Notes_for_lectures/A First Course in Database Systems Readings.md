@@ -420,12 +420,47 @@ Chapter 2.4.13 A Linear Notation for Algebraic Expressions
   - The notation for assignment statements is:
     1. A relation name and parenthesized list of attributes for that relation. The name Answer will be used conventionally for the result of the final step; i.e., the name of the relation at the root of the expression tree.
     2. The assignment symbol :=.
-    3. Any algebraic expression on the right. We can choose to use only one operator per assignment, in which case each interior node of the tree gets its own assignment statement. 
+    3. Any algebraic expression on the right. We can choose to use only one operator per assignment, in which case each interior node of the tree gets its own assignment statement.
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SQL NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 6.1 Simple Queries in SQL
+  - The FROM clause gives the relation or relations to which the query refers.
+  - The WHERE clause is a condition, much like a selection-condition in relational algebra.
+  - The SELECT clause tells which attributes of the tuples matching the condition are produced as part of the answer.
+
+Chapter 6.1.1 Projection in SQL
+  - SQL is case insensitive, meaning that it treats upper- and lower-case letters as the same letter.
+  - Only inside quotes does SQL make a distinction between upper- and lower-case letters.
+  - Thus, ’FROM’ and ’from’ are different character strings.
+
+Chapter 6.1.2 Selection in SQL
+  - The selection operator of relational algebra, and much more, is available through the WHERE clause of SQL.
+  - We may build expressions by comparing values using the six common comparison operators: =, <>, <, >, <=, and >=.
+  - We may apply the concatenation operator || to strings
+  - AND takes precedence over OR, and NOT takes precedence over both.
+  - A string of bits is represented by B followed by a quoted string of 0’s and l’s.
+  - Hexadecimal notation may also be used, where an X is followed by a quoted string of hexadecimal digits (0 through 9, and a through f)
+
+Chapter 6.1.3 Comparison of Strings
+  - When we compare strings by one of the “less than” operators, such as < or >=, we are asking whether one precedes the other in lexicographic order
+  - ’bar’ < ’bargain’ because the former is a proper prefix of the latter.
+
+Chapter 6.1.4 Pattern Matching in SQL
+  -  An alternative form of comparison expression is
+    - s LIKE p
+  - Where s is a string and p is a pattern, that is, a string with the optional use of the two special characters %, and _.
+
+Chapter 6.1.5 Dates and Times
+  - Implementations of SQL generally support dates and times as special data types.
+  - A date constant is represented by the keyword DATE followed by a quoted string of a special form. For example, DATE ’1948-05-14’ follows the required form.
+  - A time constant is represented similarly by the keyword TIME and a quoted string.
+  - For instance, TIME ’15:00:02.5’ represents the time at which all students will have left a class that ends at 3 PM: two and a half seconds past three o’clock.
+  - To combine dates and times we use a value of type TIMESTAMP.
+  - Thus, TIMESTAMP ’1948-05-14 12:00:00’ represents noon on May 14, 1948.
+  - We can compare dates or times using the same comparison operators we use for numbers or strings.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

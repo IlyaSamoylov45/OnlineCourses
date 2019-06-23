@@ -180,8 +180,8 @@ Chapter 12.3.1 Well-Formed and Valid XML Documents and XML DTD In Figure 12.3,we
   - A well-formed XML document can be schemaless meaning no predefined set of elements
   - A stronger criterion is for an XML document to be valid. In this case, the document must be well formed, and it must follow a particular schema.
   - XML DTD elements:
-    - * : known as an optional multivalued (repeating) element.
-    - + : required multivalued (repeating) element.
+    - ```*``` : known as an optional multivalued (repeating) element.
+    - ```+``` : required multivalued (repeating) element.
     - ? : optional single-valued (nonrepeating) element.
     - (none) :  required single-valued (nonrepeating) element.
     - If the parentheses include the keyword #PCDATA or one of the other data types available in XML DTD, the element is a leaf node. PCDATA stands for
@@ -316,7 +316,7 @@ RELATIONAL ALGEBRA NOTES
   - A JOIN, where the only comparison operator used is =, is called an EQUIJOIN.
   - Notice that in the result of an EQUIJOIN we always have one or more pairs of attributes that have identical values in every tuple.
   - A new operation called NATURAL JOIN—denoted by *  was created to get rid of the second (superfluous) attribute in an EQUIJOIN condition
-  - The standard definition of NATURAL JOIN requires that the two join attributes (or each pair of join attributes) have the same name in both relations. If this is not the case, a renaming operation is applied first. 
+  - The standard definition of NATURAL JOIN requires that the two join attributes (or each pair of join attributes) have the same name in both relations. If this is not the case, a renaming operation is applied first.
   - If the attributes on which the natural join is specified already have the same names in both relations, renaming is unnecessary.
   - The expected size of the join result divided by the maximum size nR * nS leads to a ratio called join selectivity, which is a property of each join condition.
   - If there is no join condition, all combinations of tuples qualify and the JOIN degenerates into a CARTESIAN PRODUCT, also called CROSS PRODUCT or CROSS JOIN.
