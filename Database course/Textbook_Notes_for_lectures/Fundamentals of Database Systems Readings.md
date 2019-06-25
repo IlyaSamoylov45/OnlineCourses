@@ -335,6 +335,736 @@ RELATIONAL ALGEBRA NOTES
 SQL NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Chapter 3.3 Basic Structure of SQL Queries
+  - The basic structure of an SQL query consists of three clauses: select, from, and where. The query takes as its input the relations listed in the from clause, operates on them as speciﬁed in the where and select clauses, and then produces a relation as the result.  
+
+Chapter 3.3.1 Queries on a Single Relation
+  - Ex: “Find the names of all instructors.”
+  ```SQL
+  select name
+  from instructor;
+  ```
+  - Ex: “Find the department names of all instructors”
+  ```SQL
+  select dept_name
+  from instructor;
+  ```
+  - Since more than one instructor can belong to a department, a department name could appear more than once in the instructor relation.
+  - In the formal, mathematical deﬁnition of the relational model, a relation is a set. Thus, duplicate tuples would never appear in relations. In practice, duplicate elimination is time-consuming. Therefore, SQL allows duplicates in relations as well as in the results of SQL expressions
+  - In those cases where we want to force the elimination of duplicates, we insert the keyword distinct after select. If we want duplicates removed.
+  ```SQL
+  select distinct dept_name
+  from instructor
+  ```
+  - SQL allows us to use the keyword all to specify explicitly that duplicates are not removed:
+  ```SQL
+  select all dept_name
+  from instructor;
+  ```
+  - The select clause may also contain arithmetic expressions involving the operators +, −, ∗, and /operating on constants or attributes of tuples.
+  ```SQL
+  select ID, name, dept_name, salary * 1.1
+  from instructor;
+  ```
+  - Note, however, that it does not result in any change to the instructor relation.
+  - The where clause allows us to select only those rows in the result relation of the from clause that satisfy a speciﬁed predicate.
+  - Ex: “Find the names of all instructors in the Computer Science department who have salary greater than $70,000.”
+  ```SQL
+  select name
+  from instructor
+  where dept_name = ’Comp. Sci.’ and salary > 70000;
+  ```
+  - SQL allows the use of the logical connectives and, or, and not in the where clause.
+  - The operands of the logical connectives can be expressions involving the comparison operators <, <=, >, >=, =, and <>.
+
+Chapter 3.3.2 Queries on Multiple Relations
+  -  SQL query can contain three types of clauses, the select clause, the from clause, and the where clause. The role of each clause is as follows:
+    - The select clause is used to list the attributes desired in the result of a query.
+    - The from clause is a list of the relations to be accessed in the evaluation of the query.
+    - The where clause is a predicate involving attributes of the relation in the from clause.
+  - A typical SQL query has the form
+  ```SQL
+  select A1, A2,...,An
+  from r1, r2,...,rm
+  where P;
+  ```
+  - Each Ai represents an attribute, and each ri a relation. P is a predicate. If the where clause is omitted, the predicate P is true.
+  - Although the clauses must be written in the order select, from, where, the easiest way to understand the operations speciﬁed by the query is to consider the clauses in operational order: ﬁrst from, then where, and then select.
+  - The from clause by itself deﬁnes a Cartesian product of the relations listed in the clause.
+  - The predicate in the where clause is used to restrict the combinations created by the Cartesian product to those that are meaningful for the desired answer.
+  - In general, the meaning of an SQL query can be understood as follows:
+    1. Generate a Cartesian product of the relations listed in the from clause
+    2. Apply the predicates speciﬁed in the where clause on the result of Step 1.
+    3. For each tuple in the result of Step 2, output the attributes (or results of expressions) speciﬁed in the select clause.
+  - A real implementation of SQL would not execute the query in this fashion; it would instead optimize evaluation by generating(as far as possible) only elements of the Cartesian product that satisfy the where clause predicates.
+  - When writing queries, you should be careful to include appropriate where clause conditions. If you omit the where clause condition in the preceding SQL query, it would output the Cartesian product, which could be a huge relation.
+
+Chapter 3.3.3 The Natural Join
+  - The natural join operation operates on two relations and produces a relation as the result.
+  - Natural join considers only those pairs of tuples with the same value on those attributes that appear in the schemas of both relations.
+  - Notice that we do not repeat those attributes that appear in the schemas of both relations; rather they appear only once.
+  - Notice also the order in which the attributes are listed: ﬁrst the attributes common to the schemas of both relations, second those attributes unique to the schema of the ﬁrst relation, and ﬁnally, those attributes unique to the schema of the second relation.
+  - Ex: “For all instructors in the university who have taught some course, ﬁnd their names and the course ID of all courses they taught”
+  ```SQL
+  select name, course id
+  from instructor, teaches
+  where instructor.ID=teaches.ID;
+  ```
+  - This can be rewritten more concisely using the natural-join operation:
+  ```SQL
+  select name, course id
+  from instructor natural join teaches;
+  ```
+  - A from clause in an SQL query can have multiple relations combined using natural join, as shown here:
+  ```SQL
+  select A1, A2,...,An
+  from r1 natural join r2 natural join ... natural join rm
+  where P;
+  ```
+  - More generally, a from clause can be of the form ``` from E1, E2,...,En ```
+  - Ex: “List the names of instructors along with the titles of courses that they teach.”
+    - The natural join of instructor and teaches is ﬁrst computed, as we saw earlier, and a Cartesian product of this result with course is computed, from which the where clause extracts only those tuples where the course identiﬁer from the join result matches the course identiﬁer from the course relation.
+    ```SQL
+    select name, title
+    from instructor natural join teaches, course
+    where teaches.course_id = course.course_id;
+    ```  
+  - In contrast the following SQL query does not compute the same result:
+  ```SQL
+  select name, title
+  from instructor natural join teaches natural join course;  
+  ```
+
+Chapter 3.4 Additional Basic Operations
+
+Chapter 3.4.1 The Rename Operation
+  - Two relations in the from clause may have attributes with the same name, in which case an attribute name is duplicated in the result.
+  - If we used an arithmetic expression in the select clause, the resultant attribute does not have a name.
+  - SQL provides a way of renaming the attributes of a result relation. ``` old-name as new-name ```
+  - The as clause can appear in both the select and from clauses.
+  ```SQL
+  select name as instructor name, course id
+  from instructor, teaches
+  where instructor.ID=teaches.ID;
+  ```
+  - The as clause is particularly useful in renaming relations.
+  - One reason to rename a relation is to replace along relation name with a shortened version that is more convenient to use elsewhere in the query.
+  - Ex: "For all instructors in the university who have taught some course, ﬁnd their names and the course ID of all courses they taught.”
+  ```SQL
+  select T.name, S.course id
+  from instructor as T, teaches as S
+  where T.ID = S.ID;
+  ```
+  - Another reason to rename a relation is a case where we wish to compare tuples in the same relation. We then need to take the Cartesian product of a relation with itself and, without renaming, it becomes impossible to distinguish one tuple from the other.
+  - Ex: “Find the names of all instructors whose salary is greater than at least one instructor in the Biology department.”
+  ```SQL
+  select distinct T.name
+  from instructor as T, instructor as S
+  where T.salary > S.salary and S.dept name = ’Biology’;
+  ```
+  - An identiﬁer, that is used to rename a relation is referred to as a correlation name in the SQL standard, but is also commonly referred to as a table alias, or a correlation variable, or a tuple variable.
+
+Chapter 3.4.2 String Operations
+  - A single quote character that is part of a string can be speciﬁed by using two single quote characters; for example, the string “It’s right” can be speciﬁed by “It's right”.
+  - The SQL standard speciﬁes that the equality operation on strings is case sensitive
+  - However, some database systems, such as MySQL and SQL Server, do not distinguish uppercase from lowercase when matching strings
+  - SQL also permits a variety of functions on character strings, such as concatenating (using “||”), extracting substrings, ﬁnding the length of strings, upper(s), lower(s), trim(s).
+  - Pattern matching can be performed on strings, using the operator like.
+  - We describe patterns by using two special characters:
+    - Percent ( % ): The % character matches any substring.
+    - Underscore ( _ ): The character matches any character.
+  - Patterns are case sensitive
+  - SQL expresses patterns by using the like comparison operator
+  - Ex: “Find the names of all departments whose building name includes the substring ‘Watson’.”
+  ```SQL
+  select dept_name
+  from department
+  where building like ’%Watson%’;
+  ```
+  - For patterns to include the special pattern characters (that is, % and _ ), SQL allows the speciﬁcation of an escape character
+    - like ’ab\%cd%’ escape ’\’ matches all strings beginning with “ab%cd”.
+    - like ’ab\\cd%’ escape ’\’ matches all strings beginning with “ab\cd”.
+  - SQL allows us to search for mismatches instead of matches by using the not like comparison operator
+
+Chapter 3.4.3 Attribute Speciﬁcation in Select Clause
+  - The asterisk symbol “ * ” can be used in the select clause to denote “all attributes.”
+  ```SQL
+  select instructor.*
+  from instructor, teaches
+  where instructor.ID=teaches.ID;
+  ```
+
+Chapter 3.4.4 Ordering the Display of Tuples
+  - The order by clause causes the tuples in the result of a query to appear in sorted order.
+  ```SQL
+  select name
+  from instructor
+  where dept_name=’Physics’
+  order by name;
+  ```
+  - By default, the order by clause lists items in ascending order.
+  ```SQL
+  select *
+  from instructor
+  order by salary desc, name asc;
+  ```
+
+Chapter 3.4.5 Where Clause Predicates
+  - SQL includes a between comparison operator to simplify where clauses that specify that a value be less than or equal to some value and greater than or equal to some other value
+  ```SQL
+  select name
+  from instructor
+  where salary between 90000 and 100000;
+  ```
+  - Similarly, we can use the not between comparison operator.
+  - Two tuples are equal if all their attributes are equal
+  ```SQL
+  select name, course_id
+  from instructor, teaches
+  where (instructor.ID, dept_name) = (teaches.ID, ’Biology’);
+  ```
+
+Chapter 3.5 Set Operations
+  - The SQL operations union, intersect, and except operate on relations and correspond to the mathematical set-theory operations ∪, ∩, and −.
+
+Chapter 3.5.1 The Union Operation
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  union
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+  - The union operation automatically eliminates duplicates, unlike the select clause.
+  - If we want to retain all duplicates, we must write union all in place of union:
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  union all
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+  - The number of duplicate tuples in the result is equal to the total number of duplicates that appear in both c1 and c2.
+
+Chapter 3.5.2 The Intersect Operation
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  intersect
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+  - The intersect operation automatically eliminates duplicates.
+  - If we want to retain all duplicates, we must write intersect all in place of intersect:
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  intersect all
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+  - The number of duplicate tuples that appear in the result is equal to the minimum number of duplicates in both c1 and c2.
+
+Chapter 3.5.3 The Except Operation
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  except
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+  - The except operation7 outputs all tuples from its ﬁrst input that do not occur in the second input; that is, it performs set difference.
+  - The operation automatically eliminates duplicates in the inputs before performing set difference.
+  - If we want to retain duplicates, we must write except all in place of except:
+  ```SQL
+  (select course_id
+   from section
+   where semester=’Fall’ and year=2009)
+  except all
+  (select course_id
+   from section
+   where semester=’Spring’ and year=2010);
+  ```
+
+Chapter 3.6 Null Values
+  - The result of an arithmetic expression (involving, for example+,−,∗,or/) is null if any of the input values is null.
+  - SQL treats as unknown the result of any comparison involving a null value
+  - The deﬁnitions of the Boolean operations are extended to deal with the value unknown.
+    - and: The result of true and unknown is unknown, false and unknown is false, while unknown and unknown is unknown.
+    - or: The result of true or unknown is true, false or unknown is unknown, while unknown or unknown is unknown.
+    - not: The result of not unknown is unknown.
+  - If the where clause predicate evaluates to either false or unknown for a tuple, that tuple is not added to the result.
+  - SQL uses the special keyword null in a predicate to test for a null value
+  ```SQL
+  select name
+  from instructor
+  where salary is null;
+  ```
+  - The predicate is not null succeeds if the value on which it is applied is not null.
+
+Chapter 3.7 Aggregate Functions
+  - Aggregate functions are functions that take a collection (a set or multiset) of values as input and return a single value.
+  - SQL offers ﬁve built-in aggregate functions:
+    - Average: avg
+    - Minimum: min
+    - Maximum: max
+    - Total: sum
+    - Count: count
+  - The input to sum and avg must be a collection of numbers, but the other operators can operate on collections of nonnumeric data types, such as strings, as well.
+
+Chapter 3.7.1 Basic Aggregation
+  - Ex: “Find the average salary of instructors in the Computer Science department.”
+  ```SQL
+  select avg (salary)
+  from instructor
+  where dept_name=’Comp. Sci.’;
+  ```
+  - We can give a meaningful name to the attribute by using the as clause:
+  ```SQL
+  select avg (salary) as avg salary
+  from instructor
+  where dept_name=’Comp. Sci.’;
+  ```
+  - If we do want to eliminate duplicates, we use the keyword distinct in the aggregate expression.
+  - Ex: “Find the total number of instructors who teach a course in the Spring 2010 semester.”
+  ```SQL
+  select count (distinct ID)
+  from teaches
+  where semester=’Spring’ and year=2010;
+  ```
+  - SQL does not allow the use of distinct with count( * ).
+  - It is legal to use distinct with max and min, even though the result does not change.
+
+Chapter 3.7.2 Aggregation with Grouping
+  - The attribute or attributes given in the group by clause are used to form groups.
+  - Tuples with the same value on all attributes in the group by clause are placed in one group.
+  - Ex: “Find the average salary in each department.”
+  ```SQL
+  select dept_name, avg (salary) as avg salary
+  from instructor
+  group by dept_name;
+  ```
+  - Ex: “Find the number of instructors in each department who teach a course in the Spring 2010 semester.”
+  ```SQL
+  select dept_name, count (distinctID) as instr_count
+  from instructor natural join teaches
+  where semester=’Spring’ and year=2010
+  group by dept_name;
+  ```
+  ```SQL
+  /* erroneous query*/
+  select dept_name, ID,
+  avg (salary) from instructor
+  group by dept_name;
+  ```
+  - Each instructor in a particular group (deﬁned by dept_name) can have a different ID, and since only one tuple is output for each group, there is no unique way of choosing which ID value to output
+
+Chapter 3.7.3 The Having Clause
+  - It is useful to state a condition that applies to groups rather than to tuples
+  - To express such a query, we use the having clause of SQL
+  ```SQL
+  select dept_name, avg (salary) as avg_salary
+  from instructor
+  group by dept_name
+  having avg (salary) > 42000;
+  ```
+  - The meaning of a query containing aggregation, group by, or having clauses is deﬁned by the following sequence of operations:
+    1. As was the case for queries without aggregation, the from clause is ﬁrst evaluated to get a relation.
+    2. If a where clause is present, the predicate in the where clause is applied on the result relation of the from clause.
+    3. Tuples satisfying the where predicate are then placed into groups by the group by clause if it is present. If the group by clause is absent, the entire set of tuples satisfying the where predicate is treated as being in one group.
+    4. The having clause, if it is present, is applied to each group; the groups that do not satisfy the having clause predicate are removed.
+    5. The select clause uses the remaining groups to generate tuples of the result of the query, applying the aggregate functions to get a single result tuple for each group.
+  - “For each course section offered in 2009, ﬁnd the average total credits(tot_cred) of all students enrolled in the section, if the section had at least 2 students.”
+  ```SQL
+  select course_id, semester, year, sec_id, avg (tot_cred)
+  from takes natural join student
+  where year=2009
+  group by course_id, semester, year, sec_id
+  having count (ID) >=2;
+  ```
+
+Chapter 3.7.4 Aggregation with Null and Boolean Values
+  - Null values, when they exist, complicate the processing of aggregate operators.
+  ```SQL
+  select sum (salary)
+  from instructor;
+  ```
+  - Rather than say that the overall sum is itself null, the SQL standard says that the sum operator should ignore null values in its input.
+  - All aggregate functions except count ( * ) ignore null values in their input collection
+
+Chapter 3.8 Nested Subqueries
+
+Chapter 3.8.1 Set Membership
+  - The in connective tests for set membership, where the set is a collection of values produced by a select clause.
+  - The not in connective tests for the absence of set membership.
+  - Ex: “Find all the courses taught in the both the Fall2009 and Spring 2010 semesters.”
+  ```SQL
+  select distinct course_id
+  from section
+  where semester=’Fall’
+        and year=2009
+        and course_id in (
+                          select course_id
+                          from section
+                          where semester=’Spring’
+                                and year=2010
+                          );
+  ```
+  - Ex: to ﬁnd all the courses taught in the Fall 2009 semester but not in the Spring 2010 semester
+  ```SQL
+  select distinct course_id
+  from section
+  where semester=’Fall’
+        and year=2009
+        and course id not in (
+                              select course id
+                              from section
+                              where semester=’Spring’
+                                    and year=2010
+                             );
+  ```
+  - Ex: “ﬁnd the total number of (distinct) students who have taken course sections taught by the instructor with ID 110011”
+  ```SQL
+  select count (distinct ID)
+  from takes
+  where (course_id, sec_id, semester, year) in (select course_id, sec_id, semester, year
+                                                from teaches
+                                                where teaches.ID= 10101
+                                              );
+
+  ```
+
+Chapter 3.8.2 Set Comparison
+  - “Find the names of all instructors whose salary is greater than at least one instructor in the Biology department.”
+  ```SQL
+  select name
+  from instructor
+  where salary > some (select salary
+                       from instructor
+                       where dept_name=’Biology’);
+  ```
+  - SQL also allows < some, <= some, >= some, = some, and <> some comparisons.
+  - = some is identical to in, whereas <> some is not the same as not in.
+  - The construct > all corresponds to the phrase “greater than all.”
+  ```SQL
+  select name
+  from instructor
+  where salary > all (select salary
+                      from instructor
+                      where dept_name=’Biology’);
+  ```
+  - SQL also allows < all, <= all, >= all, = all, and <> all comparisons.
+  - <> all is identical to not in, whereas= all is not the same as in.
+  - Ex: “Find the departments that have the highest average salary.”
+  ```SQL
+  select dept_name
+  from instructor
+  group by dept_name
+  having avg (salary) >= all (select avg (salary)
+                              from instructor
+                              group by dept_name);
+  ```
+
+Chapter 3.8.3 Test for Empty Relations
+  - The exists construct returns the value true if the argument subquery is nonempty
+  - Ex: “Find all courses taught in both the Fall 2009 semester and in the Spring 2010 semester”
+  ```SQL
+  select course_id
+  from section as S
+  where semester=’Fall’
+        and year=2009
+        and exists (select *
+                    from section as T
+                    where semester=’Spring’
+                          and year=2010
+                          and S.course_id=T.course_id);
+  ```
+  - A subquery that uses a correlation name from an outer query is called a correlated subquery.
+  - If a correlation name is deﬁned both locally in a subquery and globally in a containing query, the local deﬁnition applies.
+  - This rule is analogous to the usual scoping rules used for variables in programming languages.
+  - We can write “relation A contains relation B” as “ not exists (B except A).”
+  - Ex: “Find all students who have taken all courses offered in the Biology department.”
+  ```SQL
+  select distinct S.ID, S.name
+  from student as S
+  where not exists ((select course_id
+                     from course
+                     where dept_name=’Biology’) except (select T.course_id
+                                                        from takes as T
+                                                        where S.ID=T.ID));
+  ```
+
+Chapter 3.8.4 Test for the Absence of Duplicate Tuples
+  - The unique construct returns the value true if the argument subquery contains no duplicate tuples.
+  - Ex: “Find all courses that were offered at most once in 2009”
+    ```SQL
+    select T.course_id
+    from course as T
+    where unique (select R.course_id
+                  from section as R
+                  where T.course_id = R.course_id
+                        and R.year=2009
+                 );
+    ```
+    - Note that if a course is not offered in 2009, the subquery would return an empty result, and the unique predicate would evaluate to true on the empty set.
+  - Ex: Same as previous
+  ```SQL
+  select T.course_id
+  from course as T
+  where 1 <= (select count(R.course_id)
+              from section as R
+              where T.course_id=R.course_id
+                    and R.year=2009
+              );
+  ```
+  - We can test for the existence of duplicate tuples in a subquery by using the not unique construct.
+  - Ex: “Find all courses that were offered at least twice in 2009”
+  ```SQL
+  select T.course_id
+  from course as T
+  where not unique(select R.course_id
+                   from section as R
+                   where T.course_id=R.course_id
+                         and R.year=2009);
+  ```
+  - Since the test t1 = t2 fails if any of the ﬁelds of t1 or t2 are null, it is possible for unique to be true even if there are multiple copies of a tuple, as long as at least one of the attributes of the tuple is null.
+
+Chapter 3.8.5 Subqueries in the From Clause
+  - SQL allows a subquery expression to be used in the from clause
+  - Ex: “Find the average instructors’ salaries of those departments where the average salary is greater than $42,000.”
+  ```SQL
+  select dept_name, avg_salary
+  from (select dept_name, avg (salary) as avg_salary
+        from instructor
+        group by dept_name)
+  where avg_salary > 42000;
+  ```
+  - We can give the subquery result relation a name, and rename the attributes, using the as claus, The subquery result relation is named dept_avg, with the attributes dept_name and avg_salary.
+  ```SQL
+  select dept_name, avg_salary
+  from (select dept_name, avg (salary)
+        from instructor
+        group by dept_name)
+        as dept_avg (dept_name, avg_salary)
+  where avg_salary > 42000;
+  ```
+  - Nested subqueries in the from clause are supported by most but not all SQL implementations.
+  - Some SQL implementations, notably Oracle, do not support renaming of the result relation in the from clause.
+  - Find the maximum across all departments of the total salary at each department
+  ```SQL
+  select max (tot_salary)
+  from (select dept_name, sum(salary)
+        from instructor
+        group by dept_name) as dept_total (dept_name, tot_salary);
+  ```
+  - We note that nested subqueries in the from clause cannot use correlation variables from other relations in the from clause.
+
+Chapter 3.8.6 The with Clause
+  - The with clause provides away of deﬁning a temporary relation whose deﬁnition is available only to the query in which the with clause occurs.
+  - Ex: departments with the maximum budget
+  ```SQL
+  with max_budget (value) as
+      (select max(budget)
+      from department)
+  select budget
+  from department, max_budget
+  where department.budget = max_budget.value;
+  ```
+  - All departments where the total salary is greater than the average of the total salary at all departments
+  ```SQL
+  with dept_total (dept_name, value) as
+       (select dept_name, sum(salary)
+       from instructor
+       group by dept_name),
+  dept_total_avg(value) as
+      (select avg(value)
+      from dept_total)
+  select dept_name
+  from dept_total, dept_total_avg
+  where dept_total.value >=dept_total_avg.value;
+  ```
+
+Chapter 3.8.7 Scalar Subqueries
+  - SQL allows subqueries to occur wherever an expression returning a value is permitted, provided the subquery returns only one tuple containing a single attribute; such subqueries are called scalar subqueries
+  ```SQL
+  select dept_name,
+         (select count(*)
+          from instructor
+          where department.dept_name = instructor.dept_name)
+         as num_instructors
+  from department;
+  ```
+  - Scalar subqueries can occur in select, where, and having clauses.
+
+Chapter 3.9 Modiﬁcation of the Database
+
+Chapter 3.9.1 Deletion
+  - SQL expresses a deletion by:
+  ```SQL
+  delete from r
+  where P;
+  ```
+  - The where clause can be omitted, in which case all tuples in r are deleted.
+  ```SQL
+  delete from instructor;
+  ```
+  - The instructor relation itself still exists, but it is empty.
+  - Examples of SQL delete requests:
+    1. Delete all tuples in the instructor relation pertaining to instructors in the Finance department.
+    ```SQL
+    delete from instructor
+    where dept name=’Finance’;
+    ```
+    2. Delete all instructors with a salary between $13,000 and $15,000.
+    ```SQL
+    delete from instructor
+    where salary between 13000 and 15000;
+    ```
+    3. Delete all tuples in the instructor relation for those instructors associated with a department located in the Watson building.
+    ```SQL
+    delete from instructor
+    where dept_name in (select dept_name
+                        from department
+                        where building=’Watson’);
+    ```
+    - Note that, although we may delete tuples from only one relation at a time, we may reference any number of relations in a select-from-where nested in the where clause of a delete.
+    - Ex: Delete the records of all instructors with salary below the average at the university
+    ```SQL
+    delete from instructor
+    where salary < (select avg (salary)
+                    from instructor);
+    ```
+
+Chapter 3.9.2 Insertion
+  - The simplest insert statement is a request to insert one tuple.
+  - Ex: Suppose that we wish to insert the fact that there is a course CS-437 in the Computer Science department with title “Database Systems”, and 4 credit hours.
+  ```SQL
+  insert into course
+  values (’CS-437’, ’Database Systems’, ’Comp. Sci.’, 4);
+  ```
+  - For the beneﬁt of users who may not remember the order of the attributes, SQL allows the attributes to be speciﬁed as part of the insert statement.
+  ```SQL
+  insert into course (course id, title, dept_name, credits)
+  values (’CS-437’, ’Database Systems’, ’Comp. Sci.’, 4);
+  ```
+  ```SQL
+  insert into course (title, course_id, credits, dept_name)
+  values (’Database Systems’, ’CS-437’, 4, ’Comp. Sci.’);
+  ```
+  - Ex: Make each student in the Music department who has earned more than 144 credit hours, an instructor in the Music department, with a salary of $18,000.
+  ```SQL
+  insert into instructor
+         select ID, name, dept_name, 18000
+         from student
+         where dept_name=’Music’ and tot_cred > 144;
+  ```
+  - It is possible for inserted tuples to be given values on only some attributes of the schema.
+  - Ex:
+  ```SQL
+  insert into student
+  values (’3003’, ’Green’, ’Finance’, null);
+  ```
+  - Ex: Consider the query:
+    ```SQL
+    select student
+    from student
+    where tot_cred > 45;
+    ```
+    - Since the tot cred value of student “3003” is not known, we cannot determine whether it is greater than 45.
+
+Chapter 3.9.3 Updates
+  - Salaries of all instructors are to be increased by 5 percent.
+  ```SQL
+  update instructor
+  set salary=salary * 1.05;
+  ```
+  - Ex: If a salary increase is to be paid only to instructors with salary of less than $70,000
+  ```SQL
+  update instructor
+  set salary = salary * 1.05
+  where salary < 70000;
+  ```
+  - Ex: “Give a 5 percent salary raise to instructors whose salary is less than average”
+  ```SQL
+  update instructor
+  set salary = salary * 1.05
+  where salary < (select avg (salary)
+                  from instructor);
+  ```
+  - SQL provides a case construct that we can use to perform two updates with a single update statement, avoiding the problem with the order of updates.
+  ```SQL
+  update instructor
+  set salary = case
+                   when salary <=100000 then salary * 1.05
+                   else salary * 1.03
+               end
+  ```
+  - The general form of the case statement is as follows.
+  ```SQL
+  case
+    when pred1 then result1
+    when pred2 then result2
+    ...
+    when predn then resultn
+    else result0
+  end
+  ```
+  - Scalar subqueries are also useful in SQL update statements, where they can be used in the set clause.
+  - Ex: We assume that a course is successfully completed if the student has a grade that is not ’F’ or null.
+  ```SQL
+  update student S
+  set tot_cred = (
+      select sum(credits)
+      from takes natural join course
+      where S.ID = takes.ID
+            and takes.grade <> ’F’
+            and takes.grade is not null);
+  ```
+
+Chapter 4.1 Join Expressions
+
+Chapter 4.1.1 Join Conditions
+  - The on condition allows a general predicate over the relations being joined.
+  - Written like a where clause predicate except for the use of the keyword on rather than where.
+  - Ex: Speciﬁes that a tuple from student matches a tuple from takes if their ID values are equal.
+  ```SQL
+  select *
+  from student join takes on student.ID = takes.ID;
+  ```
+  - Ex: Equivalent to the above:
+  ```SQL
+  select *
+  from student, takes
+  where student.ID = takes.ID;
+  ```
+
+Chapter 4.1.2 Outer Joins
+  - The outer join operation preserves those tuples that would be lost in a join, by creating tuples in the result containing null values.
+  - Three forms of outer join:
+    1. The left outer join preserves tuples only in the relation named before(to the left of) the left outer join operation.
+    2. The right outer join preserves tuples only in the relation named after(to the right of) the right outer join operation.
+    3. The full outer join preserves tuples in both relations.
+  - Ex: “Find all students who have not taken a course”
+  ```SQL
+  select ID
+  from student natural left outer join takes
+  where course_id is null;
+  ```
+  - The right outer join is symmetric to the left outer join
+
+Chapter 4.1.3 Join Types and Conditions
+  - To distinguish normal joins from outer joins, normal joins are called inner joins in SQL
+  - The keyword inner is optional
+  - The default join type, when the join clause is used without the outer preﬁx is the inner join. 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
