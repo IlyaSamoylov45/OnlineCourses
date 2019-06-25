@@ -936,13 +936,13 @@ Chapter 3.9.1 Deletion
                         from department
                         where building=’Watson’);
     ```
-    - Note that, although we may delete tuples from only one relation at a time, we may reference any number of relations in a select-from-where nested in the where clause of a delete.
-    - Ex: Delete the records of all instructors with salary below the average at the university
-    ```SQL
-    delete from instructor
-    where salary < (select avg (salary)
-                    from instructor);
-    ```
+  - Note that, although we may delete tuples from only one relation at a time, we may reference any number of relations in a select-from-where nested in the where clause of a delete.
+  - Ex: Delete the records of all instructors with salary below the average at the university
+  ```SQL
+  delete from instructor
+  where salary < (select avg (salary)
+                  from instructor);
+  ```
 
 Chapter 3.9.2 Insertion
   - The simplest insert statement is a request to insert one tuple.
@@ -1064,7 +1064,7 @@ Chapter 4.1.2 Outer Joins
 Chapter 4.1.3 Join Types and Conditions
   - To distinguish normal joins from outer joins, normal joins are called inner joins in SQL
   - The keyword inner is optional
-  - The default join type, when the join clause is used without the outer preﬁx is the inner join. 
+  - The default join type, when the join clause is used without the outer preﬁx is the inner join.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
