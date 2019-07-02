@@ -1076,17 +1076,26 @@ XPATH AND XQUERY NOTES
   - Examples:
   ```
   1. /company
-    - Returns the company root node and all its descendant nodes, which means that it returns the whole XML document.
-  2. /company/department
-    - Returns all department nodes (elements) and their descendant subtrees
-  3. //employee [employeeSalary gt 70000]/employeeName
-    - //, is convenient to use if we do not know the full path name we are searching for, but do know the name of some tags of interest within the XML document.
-    - The expression returns all employeeName nodes that are direct children of an employee node, such that the employee node has another child element employeeSalary whose value is greater than 70000.
-  4. /company/employee [employeeSalary gt 70000]/employeeName
-    - Return the same result as the previous one, except that we specified the full path name
-  5. /company/project/projectWorker [hours ge 20.0]
-    - returns all projectWorker nodes and their descendant nodes that are children under a path /company/project and have a child node hours with a value greater than 20.0 hours.
   ```
+  - Returns the company root node and all its descendant nodes, which means that it returns the whole XML document.
+  ```
+  2. /company/department
+  ```
+  - Returns all department nodes (elements) and their descendant subtrees
+  ```
+  3. //employee [employeeSalary gt 70000]/employeeName
+  ```
+  - //, is convenient to use if we do not know the full path name we are searching for, but do know the name of some tags of interest within the XML document.
+  - The expression returns all employeeName nodes that are direct children of an employee node, such that the employee node has another child element employeeSalary whose value is greater than 70000.
+  ```
+  4. /company/employee [employeeSalary gt 70000]/employeeName
+  ```
+  - Return the same result as the previous one, except that we specified the full path name
+  ```
+  5. /company/project/projectWorker [hours ge 20.0]
+  ```
+  - returns all projectWorker nodes and their descendant nodes that are children under a path /company/project and have a child node hours with a value greater than 20.0 hours.
+
   - When we need to include attributes in an XPath expression, the attribute name is prefixed by the @ symbol to distinguish it from element (tag) names.
   - It is also possible to use the wildcard symbol * ,which stands for any element, as in the following example, which retrieves all elements that are child elements of the root, regardless of their element type.
   - The main restriction of XPath path expressions is that the path that specifies the pattern also specifies the items to be retrieved. Hence, it is difficult to specify certain conditions on the pattern while separately specifying which result items should be retrieved.
@@ -1118,22 +1127,22 @@ XPATH AND XQUERY NOTES
         doc(www.company.com/info.xml)
         //employee [employeeSalary gt 70000]/employeeName
         RETURN <res> $x/firstName, $x/lastName </res>
-
+  ```
   - Retrieves the first and last names of employees who earn more than $70,000.The variable $x is bound to each employeeName element that is a child of an employee element, but only for employee elements that satisfy the qualifier that their employeeSalary value is greater than $70,000. The result retrieves the firstName and lastName child elements of the selected employeeName elements.
-
+  ```XQuery
   2. FOR $x IN
         doc(www.company.com/info.xml)/company/employee
         WHERE $x/employeeSalary gt 70000
         RETURN <res> $x/employeeName/firstName, $x/employeeName/lastName </res>
-
+  ```
   - Same as first query
-
+  ```XQuery
   3. FOR $x IN
         doc(www.company.com/info.xml)/company/project[projectNumber = 5]/projectWorker,
         $y IN doc(www.company.com/info.xml)/company/employee
         WHERE $x/hours gt 20.0 AND $y.ssn = $x.ssn
         RETURN <res> $y/employeeName/firstName, $y/employeeName/lastName, $x/hours </res>
-
+  ```
   - The $x variable is bound to each projectWorker element that is a child of project number 5,whereas the $yvariable is bound to each employeeelement.
   ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
