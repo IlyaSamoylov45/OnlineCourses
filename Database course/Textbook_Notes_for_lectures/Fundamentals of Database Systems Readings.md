@@ -1069,6 +1069,73 @@ Chapter 4.1.3 Join Types and Conditions
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+12.5.1 XPath: Specifying Path Expressions in XML
+  - The most common type of XPath expression returns a collection of element or attribute nodes that satisfy certain patterns specified in the expression.
+  - Two main separators are used when specifying a path: single slash (/) and double slash (//).
+  - A single slash before a tag specifies that the tag must appear as a direct child of the previous (parent) tag, whereas a double slash specifies that the tag can appear as a descendant of the previous tag at any level.
+  - Examples:
+  ```
+  1. /company
+    - Returns the company root node and all its descendant nodes, which means that it returns the whole XML document.
+  2. /company/department
+    - Returns all department nodes (elements) and their descendant subtrees
+  3. //employee [employeeSalary gt 70000]/employeeName
+    - //, is convenient to use if we do not know the full path name we are searching for, but do know the name of some tags of interest within the XML document.
+    - The expression returns all employeeName nodes that are direct children of an employee node, such that the employee node has another child element employeeSalary whose value is greater than 70000.
+  4. /company/employee [employeeSalary gt 70000]/employeeName
+    - Return the same result as the previous one, except that we specified the full path name
+  5. /company/project/projectWorker [hours ge 20.0]
+    - returns all projectWorker nodes and their descendant nodes that are children under a path /company/project and have a child node hours with a value greater than 20.0 hours.
+  ```
+  - When we need to include attributes in an XPath expression, the attribute name is prefixed by the @ symbol to distinguish it from element (tag) names.
+  - It is also possible to use the wildcard symbol * ,which stands for any element, as in the following example, which retrieves all elements that are child elements of the root, regardless of their element type.
+  - The main restriction of XPath path expressions is that the path that specifies the pattern also specifies the items to be retrieved. Hence, it is difficult to specify certain conditions on the pattern while separately specifying which result items should be retrieved.
+
+12.5.2 XQuery: Specifying Queries in XML
+  - XQuery permits the specification of more general queries on one or more XML documents.
+  - The typical form of a query in XQuery is known as a FLWR expression, which stands for the four main clauses of XQuery and has the following form:
+  ```XQuery
+  FOR <variable bindings to individual nodes (elements)>
+  LET <variable bindings to collections of nodes (elements)>
+  WHERE <qualifier conditions>
+  RETURN <query result specification>
+  ```
+  - There can be zero or more instances of the FOR clause, as well as of the LET clause in a single XQuery. The WHERE clause is optional, but can appear at most once, and the RETURN clause must appear exactly once.
+  ```XQuery
+  LET $d := doc(www.company.com/info.xml)
+  FOR $x IN $d/company/project[projectNumber = 5]/projectWorker, $y
+         IN $d/company/employee
+  WHERE $x/hours gt 20.0 AND $y.ssn = $x.ssn
+  RETURN <res> $y/employeeName/firstName, $y/employeeName/lastName, $x/hours </res>
+  ```
+  1. Variables are prefixed with the $ sign. In the above example, $d, $x, and $y are variables.
+  2. The LET clause assigns a variable to a particular expression for the rest of the query. In this example, $d is assigned to the document file name. It is possible to have a query that refers to multiple documents by assigning multiple variables in this way.
+  3. The FOR clause assigns a variable to range over each of the individual items in a sequence. In our example, the sequences are specified by path expressions. The $x variable ranges over elements that satisfy the path expression $d/company/project[projectNumber = 5]/projectWorker. The $y variable ranges over elements that satisfy the path expression $d/company/employee. Hence, $x ranges over projectWorker elements, whereas $y ranges over employee elements
+  4. The WHERE clause specifies additional conditions on the selection of items. In this example, the first condition selects only those projectWorker elements that satisfy the condition (hours gt 20.0). The second condition specifies a join condition that combines an employee with a projectWorker only if they have the same ssn value.
+  5. RETURN clause specifies which elements or attributes should be retrieved from the items that satisfy the query conditions.In this example, it will return a sequence of elements each containing <firstName, lastName, hours> for employees who work more that 20 hours per week on project number 5.
+  ```XQuery
+  1. FOR $x IN
+        doc(www.company.com/info.xml)
+        //employee [employeeSalary gt 70000]/employeeName
+        RETURN <res> $x/firstName, $x/lastName </res>
+
+  - Retrieves the first and last names of employees who earn more than $70,000.The variable $x is bound to each employeeName element that is a child of an employee element, but only for employee elements that satisfy the qualifier that their employeeSalary value is greater than $70,000. The result retrieves the firstName and lastName child elements of the selected employeeName elements.
+
+  2. FOR $x IN
+        doc(www.company.com/info.xml)/company/employee
+        WHERE $x/employeeSalary gt 70000
+        RETURN <res> $x/employeeName/firstName, $x/employeeName/lastName </res>
+
+  - Same as first query
+
+  3. FOR $x IN
+        doc(www.company.com/info.xml)/company/project[projectNumber = 5]/projectWorker,
+        $y IN doc(www.company.com/info.xml)/company/employee
+        WHERE $x/hours gt 20.0 AND $y.ssn = $x.ssn
+        RETURN <res> $y/employeeName/firstName, $y/employeeName/lastName, $x/hours </res>
+
+  - The $x variable is bound to each projectWorker element that is a child of project number 5,whereas the $yvariable is bound to each employeeelement.
+  ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
