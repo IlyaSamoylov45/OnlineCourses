@@ -879,6 +879,95 @@ Chapter 5.6.5 Disallowing Null Values
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+27.7 XQUERY: QUERYING XML DATA
+  - XQuery is the W3C standard query language for XML data
+
+27.7.1 Path Expressions
+  ```XQUERY
+  FOR
+    $1 IN doc(www.ourbookstore.com/books.xml)//AUTHOR/LASTNAME
+  RETURN <RESULT> $1 </RESULT>
+  ```
+  - The separator // specifies that the AUTHOR element can be nested anywhere within the document whereas the separator / constrains the LASTNAME element to be nested immediately under (in terms of the graph structure of the document) the AUTHOR element.
+  -  The result would be the following XML document:
+  ```
+  <RESULT><LASTNAME>Feynman </LASTNAME></RESULT>
+  <RESULT><LASTNAME>Narayan </LASTNAME></RESULT>
+  ```
+
+27.7.2 FLWR Expressions
+  - Basic form of an XQuery consists of FLWR : FOR, LET, WHERE and RETURN clauses
+  - The FOR and LET clauses bind variables to values through path expressions. These values are qualified by the WHERE clause, and the result XML fragment is constructed by the RETURN clause.
+  - FOR binds a variable to each element specified by the path expression, LET binds a variable to the whole collection of element.
+  ```XQUERY
+  LET
+    $1 IN doc(www.ourbookstore.com/books.xml)//AUTHOR/LASTNAME
+  RETURN <RESULT> $1 </RESULT>
+  ```
+  - The result would be the following XML document:
+  ```
+  <RESULT>
+    <LASTNAME>Feynman</LASTNAME>
+    <LASTNAME>Narayan</LASTNAME>
+  </RESULT>
+  ```
+  - Selection conditions are expressed using the WHERE clause.
+  - The output of a query is not limited to a single element.
+  ```XQUERY
+  FOR $b IN doc(www.ourbookstore.com/books.xm1)/BOOKLIST/BOOK
+  WHERE $b/PUBLISHED='1980'
+  RETURN
+    <RESULT> $b/AUTHOR/FIRSTNAME, $b/AUTHOR/LASTNAME </RESULT>
+  ```
+  - The result would be the following XML document:
+  ```
+  <RESULT>
+    <FIRSTNAME>Richard </FIRSTNAME><LASTNAME>Feynman </LASTNAME>
+  </RESULT>
+  <RESULT>
+    <FIRSTNAME>R.K. </FIRSTNAME><LASTNAME>Narayan </LASTNAME>
+  </RESULT>
+  ```
+  - Can be rewritten as:
+  ```XQUERY
+  FOR $a IN doc(www.ourbookstore.com/books.xml)/BOOKLIST/BOOK[PUBLISHED='1980']/AUTHOR
+  RETURN
+    <RESULT> $a/FIRSTNAME, $a/LASTNAME </RESULT>
+  ```
+
+27.7.3 Ordering of Elements
+  - XML data consists of ordered documents and so the query language must return data in some order.
+  - If we desire a different order, we can explicitly order the output as shown in the following query, which returns TITLE elements sorted lexicographically.
+  ```XQUERY
+  FOR
+    $b IN doc(www.ourbookstore.com/books.xml)/BOOKLIST/BOOK
+  RETURN <BOOKTITLES> $b/TITLE </BOOKTITLES>
+  SORT BY TITLE
+  ```
+
+27.7.4 Grouping and Generation of Collection Values
+  - Suppose that for each year we want to find the last names of authors who wrote a book published in that year. We group by year of publication and generate a list of last names for each year:
+  ```XQUERY
+  FOR $p IN DISTINCT
+    doc(www.ourbookstore.com/books.xml)/BOOKLIST/BOOK/PUBLISHED
+    RETURN
+      <RESULT>
+        $p,
+        FOR $a IN DISTINCT /BOOKLIST/BOOK[PUBLISHED=$p]/AUTHOR
+          RETURN $a
+      </RESULT>
+  ```
+  - The result would be the following XML document:
+  ```
+  <RESULT> <PUBLISHED>1980</PUBLISHED>
+    <LASTNAME>Feynman</LASTNAME>
+    <LASTNAME>Narayan</LASTNAME>
+  </RESULT>
+  <RESULT> <PUBLISHED>1981</PUBLISHED>
+    <LASTNAME>Narayan</LASTNAME>
+  </RESULT>
+  ```
+  
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

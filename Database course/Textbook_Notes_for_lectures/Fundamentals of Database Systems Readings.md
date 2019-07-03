@@ -1095,7 +1095,7 @@ XPATH AND XQUERY NOTES
   5. /company/project/projectWorker [hours ge 20.0]
   ```
   - returns all projectWorker nodes and their descendant nodes that are children under a path /company/project and have a child node hours with a value greater than 20.0 hours.
-  
+
   - When we need to include attributes in an XPath expression, the attribute name is prefixed by the @ symbol to distinguish it from element (tag) names.
   - It is also possible to use the wildcard symbol * ,which stands for any element, as in the following example, which retrieves all elements that are child elements of the root, regardless of their element type.
   - The main restriction of XPath path expressions is that the path that specifies the pattern also specifies the items to be retrieved. Hence, it is difficult to specify certain conditions on the pattern while separately specifying which result items should be retrieved.
