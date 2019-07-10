@@ -199,6 +199,7 @@ XML World-Countries XPath and XQuery Exercises Extras
   ```
   <country language="French">French Guiana</country>
   ```
+
     - XQuery
     ```XQUERY
     for $country in doc("countries.xml")/countries/country/language
@@ -220,6 +221,7 @@ XML World-Countries XPath and XQuery Exercises Extras
     ...
   </country>
   ```
+
     - XQuery
     ```XQUERY
     for $country in doc("countries.xml")/countries/country
@@ -262,6 +264,7 @@ XML World-Countries XPath and XQuery Exercises Extras
     <LeastPopular>country-name</LeastPopular>
   </LangPair>
   ```
+
     - XQuery
     ```XQUERY
     let $countries :=  doc("countries.xml")//country[count(language) >= 2]
@@ -300,6 +303,7 @@ XML World-Countries XPath and XQuery Exercises Extras
     ...
   </languages>
   ```
+  
     - XQuery
     ```XQUERY
 
