@@ -292,7 +292,7 @@ XML World-Countries XPath and XQuery Exercises Extras
     ```
 
   - Q22 : For each language spoken in one or more countries, create a "language" element with a "name" attribute and one "country" subelement for each country in which the language is spoken. The "country" subelements should have two attributes: the country "name", and "speakers" containing the number of speakers of that language (based on language percentage and the country's population). Order the result by language name, and enclose the entire list in a single "languages" element. For example, your result might look like:
-  ```
+  ```XQUERY
   <languages>
     ...
     <language name="Arabic">
@@ -302,7 +302,6 @@ XML World-Countries XPath and XQuery Exercises Extras
     </language>
     ...
   </languages>
-
   ```
     - XQuery
     ```XQUERY
