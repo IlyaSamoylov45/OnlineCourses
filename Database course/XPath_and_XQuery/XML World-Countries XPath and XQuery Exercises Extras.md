@@ -196,10 +196,6 @@ XML World-Countries XPath and XQuery Exercises Extras
     ```
 
   - Q17 : Return all country-language pairs where the language is spoken in the country and the name of the country textually contains the language name. Return each pair as a country element with language attribute, e.g.,
-  ```
-  <country language="French">French Guiana</country>
-  ```
-
     - XQuery
     ```XQUERY
     for $country in doc("countries.xml")/countries/country/language
@@ -214,14 +210,6 @@ XML World-Countries XPath and XQuery Exercises Extras
     ```
 
   - Q18 : Return all countries that have at least one city with population greater than 7 million. For each one, return the country name along with the cities greater than 7 million, in the format:
-  ```
-  <country name="country-name">
-    <big>city-name</big>
-    <big>city-name</big>
-    ...
-  </country>
-  ```
-
     - XQuery
     ```XQUERY
     for $country in doc("countries.xml")/countries/country
@@ -258,13 +246,6 @@ XML World-Countries XPath and XQuery Exercises Extras
     ```
 
   - Q21 : Find all situations where one country's most popular language is another country's least popular, and both countries list more than one language. (Hint: You may need to explicitly cast percentages as floating-point numbers with xs:float() to get the correct answer.) Return the name of the language and the two countries, each in the format:
-  ```
-  <LangPair language="lang-name">
-    <MostPopular>country-name</MostPopular>
-    <LeastPopular>country-name</LeastPopular>
-  </LangPair>
-  ```
-
     - XQuery
     ```XQUERY
     let $countries :=  doc("countries.xml")//country[count(language) >= 2]
@@ -292,17 +273,6 @@ XML World-Countries XPath and XQuery Exercises Extras
     ```
 
   - Q22 : For each language spoken in one or more countries, create a "language" element with a "name" attribute and one "country" subelement for each country in which the language is spoken. The "country" subelements should have two attributes: the country "name", and "speakers" containing the number of speakers of that language (based on language percentage and the country's population). Order the result by language name, and enclose the entire list in a single "languages" element. For example, your result might look like:
-  ```XQUERY
-  <languages>
-    ...
-    <language name="Arabic">
-      <country name="Iran" speakers="660942"/>
-      <country name="Saudi Arabia" speakers="19409058"/>
-      <country name="Yemen" speakers="13483178"/>
-    </language>
-    ...
-  </languages>
-  ```
     - XQuery
     ```XQUERY
 
