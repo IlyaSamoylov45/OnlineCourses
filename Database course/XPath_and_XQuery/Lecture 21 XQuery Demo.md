@@ -1,4 +1,4 @@
-Lecture 18 XQuery Demo
+Lecture 21 XQuery Demo
   - Titles of books costing less than $90 where "Ullman" is an author
   ```XQuery
   for $b in doc("BookstoreQ.xml")/Bookstore/Book

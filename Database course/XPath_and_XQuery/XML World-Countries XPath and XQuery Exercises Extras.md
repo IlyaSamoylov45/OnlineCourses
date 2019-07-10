@@ -275,5 +275,22 @@ XML World-Countries XPath and XQuery Exercises Extras
   - Q22 : For each language spoken in one or more countries, create a "language" element with a "name" attribute and one "country" subelement for each country in which the language is spoken. The "country" subelements should have two attributes: the country "name", and "speakers" containing the number of speakers of that language (based on language percentage and the country's population). Order the result by language name, and enclose the entire list in a single "languages" element. For example, your result might look like:
     - XQuery
     ```XQUERY
+    <languages>{
+        let $languages := doc("countries.xml")/countries/country/language
+        let $language_names := distinct-values($languages)
+        return
+          for $ln in $language_names
+          order by $ln
+          return
+            <language name="{$ln}">
+            {
+              for $l in $languages
+              where $l = $ln
+              return <country name="{data($l/parent::country/@name)}" speakers="{xs:int($l/parent::country/@population * $l/@percentage div 100)}"/>
+
+            }
+            </language>
+    } </languages>
+
 
     ```
