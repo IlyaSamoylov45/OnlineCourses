@@ -855,7 +855,145 @@ XPATH AND XQUERY NOTES
     7. The built-in function doc(name) returns the root of a named document; the name could be a ﬁle name or a URL. For example, if the university data in our university example is contained in a ﬁle “university.xml”, the following path expression would return all departments at the university: ``` doc(“university.xml”)/university/department``` The function collection(name) is similar to doc, but returns a collection of documents identiﬁed by name.
 
 23.4.3 XQuery
+  - The World Wide Web Consortium (W3C) has developed XQuery as the standard query language for XML.
 
+23.4.3.1 FLWOR Expressions
+  - XQuery queries are modeled after SQL queries, but differ signiﬁcantly from SQL.
+  - They are organized into ﬁve sections: for, let, where, order by, and return : FLWOR (pronounced “ﬂower”)
+  ```XQUERY
+  for $x in /university-3/course
+  let $courseId := $x/@course_id
+  where $x/credits > 3
+  return <course_id> {$courseId} </course_id>
+  ```
+  - The for clause is like the from clause of SQL, and speciﬁes variables that range over the results of XPath expressions. When more than one variable is speciﬁed, the results include the Cartesian product of the possible values the variables can take, just as the SQL from clause does.
+  - The let clause simply allows the results of XPath expressions to be assigned to variable names for simplicity of representation
+  - The where clause, like the SQL where clause, performs additional tests on the joined tuples from the for clause.
+  - The order by clause, like the SQL order by clause, allows sorting of the output.
+  - The return clause allows the construction of results in XML.
+  - A FLWOR query need not contain all the clauses
+  - Similar Query:
+  ```XQUERY
+  for $x in /university-3/course[credits > 3]
+  return <course id> {$x/@course id} </course id>
+  ```
+  - Observe the use of curly brackets (“{}”) in the return clause. When XQuery ﬁnds an element such as ```<course_id>``` starting an expression, it treats its contents as regular XML text, except for portions enclosed within curly brackets, which are evaluated as expressions.
+  - XQuery provides another way of constructing elements using the element and attribute constructors.
+  ```XQuery
+  return element course{
+      attribute course_id{$x/@course_id},
+      attribute dept_name{$x/dept_name},
+      element title{$x/title},
+      element credits{$x/credits}
+  }
+  ```
+
+23.4.3.2 Joins
+  - Joins are speciﬁed in XQuery much as they are in SQL
+  ```XQUERY
+  for $c in /university/course,
+      $i in /university/instructor,
+      $t in /university/teaches
+  where $c/course_id= $t/course_id
+      and $t/IID = $i/IID
+  return <course_instructor> {$c $i} </course_instructor>
+  ```
+  - Same expression using selections specified as XPath selections:
+  ```XQUERY
+  for $c in /university/course,
+      $i in /university/instructor,
+      $t in /university/teaches[ $c/course_id= $t/course_id
+            and $t/IID = $i/IID]
+  return <course_instructor> {$c $i} </course_instructor>
+  ```
+  - XQuery has an interesting deﬁnition of comparison operations on sequences. For example, the expression ```$x/credits > 3``` would have the usual interpretation if the result of $x/credits is a single value, but if the result is a sequence containing multiple values, the expression evaluates to true if at least one of the values is greater than 3. If this behavior is not appropriate, the operators eq, ne, lt, gt, le, ge can be used instead. These raise an error if either of their inputs is a sequence with multiple values.
+
+23.4.3.3 Nested Queries
+  - XQuery FLWOR expressions can be nested in the return clause, in order to generate element nestings that do not appear in the source document.
+  ```XQUERY
+  <university-1>
+  {
+    for $d in /university/department
+    return
+      <department>
+        {$d/*}
+        {for $c in /university/course[dept_name = $d/dept_name]
+            return $c}
+      < /department>
+  }
+  {
+    for $i in /university/instructor
+    return
+      <instructor>
+        {$i/*}
+        {for $c in /university/teaches[IID = $i/IID]
+            return $c/course_id}
+      < /instructor>
+  }
+  </university-1>
+  ```
+  - The syntax $d/* , which refers to all the children of the node (or sequence of nodes) bound to the variable $d.
+  - XQuery provides a variety of aggregate functions such as sum() and count() that can be applied on sequences of elements or values.
+  - While XQuery does not provide a group by construct, aggregate queries can be written by using the aggregate functions on path or FLWOR expressions nested within the return clause.
+  - For example, the following query on the university XML schema ﬁnds the total salary of all instructors in each department:
+  ```XQUERY
+  for $d in /university/department
+  return
+    <department-total-salary>
+      <dept_name> {$d/dept_name} </dept_name>
+      <total_salary> {fn:sum(
+          for $i in /university/instructor[dept_name = $d/dept_name]
+          return $i/salary
+      )} </total salary>
+    < /department-total-salary>
+  ```
+
+23.4.3.4 Sorting of Results
+  - Results can be sorted in XQuery by using the order by clause.
+  ```XQUERY
+  for $i in /university/instructor
+  order by $i/name
+  return <instructor> {$i/*} </instructor>
+  ```
+  - Sorting can be done at multiple levels of nesting.
+  ```XQUERY
+  <university-1> {
+    for $d in /university/department
+    order by $d/dept_name
+    return
+      <department>
+        {$d/*}
+        {for $c in /university/course[dept_name = $d/dept_name]
+        order by $c/course_id
+        return <course> {$c/*} </course> }
+      < /department> }
+  <university-1>
+  ```
+
+23.4.3.5 Functions and Types
+  - XQuery provides a variety of built-in functions, such as numeric functions and string matching and manipulation functions.
+  - XQuery supports user deﬁned functions.
+  - The following user-deﬁned function takes as input an instructor identiﬁer, and returns a list of all courses offered by the department to which the instructor belongs:
+  ```XQUERY
+  declare function local:dept courses($iid as xs:string) as element(course)*{
+     for $i in /university/instructor[IID = $iid],
+        $c in /university/courses[dept_name = $i/dept_name]
+     return $c
+  }
+  ```
+  - The namespace preﬁx xs: used in the above example is predeﬁned by XQuery to be associated with the XML Schema namespace, while the namespace local: is predeﬁned to be associated with XQuery local functions.
+  - XQuery performs type conversion automatically whenever required.
+  - XQuery also provides functions to convert between types
+
+23.4.3.6 Other Features
+  - XQuery offers a variety of other features, such as if-then-else constructs that can be used within return clauses, and existential and universal quantiﬁcation that can be used in predicates in where clauses.
+  ```XQUERY
+  some $e in path satisﬁes P
+  ```
+  - where path is a path expression and P is a predicate that can use $e.
+  - Universal quantiﬁcation can be expressed by using every in place of some.
+  - The query also introduces the syntax $d/* , which refers to all the children of the node (or sequence of nodes) bound to the variable $d.
+  - Similarly, $d/text() gives the text content of an element, without the tags.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XSLT NOTES
