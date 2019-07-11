@@ -807,10 +807,231 @@ Chapter 6.5.3 Updates
   ```SQL
   UPDATE R SET <new-value assignments> WHERE <condition>;
   ```
-  
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 12 Programming Languages for XML
+  - XPath, is a simple language for describing sets of similar paths in a graph of semistructured data.
+  - XQuery is an extension of XPath that adopts something of the style of SQL
+  - XSLT: this language was developed originally as a transformation language, capable of restructuring XML documents or turning them into printable (HTML) documents.
+
+Chapter 12.1 XPath
+
+Chapter 12.1.1 The XPath Data Model
+  - In XPath, the analogous “shape” is sequence of items. An item is either:
+    1. A value of primitive type: integer, real, boolean, or string, for example.
+    2. A node. There are many kinds of nodes, for now :
+      - Documents. These are files containing an XML document
+      - Elements. These are XML elements, including their opening tags, their matched closing tag if there is one, and everything in between
+      - Attributes. These are found inside opening tags
+
+Chapter 12.1.2 Document Nodes
+  -  We can name a file either by giving its local name or a URL if it is remote.
+  -  examples of document nodes include:
+  ```XPath
+  doc("movies.xml")
+  doc("/usr/sally/data/movies. xml")
+  doc("infolab.Stanford.edu/~hector/movies.xml")
+  ```
+  - Every XPath query refers to a document.
+
+Chapter 12.1.3 Path Expressions
+  - Typically, an XPath expression starts at the root of a document and gives a sequence of tags and slashes (/)
+  - As a special case, the root tag T1 for the document is considered a “subelement” of the document node. Thus, the expression /T1 produces a sequence of one item, which is an element node consisting of the entire contents of the document.
+  - The difference may appear subtle; before we applied the expression /T1, we had a document node representing the file, and after applying /T1 to that node we have an element node representing the text in the file.
+
+Chapter 12.1.4 Relative Path Expressions
+  - Relative expressions do not start with a slash.
+
+Chapter 12.1.5 Attributes in Path Expressions
+  - The path expression returns the attribute starID
+  ```
+  /StarMovieData/Star/@starID
+  ```
+
+Chapter 12.1.6 Axes
+  - XPath in fact provides a large number of axes, which are modes of navigation.
+  - Some of the other axes are parent, ancestor (really a proper ancestor), descendant (a proper descendant), next-sibling (any sibling to the right), previous- sibling (any sibling to the left), self, and descendant-or-self.
+
+Chapter 12.1.7 Context of Expressions
+  - Results of expressions are sequences of elements or primitive values.
+
+Chapter 12.1.8 Wildcards
+  - Instead of specifying a tag along every step of a path, we can use a * to say “any tag.”
+
+Chapter 12.1.9 Conditions in Path Expressions
+  - As we evaluate a path expression, we can restrict ourselves to follow only a subset of the paths whose tags match the tags in the expression.
+  - Several other useful forms of condition are:
+    - An integer [i] by itself is true only when applied the ith child of its parent.
+    - A tag [T] by itself is true only for elements that have one or more subelements with tag T.
+    - Similarly, an attribute [A] by itself is true only for elements that have a value for the attribute A.
+  - Interesting : ```/Movies/Movie/Version[1]/@year ``` asks for the year in which the first version of each movie was made, and the result is the sequence "1933" "1984".
+  - ```/Movies/Movie/Version[Star]``` applied to the document returns three Version elements. The condition [Star] is interpreted as “has at least one Star subelement.”
+
+Chapter 12.2 XQuery
+  - XQuery is an extension of XPath that has become a standard for high-level querying of databases containing data in XML form.
+  - XQuery is case sensitive. Therefore let and for need to be written in lower case.
+
+Chapter 12.2.1 XQuery Basics
+   - XQuery uses the same model for values as XPath
+   - XQuery is a functional language, which implies that any XQuery expression can be used in any place that an expression is expected.
+
+Chapter 12.2.2 FLWR Expressions
+  - Clauses of four types, called for-, let-, where-, and return- (FLWR) clauses.
+  - There are options in the order and occurrences of these clauses.
+    1. The query begins with zero or more for- and let-clauses. There can be more than one of each kind, and they can be interlaced in any order.
+    2. Then comes an optional where-clause
+    3. Finally, there is exactly one return-clause.
+  - The simple form of a let-clause is: ```let variable := expression```
+  - The simple form of a for-clause is: ```for variable in expression```
+  - The form of a where-clause is: ```where condition```
+  - The form of the return clause is: ```return expression```
+    - We should not think of the return-clause as a “return-statement,” since it does not end processing of the query.
+
+Chapter 12.2.3 Replacement of Variables by Their Values
+  - Example :  Putting tags around a sequence
+  ```XQUERY
+  let $starSeq := (
+      let $movies := doc("movies.xml")
+      for $m in $movies/Movies/Movie
+      return $m/Version/Star
+  )
+  return <Stars>{$starSeq}</Stars>
+  ```
+
+Chapter 12.2.4 Joins in XQuery
+  - In SQL, we use a from-clause to introduce the needed tuple variables while in XQuery we use a for-clause.
+  - An element is not equal to a different element, even if it looks the same, character-by-character.
+  - There is a built-in function data(E) that extracts the value of an element E.
+
+Chapter 12.2.5 XQuery Comparison Operators
+  - XQuery provides a set of comparison operators that only compare sequences consisting of a single item, and fail if either operand is a sequence of more than one item.
+  - These operators are two-letter abbreviations for the comparisons: eq, ne, It, gt, le, and ge. We could use eq in place of = to catch the case where we are actually comparing a string with several streets or cities.
+  - Example
+  ```
+  let $stars := doc ("stairs, xml")
+  for $s in $stars/Stars/Star
+  where $s/Address/Street eq "123 Maple St." and
+        $s/Address/City eq "Malibu"
+  return $s/Name
+  ```
+  - Unfortunately, the above will not report any star with two or more addresses, even if one of those addresses is 123 Maple St., Malibu because the left sides of the eq operator are not single items, and therefore the comparison fails.  
+
+Chapter 12.2.6 Elimination of Duplicates
+  - Strictly speaking, distinct-values applies to primitive types. It will strip the tags from an element that is a tagged text-string, but it won’t put them back.
+  - The input to distinct-values can be a list of elements and the result a list of strings.
+
+Chapter 12.2.7 Quantification in XQuery
+  - “for all” and “there exists”:
+  ```XQUERY
+  every variable in expressionl satisfies expression2
+  some variable in expressionl satisfies expression2
+  ```
+  - It is rarely necessary to use the “some” version, since most tests in XQuery are existentially quantified anyway.
+
+Chapter 12.2.8 Aggregations
+  - They can be applied to the result of any XQuery expression.
+
+Chapter 12.2.9 Branching in XQuery Expressions
+  - if-then-else expression in XQuery of the form :
+  ```XQUERY
+  if (expressionl) then expression2 else expression3
+  ```
+  - To evaluate this expression, first evaluate expressionl; if it is true, evaluate expression2, which becomes the result of the whole expression. If expressionl is false, the result of the whole expression is expressions.
+  - This expression is not a statement — there are no statements in XQuery, only expressions.
+  - Like the ?: expression in C, there is no way to omit the “else” part. However, we can use as expressions the empty sequence, which is denoted ().
+  - Example : Tagging the versions of King Kong
+  ```XQUERY
+  let $kk := doc("movies.xml")/Movies/Movie[@title = "King Kong"]
+  for $v in $kk/Version
+  return
+        if ($v/@year = max($kk/Version/@year))
+        then <Latest>{$v}</Latest>
+        else <01d>{$v}</01d>
+  ```
+
+Chapter 12.2.10 Ordering the Result of a Query
+  - It is possible to sort the results as part of a FLWR query, if we add an order- clause before the return-clause. ```order list of expressions ```
+
+Chapter 12.3 Extensible Stylesheet Language
+  - XSLT (Extensible Stylesheet Language for Transformations) is a standard of the World-Wide-Web Consortium.
+  - Like XPath or XQuery, we can use XSLT to extract data from documents or turn one document form into another form.
+
+Chapter 12.3.1 XSLT Basics
+  - Like XML Schema, XSLT specifications are XML documents; these specifications are usually called stylesheets.
+  - The tags used in XSLT are found in a namespace, which is http://www.w3.org/1999/XSL/Transform.
+  - Example:
+  ```XSLT
+  <? xml version = "1.0" encoding = "utf-8" ?>
+  <xsl:stylesheet xmlns:xsl = "http://www.w3.org/1999/XSL/Transform">
+  ...
+  ...
+  ...
+  </xsl:stylesheet>
+  ```
+
+Chapter 12.3.2 Templates
+  - A stylesheet will have one or more templates. To apply a stylesheet to an XML document, we go down the list of templates until we find one that matches the root.
+  - Simplest Template : ``` <xsl:template match = "XPath expression">  ```
+  - The XPath expression, which can be either rooted (beginning with a slash) or relative, describes the elements of an XML document to which this template is applied.
+  -  Relative expressions are applied when a template T has within it a tag ```<xsl:apply-templates>```.
+
+Chapter 12.3.3 Obtaining Values From XML Data
+  - The simplest way to extract data from the input is with the value-of tag. ```<xsl:value-of select = "expression" / > ```
+
+Chapter 12.3.4 Recursive Use of Templates
+  - We can ask that a template be applied to each of its subelements, by using the apply-templates tag.
+  - If we want to apply a certain template to only some subset of the subelements, e.g., those with a certain tag, we can use a select expression, as: ```<xsl:apply-templates select = "expression" /> ```
+   - Example :
+   ```XSLT
+   <? xml version = "1.0" encoding = "utf-8" ?>
+   <xsl:stylesheet xmlns:xsl = "http://www.w3.org/1999/XSL/Transform">
+      <xsl:template match = "/Movies">
+        <Movies>
+          <xsl:apply-templates />
+        </Movies>
+      </xsl:template>
+
+      <xsl:template match = "Movie">
+        <Movie title = " <xsl:value-of select = "@title” /> ">
+          <xsl:apply-templates />
+        </Movie>
+      </xsl:template>
+
+      <xsl:template match = "Version">
+        <xsl:apply-templates />
+       </xsl:template>
+
+      <xsl:template match = "Star">
+        <Star name = " <xsl:value-of select = "." /> " />
+      </xsl:template>
+   </xsl:stylesheet>
+   ```
+   - Output:
+   ```XSLT
+   <Movies>
+    <Movie title = "King Kong">
+      <Star name = "Fay Wray" />
+      <Star name = "Jeff Bridges" />
+      <Star name = "Jessica Lange" />
+    </Movie>
+    <Movie title = "Footloose">
+      <Star name = "Kevin Bacon" />
+      <Star name = "John Lithgow" />
+      <Star name = "Sarah Jessica Parker" />
+    </Movie>
+        ... more movies
+    </Movies>
+   ```
+
+Chapter 12.3.5 Iteration in XSLT
+   - We can put a loop within a template that gives us freedom over the order in which we visit certain subelements of the element to which the template is being applied.
+   - The for-each tag creates the loop, with a form: ```<xsl:for-each select = "expression">```
+
+Chapter 12.3.6 Conditionals in XSLT
+  -  The form of this tag is: ```<xsl:if test = "boolean expression">```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

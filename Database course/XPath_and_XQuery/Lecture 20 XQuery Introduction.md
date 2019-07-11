@@ -5,11 +5,11 @@ Lecture 20 XQuery Introduction
     - XPath is one type of expression
   - XQuery : FLWOR expression
     ```
-    FOR $var in expr <- iterator variables
-    LET $var := expr <- assignment
-    WHERE condition <- filter
-    ORDER BY <- sorts result
-    RETURN expr
+    for $var in expr <- iterator variables
+    let $var := expr <- assignment
+    where condition <- filter
+    order by <- sorts result
+    return expr
     ```
     - All except return are optional
     - FOR and LET can be repeated and interleaved
