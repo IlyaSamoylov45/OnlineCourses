@@ -1143,11 +1143,12 @@ XPATH AND XQUERY NOTES
         WHERE $x/hours gt 20.0 AND $y.ssn = $x.ssn
         RETURN <res> $y/employeeName/firstName, $y/employeeName/lastName, $x/hours </res>
   ```
-  - The $x variable is bound to each projectWorker element that is a child of project number 5,whereas the $yvariable is bound to each employeeelement.
-  ```
+  - The $x variable is bound to each projectWorker element that is a child of project number 5,whereas the $yvariable is bound to each employee element.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL DESIGN THEORY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
