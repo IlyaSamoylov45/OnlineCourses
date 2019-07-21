@@ -12,7 +12,7 @@ Multivalued Dependencies Quiz
 
   - Q2 : Here is an instance of a relation R(A,B,C,D):
   | A  | B  | C  | D  |
-  | -- | -- | -- | -- |                      
+  | --- | --- | --- | --- |                      
   | 1  | 2  | 3  | 4  |
   | 1  | 3  | 3  | 3  |
   | 1  | 3  | 3  | 4  |
@@ -29,7 +29,7 @@ Multivalued Dependencies Quiz
 
   - Q4 : Here is an instance of a relation R(A,B,C,D):
   | A  | B  | C  | D  |
-  | -- | -- | -- | -- |                      
+  | --- | --- | --- | --- |                      
   | 1  | 2  | 3  | 7  |
   | 1  | 2  | 3  | 8  |
   | 4  | 2  | 5  | 7  |
