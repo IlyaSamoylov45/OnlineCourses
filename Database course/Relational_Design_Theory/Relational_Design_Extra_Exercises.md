@@ -1,5 +1,6 @@
 Relational Design Extra Exercises
   - Q1 : Consider a relation R(A,B,C) and suppose R contains the following four tuples:
+
     <table style="text-align: left;" border="1" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
@@ -29,6 +30,7 @@ Relational Design Extra Exercises
         </tr>
       </tbody>
     </table>    
+    
   - For each of the following functional dependencies, state whether or not the dependency is satisfied by this relation instance.
     - A → B : ```False```
     - A → C : ```True```
