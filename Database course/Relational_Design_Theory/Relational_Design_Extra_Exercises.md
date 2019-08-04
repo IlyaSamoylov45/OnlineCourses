@@ -1,5 +1,5 @@
 Relational Design Extra Exercises
-  - <h3>Functional Dependencies</h3>
+  - Functional Dependencies
   - Q1 : Consider a relation R(A,B,C) and suppose R contains the following four tuples:
     <table style="text-align: left; width: 61px; height: 144px;" border="1" cellpadding="2" cellspacing="2">
       <tbody>
