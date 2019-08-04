@@ -1,6 +1,6 @@
 Relational Design Extra Exercises
   - Q1 : Consider a relation R(A,B,C) and suppose R contains the following four tuples:
-    <table style="text-align: left; width: 61px; height: 144px;" border="1" cellpadding="2" cellspacing="2">
+    <table style="text-align: left;" border="1" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td style="padding: 4px; font-weight: bold;">A<br> </td>
@@ -50,7 +50,7 @@ Relational Design Extra Exercises
     - CD → E
     - E → A
     - B → D
-    - Specify all minimal keys for R.
+  - Specify all minimal keys for R.
     ```
 
     ```
