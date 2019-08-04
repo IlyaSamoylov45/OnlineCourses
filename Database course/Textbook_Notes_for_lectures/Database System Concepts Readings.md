@@ -831,10 +831,10 @@ Chapter 5.1.9 Discussion and Summary of SQL Queries
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-23.4.1 Tree Model of XML
+Chapter 23.4.1 Tree Model of XML
   - The terms parent, child, ancestor, descendant, and siblings are used in the tree model of XML data.
 
-23.4.2 XPath
+Chapter 23.4.2 XPath
   - XPath addresses parts of an XML document by means of path expressions.
   - Can be viewed as an extension of the simple path expressions in object oriented and object-relational databases
   - A path expression in XPath is a sequence of location steps separated by “/”
@@ -854,10 +854,10 @@ XPATH AND XQUERY NOTES
     6. A step in the path need not just select from the children of the nodes in the current node set. “//”, described above, is a short form for specifying “all descendants,” while “..” speciﬁes the parent.
     7. The built-in function doc(name) returns the root of a named document; the name could be a ﬁle name or a URL. For example, if the university data in our university example is contained in a ﬁle “university.xml”, the following path expression would return all departments at the university: ``` doc(“university.xml”)/university/department``` The function collection(name) is similar to doc, but returns a collection of documents identiﬁed by name.
 
-23.4.3 XQuery
+Chapter 23.4.3 XQuery
   - The World Wide Web Consortium (W3C) has developed XQuery as the standard query language for XML.
 
-23.4.3.1 FLWOR Expressions
+Chapter 23.4.3.1 FLWOR Expressions
   - XQuery queries are modeled after SQL queries, but differ signiﬁcantly from SQL.
   - They are organized into ﬁve sections: for, let, where, order by, and return : FLWOR (pronounced “ﬂower”)
   ```XQUERY
@@ -888,7 +888,7 @@ XPATH AND XQUERY NOTES
   }
   ```
 
-23.4.3.2 Joins
+Chapter 23.4.3.2 Joins
   - Joins are speciﬁed in XQuery much as they are in SQL
   ```XQUERY
   for $c in /university/course,
@@ -908,7 +908,7 @@ XPATH AND XQUERY NOTES
   ```
   - XQuery has an interesting deﬁnition of comparison operations on sequences. For example, the expression ```$x/credits > 3``` would have the usual interpretation if the result of $x/credits is a single value, but if the result is a sequence containing multiple values, the expression evaluates to true if at least one of the values is greater than 3. If this behavior is not appropriate, the operators eq, ne, lt, gt, le, ge can be used instead. These raise an error if either of their inputs is a sequence with multiple values.
 
-23.4.3.3 Nested Queries
+Chapter 23.4.3.3 Nested Queries
   - XQuery FLWOR expressions can be nested in the return clause, in order to generate element nestings that do not appear in the source document.
   ```XQUERY
   <university-1>
@@ -948,7 +948,7 @@ XPATH AND XQUERY NOTES
     < /department-total-salary>
   ```
 
-23.4.3.4 Sorting of Results
+Chapter 23.4.3.4 Sorting of Results
   - Results can be sorted in XQuery by using the order by clause.
   ```XQUERY
   for $i in /university/instructor
@@ -970,7 +970,7 @@ XPATH AND XQUERY NOTES
   <university-1>
   ```
 
-23.4.3.5 Functions and Types
+Chapter 23.4.3.5 Functions and Types
   - XQuery provides a variety of built-in functions, such as numeric functions and string matching and manipulation functions.
   - XQuery supports user deﬁned functions.
   - The following user-deﬁned function takes as input an instructor identiﬁer, and returns a list of all courses offered by the department to which the instructor belongs:
@@ -985,7 +985,7 @@ XPATH AND XQUERY NOTES
   - XQuery performs type conversion automatically whenever required.
   - XQuery also provides functions to convert between types
 
-23.4.3.6 Other Features
+Chapter 23.4.3.6 Other Features
   - XQuery offers a variety of other features, such as if-then-else constructs that can be used within return clauses, and existential and universal quantiﬁcation that can be used in predicates in where clauses.
   ```XQUERY
   some $e in path satisﬁes P
@@ -999,10 +999,14 @@ XPATH AND XQUERY NOTES
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   - NONE
-  
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL DESIGN THEORY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 8.1 Features of Good Relational Designs
+
+Chapter 8.1.1 Design Alternative: Larger Schemas
+  -
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
