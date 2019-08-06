@@ -1153,6 +1153,112 @@ XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL DESIGN THEORY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 15.1 Informal Design Guidelines for Relation Schemas
+  - Informal guidelines that may be used as measures to determine the quality of relation schema design:
+    - Making sure that the semantics of the attributes is clear in the schema
+    - Reducing the redundant information in tuples
+    - Reducing the NULL values in tuples
+    - Disallowing the possibility of generating spurious tuples
+
+Chapter 15.1.1 Imparting Clear Semantics to Attributes in Relations
+  - The semantics of a relation refers to its meaning resulting from the interpretation of attribute values in a tuple
+  - In general,the easier it is to explain the semantics of the relation,the better the relation schema design will be.
+  - Guideline 1:
+    - Design a relation schema so that it is easy to explain its meaning. Do not combine attributes from multiple entity types and relationship types into a single relation.
+
+Chapter 15.1.2 Redundant Information in Tuples and Update Anomalies
+  - One goal of schema design is to minimize the storage space used by the base relations (and hence the corresponding files).
+  - Insertion Anomalies
+    - Insertion anomalies can be differentiated into two types
+      - To insert a new employee tuple into EMP_DEPT, we must include either the attribute values for the department that the employee works for, or NULLs
+      - It is difficult to insert a new department that has no employees as yet in the EMP_DEPT relation.
+  - Deletion Anomalies:
+    - The problem of deletion anomalies is related to the second insertion anomaly situation just discussed. If we delete from EMP_DEPT an employee tuple that happens to represent the last employee working for a particular department, the information concerning that department is lost from the database.
+  - Modification Anomalies:
+    - In EMP_DEPT, if we change the value of one of the attributes of a particular department—say,the manager of department 5—we must update the tuples of all employees who work in that department; otherwise, the database will become inconsistent.
+  - Guideline 2:
+    - Design the base relation schemas so that no insertion, deletion, or modification anomalies are present in the relations. If any anomalies are present,4 note them clearly and make sure that the programs that update the database will operate correctly.
+
+Chapter 15.1.3 NULL Values in Tuples
+  - In some schema designs we may group many attributes together into a “fat” relation. If many of the attributes do not apply to all tuples in the relation, we end up with many NULLs in those tuples.
+  - This can waste space at the storage level and may also lead to problems with understanding the meaning of the attributes and with specifying JOIN operations at the logical level.
+  - Guideline 3:
+    - As far as possible, avoid placing attributes in a base relation whose values may frequently be NULL.
+    - If NULLs are unavoidable, make sure that they apply in exceptional cases only and do not apply to a majority of tuples in the relation.
+
+Chapter 15.1.4 Generation of Spurious Tuples
+  - Guideline 4:
+    - Design relation schemas so that they can be joined with equality conditions on attributes that are appropriately related (primary key, foreign key) pairs in a way that guarantees that no spurious tuples are generated.
+    - Avoid relations that contain matching attributes that are not (foreign key, primary key) combinations because joining on such attributes may produce spurious tuples.
+
+Chapter 15.1.5 Summary and Discussion of Design Guidelines
+  - The problems we pointed out, which can be detected without additional tools of analysis, are as follows:
+    - Anomalies that cause redundant work to be done during insertion into and modification of a relation, and that may cause accidental loss of information during a deletion from a relation
+    - Waste of storage space due to NULLs and the difficulty of performing selections, aggregation operations, and joins due to NULL values
+    - Generation of invalid and spurious data during joins on base relations with matched attributes that may not represent a proper (foreign key, primary key) relationship
+  - The strategy for achieving a good design is to decompose a badly designed relation appropriately.
+
+Chapter 15.2 Functional Dependencies
+  - The single most important concept in relational schema design theory is that of a functional dependency.
+
+Chapter 15.2.1 Definition of Functional Dependency
+  - Definition:
+    - A functional dependency, denoted by X → Y, between two sets of attributes X and Y that are subsets of R specifies a constraint on the possible tuples that can form a relation state r of R. The constraint is that, for any two tuples t1 and t2 in r that have t1[X] = t2[X],they must also have t1[Y] = t2[Y].
+  - The abbreviation for functional dependency is FD or f.d.
+  - The set of attributes X is called the left-hand side of the FD, and Y is called the right-hand side.
+  - Note the following:
+    - If a constraint on R states that there cannot be more than one tuple with a given X-value in any relation instance r(R)—that is, X is a candidate key of R—this implies that X → Y for any subset of attributes Y of R (because the key constraint implies that no two tuples in any legal state r(R) will have the same value of X).If X is a candidate key of R, then X→R.
+    - If X→Y in R, this does not say whether or not Y→X in R.
+  - A functional dependency is a property of the semantics or meaning of the attributes.
+  - Relation extensions r(R) that satisfy the functional dependency constraints are called legal relation states(or legal extensions) of R.
+  - Example:
+    1. Ssn → Ename
+    2. Pnumber → {Pname, Plocation}
+    3. {Ssn, Pnumber} → Hours
+  - A functional dependency is a property of the relation schema R, not of a particular legal relation state r of R. Therefore, an FD cannot be inferred automatically from a given relation extension r but must be defined explicitly by someone who knows the semantics of the attributes of R.
+  - Although at first glance we may think that Text → Course, we cannot confirm this unless we know that it is true for all possible legal states of TEACH.
+  - It is, however, sufficient to demonstrate a single counterexample to disprove a functional dependency. For example, because ‘Smith’ teaches both ‘Data Structures’ and ‘Data Management,’ we can conclude that Teacher does not functionally determine Course.
+  - Given a populated relation, one cannot determine which FDs hold and which do not unless the meaning of and the relationships among the attributes are known.
+  - One can, however, emphatically state that a certain FD does not hold if there are tuples that show the violation of such an FD.
+
+Chapter 15.5 Boyce-Codd Normal Form
+  - Boyce-Codd normal form (BCNF) was proposed as a simpler form of 3NF, but it was found to be stricter than 3NF. That is, every relation in BCNF is also in 3NF; however, a relation in 3NF is not necessarily in BCNF.
+  - Definition: A relation schema R is in BCNF if whenever a nontrivial functional dependency X → A holds in R, then X is a superkey of R.
+  - Achieving the normalization status of just 1NF or 2NF is not considered adequate, since they were developed historically as stepping stones to 3NF and BCNF.
+  - Example:
+    - FD1: {Student, Course} → Instructor
+    - FD2: Instructor → Course
+    - Note that {Student, Course} is a candidate key for this relation
+    - Hence this relation is in 3NF but not BCNF. Decomposition of this relation schema into two schemas is not straightforward because it may be decomposed into one of the three following possible pairs:
+      1. {Student, Instructor} and {Student, Course}
+      2. {Course, Instructor} and {Course, Student}
+      3. {Instructor, Course} and {Instructor, Student}
+
+Chapter 15.6 Multivalued Dependency and Fourth Normal Form
+  - Informally, whenever two independent 1:N relationships A:B and A:C are mixed in the same relation, R(A,B,C), an MVD may arise.
+
+Chapter 15.6.1 Formal Definition of Multivalued Dependency
+  - Definition:
+    - A multivalued dependency X→ →Y specified on relation schema R, where X and Y are both subsets of R, specifies the following constraint on any relation state r of R:If two tuples t1 andt2 exist in r such that t1[X] = t2[X],then two tuples t3 and t4 should also exist in r with the following properties, where we use Z to denote (R – (X∪Y)):
+      - t3[X] = t4[X] = t1[X] = t2[X].
+      - t3[Y] = t1[Y] and t4[Y] = t2[Y].
+      - t3[Z] = t2[Z] and t4[Z] = t1[Z].
+  - Whenever X →→ Y holds, we say that X multidetermines Y. Because of the symmetry in the definition, whenever X →→ Y holds in R, so does X →→ Z. Hence, X →→ Y implies X→→Z, and therefore it is sometimes written as X →→ Y|Z.
+  - An MVD X →→ Y in R is called a trivial MVD if
+    - a) Y is a subset of X, or
+    - b) X ∪ Y = R.
+    - An MVD that satisfies neither (a) nor (b) is called a nontrivial MVD.
+  - A trivial MVD will hold in any relation state r of R; it is called trivial because it does not specify any significant or meaningful constraint on R.
+  - Notice that relations containing nontrivial MVDs tend to be all-key relations—that is, their key is all their attributes taken together. Furthermore, it is rare that such all-key relations with a combinatorial occurrence of repeated values would be designed in practice.
+  - Recognition of MVDs as a potential problematic dependency is essential in relational design.
+  - Fourth normal form (4NF), which is violated when a relation has undesirable multivalued dependencies, and hence can be used to identify and decompose such relations.
+  - The following points:
+    - An all-key relation is always in BCNF since it has no FDs.
+    - An all-key relation which has no FDs but has the MVD Ename →→ Pname | Dname, is not in 4NF.
+    - A relation that is not in 4NF due to a nontrivial MVD must be decomposed to convert it into a set of relations in 4NF.
+    - The decomposition removes the redundancy caused by the MVD. 
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,30 @@
+Boyce-Codd Normal Form Part 2
+  - BCNF Decomposition algorithm
+    - Input : relation R and FDs for R
+    - Output: decomposition of R into BCNF relations with "lossless join"
+    - Computes keys for R : using FDs
+    - Repeat until all keys are in BCNF :
+      - Pick any R with A → B that violates BCNF
+      - Decompose R into R1(A,b) and R2(A,rest)
+      - Compute FDs for R1 and R2
+      - Compute keys for R1 and R2
+    - BCNF Decomposition Example
+      - Student(SSN, sName, address, HScode, HSname, HScity, GPA, priority)
+        - SSN → sName,address,GPA
+        - GPA → priority
+        - HSCode → HSname,HScity
+        - keys : {SSN,HScode}
+        - Step 1 using Student(SSN, sName, address, HScode, HSname, HScity, GPA, priority):
+          - S1(HSCode,HSname,HScity)
+          - S2(SSN, sName, address, HScode, GPA, priority)
+        - Step 2 using S2(SSN, sName, address, HScode, GPA, priority):
+          - S3(GPA, priority)
+          - S4(SSN, sName, address, HScode, GPA)
+        - Step 3 using S4(SSN, sName, address, HScode, GPA):
+          - S5(SSN, sName, address, GPA)
+          - S6(SSN, HScode)
+      - Solution :
+        - S1(HSCode,HSname,HScity)
+        - S3(GPA, priority)
+        - S5(SSN, sName, address, GPA)
+        - S6(SSN, HScode) 

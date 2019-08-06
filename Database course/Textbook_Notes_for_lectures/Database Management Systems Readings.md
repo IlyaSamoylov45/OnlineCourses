@@ -879,10 +879,10 @@ Chapter 5.6.5 Disallowing Null Values
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 XPATH AND XQUERY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-27.7 XQUERY: QUERYING XML DATA
+Chapter 27.7 XQUERY: QUERYING XML DATA
   - XQuery is the W3C standard query language for XML data
 
-27.7.1 Path Expressions
+Chapter 27.7.1 Path Expressions
   ```XQUERY
   FOR
     $1 IN doc(www.ourbookstore.com/books.xml)//AUTHOR/LASTNAME
@@ -895,7 +895,7 @@ XPATH AND XQUERY NOTES
   <RESULT><LASTNAME>Narayan </LASTNAME></RESULT>
   ```
 
-27.7.2 FLWR Expressions
+Chapter 27.7.2 FLWR Expressions
   - Basic form of an XQuery consists of FLWR : FOR, LET, WHERE and RETURN clauses
   - The FOR and LET clauses bind variables to values through path expressions. These values are qualified by the WHERE clause, and the result XML fragment is constructed by the RETURN clause.
   - FOR binds a variable to each element specified by the path expression, LET binds a variable to the whole collection of element.
@@ -935,7 +935,7 @@ XPATH AND XQUERY NOTES
     <RESULT> $a/FIRSTNAME, $a/LASTNAME </RESULT>
   ```
 
-27.7.3 Ordering of Elements
+Chapter 27.7.3 Ordering of Elements
   - XML data consists of ordered documents and so the query language must return data in some order.
   - If we desire a different order, we can explicitly order the output as shown in the following query, which returns TITLE elements sorted lexicographically.
   ```XQUERY
@@ -945,7 +945,7 @@ XPATH AND XQUERY NOTES
   SORT BY TITLE
   ```
 
-27.7.4 Grouping and Generation of Collection Values
+Chapter 27.7.4 Grouping and Generation of Collection Values
   - Suppose that for each year we want to find the last names of authors who wrote a book published in that year. We group by year of publication and generate a list of last names for each year:
   ```XQUERY
   FOR $p IN DISTINCT
@@ -972,10 +972,71 @@ XPATH AND XQUERY NOTES
 XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   - NONE
-  
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL DESIGN THEORY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 19.1 INTRODUCTION TO SCHEMA REFINEMENT
+  - Although decomposition can eliminate redundancy, it can lead to problems of its own and should be used with caution.
+
+Chapter 19.1.1 Problems Caused by Redundancy
+  - Storing the same information redundantly, that is, in more than one place within a database, can lead to several problems:
+    - Redundant Storage: some information is stored repeatedly
+    - Update Anomalies: If one copy of such repeated data is updated, an inconsistency is created unless all copies are similarly updated.
+    - Insertion Anomalies: It must not be possible to store certain information unless some other, unrelated, information is stored as well.
+    - Deletion Anomalies: It may not be possible to delete certain information without losing some other, unrelated, information as well.
+  - Ideally, we want schemas that do not commit redundancy, but at the very least we want to be able to identify schemas that do allow redundancy.
+  - Even if we choose to accept a schema with some of these drawbacks, perhaps owing to performance considerations, we want to male an informed decision.
+  - It is worth considering whether the use of null values can address some of these problems.  They cannot provide a complete solution, but they can provide some help.
+
+Chapter 19.1.2 Decompositions
+  - Intuitively, redundancy arises when a relational schema forces an association between attributes that is not natural.
+  - Functional dependencies can be used to identify such situations and suggest refinements to the schema.
+  - The essential idea is that many problems arising from redundancy can be addressed by replacing a relation with a collection of smaller relations.
+
+Chapter 19.1.3 Problems Related to Decomposition
+  - Unless we are careful decomposing a relation schema can create some problems than it solves. Two important questions must be asked repeatedly:
+    1. Do we need to decompose a relation?
+    2. What problems (if any) does a given decomposition cause?
+  - Two properties of decompositions are of particular interest. The lossless-join property enables us to recover any instance of the decomposed relation from corresponding instances of the smaller relations. The dependency-preservation property enables us to enforce any constraint on the original relation by simply enforcing some constraints on each of the smaller relations.
+  -  In some situations, decomposition could actually improve performance. This happens, for example, if most queries and updates examine only one of the decomposed relations, which is smaller than the original relation.
+
+Chapter 19.2 FUNCTIONAL DEPENDENCIES
+  - An FD X → Y essentially says that if two tuples agree on the values in attributes X, they must also agree on the values in attributes Y.
+
+Chapter 19.3 REASONING ABOUT FDS
+  - We say that an FD f is implied by a given set F of FDs if f holds on every relation instance that satisfies all dependencies in F; that is, f holds whenever all FDs in F hold.
+
+Chapter 19.3.1 Closure of a Set of FDs
+  -  The following three rules, called Armstrong's Axioms, can be applied repeatedly to infer all FDs implied by a set F of FDs. We use X, Y, and Z to denote sets of attributes over a relation schema R:
+    - Reflexivity: If X subset Y then X → Y
+    - Augmentation: X → Y, then XZ → YZ for any Z
+    - Transitivity: X → Y and Y → Z then X → Z
+  - Some additional rules while reasoning about P+
+    - Union: If X → Y and X → Z, then X → YZ.
+    - Decomposition: If X → YZ, then X → Y and X → Z.
+
+Chapter 19.3.2 Attribute Closure
+  - If we just want to check whether a given dependency, say, X → Y, is in the closure of a set F of FDs, we can do so efficiently without computing F+.
+
+Chapter 19.4.1 Boyce Codd Normal Form
+  - R is in Boyce-Codd normal form if, for every FD X → A in F, one of the following statements is true:
+    - A contained in X that is it is a trivial FD or X is a superkey
+  - BCNF ensures that no redundancy can be detected using FD information alone.
+  - If a relation is in BCNF, every field of every tuple records a piece of information that cannot be inferred (using only FDs) from the values in all other fields in (all tuples of) the relation instance.
+
+Chapter 19.6.1 Decomposition into BCNF
+  - An algorithms for decomposing a relation schema R with a set of FDs F into a collection of BCNF relation schemas:
+    1. Suppose that R is not in BCNF. Let X exists in R, A be a single attribute in R, and X → A be an FD that causes a violation of BCNF. Decompose R into R - A and XA.
+    2. If either R - A or XA is not in BCN.F, decompose then further by a recursive application of this algorithm.
+  - Suppose several dependencies violate BCNF. Depending on which of these dependencies we choose to guide the next decomposition step, we may arrive at quite different collections of BCNF relations.
+  - Sometimes, there simply is no decomposition into BCNF that is dependency preserving.
+
+Chapter 19.8.1 Multivalued Dependencies
+
+Chapter 19.8.2 Fourth Normal Form
+  - If a relation schema is in BCNF, and at least one of its keys consists of a single attribute, it is also in 4NF.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,34 @@
+Functional Dependencies Part 1
+  - Relation Design by Decomposition
+    - "Mega" Relations + properties of data
+    - System decomposes based on properties
+    - Final set of relations satisfies normal form
+      - No anomalies and no lost information
+  - Properties and Normal Forms
+    - Functional Dependencies => Boyce Codd Normal Form
+    - Multivalued dependencies => Fourth Normal Form
+  - Functional Dependencies are generally a useful concept
+    - Data storage compression
+    - Reasoning about queries - optimization
+  - Example : College Application Info
+    - Student(SSN,sName,address,HSCode,HSname,HScity,GPA,priority)
+    - Apply(SSN,cName,state,date,major)
+  - Focus on student
+    - Suppose priority is determined by GPA
+      - GPA > 3.8 priority 1
+      - 3.3 < GPA <= 3.8 priority 2
+      - GPA <= 3.3 priority 3
+    - Two tuples with same GPA have same priority
+      - ∀t,u ∈ student:
+        - t.GPA = u.GPA → t.priority = u.priority
+        - GPA → priority
+      - A → B:
+        - ∀t,u ∈ R
+        - t.A = u.A → t.B = u.B
+      - A1, A2, . . ., An → B1, B2, . . ., Bm:
+        - ∀t,u ∈ R
+        - t[A1, A2, . . ., An] = u[A1, A2, . . ., An] → t[B1, B2, . . ., Bn] = u[B1, B2, . . ., Bn]
+  - Functional Dependency
+    - Based on knowledge of real world
+    - All instances of relations must adhere
+    

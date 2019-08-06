@@ -1,0 +1,41 @@
+Functional Dependencies Part 3
+  - Functional Dependencies and key
+    - Relation with no duplicates R(A, B)
+    - Suppose A → all attributes then it is a key since an attribute determines every other attribute
+  - Vocab
+    - Trivial Functional Dependency
+      - A → B : B ⊆ A
+    - Nontrivial Functional Dependency
+      - A → B : B ⊈ A
+    - Completely Nontrivial FD
+      - A → B : B ⊈ A ⋂ B = ∅
+  - Rules for Functional Dependencies
+    - Splitting rule:
+      - A1 → B1, B2, . . ., Bn => A → B1,  A → B2, . . ., A → Bn
+      - We can't split the left-hand side
+        - HSname, HScity → HScode
+    - Combining rule
+      - A → B1, A → B2, . . ., Bn => A → B1, B2, . . ., Bn
+    - Trivial Dependency Rule:
+      - A → B and B ⊆ A
+        - A → B then  A → A U B
+        - A → B then  A → A ⋂ B
+    - Transitive Rule
+      - A → B, B → C, then A → C
+    - Closure of Attributes
+      - Given relation FDs, set of attributes A
+      - Find all B such that A → B
+      - A+ {A1, . . . , An}+
+      - Start with {A1, . . . , An} and repeat until no change
+    - Closure example:
+      - Student(SSN,sName,address,HSCode,HSname,HScity,GPA,priority)
+        - SSN → sName,address,GPA
+        - GPA → priority
+        - HSCode → HSname,HScity
+          - {SSN, HSCode}+ => all attributes => key
+    - Closure and key
+      - Is A a key for R? -> FD
+        - Compute A+ If all attributes then A is a key
+      - How can we find all keys given a set of FDs?
+        - Consider every subset of attributes
+        - A+ -> all attributes : key

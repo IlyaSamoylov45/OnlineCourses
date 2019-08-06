@@ -1,0 +1,14 @@
+Multivalued dependencies & 4th Normal Form Part 1
+  - Example : College application info
+    - Apply(SSN, cName, Hobby)
+    - FDs? No
+    - Keys : All attributes
+    - BCNF? : Yes
+    - Good Design ? 5 Colleges and 6 Hobbies -> 30 types
+  - Multivalued Dependency
+    - Based on Knowledge of real world
+    - All instances of relation must adhere
+      - R : A ↠ B for A1, ... , An and B1, ... , Bn
+      - ∀t,u ∈ R
+      - t[A1, A2, . . ., An] = u[A1, A2, . . ., An] then ∃v ∈ R : v[A1, A2, . . ., An] = t[A1, A2, . . ., An] and v[B1, B2, . . ., Bn] = t[B1, B2, . . ., Bn] and v[rest] = u[rest]
+    - Sometimes called tuple generating dependencies
