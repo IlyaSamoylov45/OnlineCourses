@@ -1040,7 +1040,157 @@ XSLT NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 RELATIONAL DESIGN THEORY NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 3 Design Theory for Relational Databases
+  - Functional dependencies are a generalization of the idea of a key for a relation.
 
+Chapter 3.1 Functional Dependencies
+  - The most common constraint is the “functional dependency,” a statement of a type that generalizes the idea of a key for a relation.
+
+Chapter 3.1.1 Definition of Functional Dependency
+  - A functional dependency (FD) on a relation R is a statement of the form “If two tuples of R agree on all of the attributes A1, A2, . . . , An (i.e., the tuples have the same values in their respective components for each of these attributes), then they must also agree on all of another list of attributes B1, B2 , . . . , Bm.
+  - We write this FD formally as A1, A2, . . . , An → B1, B2, . . . , Bm and say : A1, A2, . . . , An functionally determines  B1, B2, . . . , Bm.
+  - It is common for the right side of an FD to be a single attribute.
+
+Chapter 3.1.2 Keys of Relations
+  - We say a set of one or more attributes {A1, A2, . . . , An} is a key for a relation R if:
+    1. Those attributes functionally determine all other attributes of the relation. That is, it is impossible for two distinct tuples of R to agree on all of A1, A2, . . ., An.
+    2. No proper subset of {A1, A2, . . . , An} functionally determines all other attributes of R; i.e., a key must be minimal.
+  - {year, starName} is not a key because we could have a star in two movies in the same year; therefore year, starName → title is not an FD.
+  - What Is “Functional” About Functional Dependencies?
+    - A1, A2, . . . , An → B is called a “functional” dependency because in principle there is a function that takes a list of values, one for each of attributes A1, A2, . . . , An and produces a unique value (or no value at all) for B.
+
+Chapter 3.1.3 Superkeys
+  - A set of attributes that contains a key is called a superkey, short for “superset of a key.”
+  - Note that every superkey satisfies the first condition of a key: it functionally determines all other attributes of the relation. However, a superkey need not satisfy the second condition: minimality.
+
+Chapter 3.2 Rules About Functional Dependencies
+  - Suppose we are told of a set of FD’s that a relation satisfies. Often, we can deduce that the relation must satisfy certain other FD’s.
+
+Chapter 3.2.1 Reasoning About Functional Dependencies
+  - FD’s often can be presented in several different ways, without changing the set of legal instances of the relation. We say:
+    - Two sets of FD’s 5 and T are equivalent if the set of relation instances satisfying S is exactly the same as the set of relation instances satisfying T.
+    - More generally, a set of FD’s S follows from a set of FD’s T if every relation instance that satisfies all the FD’s in T also satisfies all the FD’s in S.
+
+Chapter 3.2.2 The Splitting/Combining Rule
+  - A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to the set of FD’s:
+  ```
+  A1, A2, . . . , An → B1,
+  A1, A2, . . . , An → B2,
+  . . .
+  A1, A2, . . . , An → Bn
+  ```
+  - The above is why we may split attributes on the right side so that only one attribute appears on the right of each FD.
+  - The equivalence above can be used in two ways
+    - We can replace an FD A1, A2, . . . , An → B1, B2, . . . , Bm by a set of FD’s   A1, A2, . . . , An → Bi for i = 1,2,... ,m. This transformation we call the splitting rule.
+    - We can replace a set of FD’s A1, A2, . . . , An → Bi for i = 1,2,... , m by the single FD A1, A2, . . . , An → B1, B2, . . . , Bm. We call this transformation the combining rule.
+  - Example:
+    ```
+    title year → length
+    title year → genre
+    title year → studioName
+    ```
+    - is equivalent to the single FD: ```title year → length genre studioName```
+  - There is no splitting rule for left sides
+  - Example:
+    ```
+    title year → length
+    ```
+    - If we try to split the left side into:
+    ```
+    title → length
+    year → length
+    ```
+    - Then we get two false FD’s. That is, title does not functionally determine length, since there can be several movies with the same title (e.g., King Kong) but of different lengths.
+
+Chapter 3.2.3 Trivial Functional Dependencies
+  - A trivial FD has a right side that is a subset of its left side.
+  - ```title year → length``` is a trivial FD, as is ```title → title```
+  - There is an intermediate situation in which some, but not all, of the attributes on the right side of an FD are also on the left. This FD is not trivial, but it can be simplifed by removing from the right side of an FD those attributes that appear on the left.
+    - The FD A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to A1, A2, . . . , An → C1, C2, . . . , Ck where the C’s are all those B’s that are not also A’s.
+    - This rule is called the trivial-dependency rule.
+
+Chapter 3.2.4 Computing the Closure of Attributes
+  - The closure of {A1, A2, . . . , An} under the FD’s in S is the set of attributes B such that every relation that satisfies all the FD’s in set S also satisfies A1, A2, . . . , An → B.
+  - That is A1, A2, . . . , An → B follows from the FDs of S.
+  - Algorithm for the Closure of a Set of Attributes:
+    - INPUT: A set of attributes {A1, A2, . . . , An} and a set of FD’s S.
+    - OUTPUT: The closure {A1, A2, . . . , An}+.  
+    - METHOD:
+      1. If necessary, split the FD’s of S, so each FD in S has a single attribute on the right.
+      2. Let X be a set of attributes that eventually will become the closure. Initialize X to be {A1, A2, . . . , An}.
+      3. Repeatedly search for some FD B1, B2, . . . , Bm → C such that B1, B2, . . . , Bm are in the set of attributes X, but C is not. Add C to the set X and repeat the search. Since X can only grow, and the number of attributes of any relation schema must be finite, eventually nothing more can be added to X, and this step ends.
+      4. The set X, after no more attributes can be added to it, is the correct value of {A1, A2, . . . , An}+
+
+
+Chapter 3.2.5 Why the Closure Algorithm Works
+
+Chapter 3.2.6 The Transitive Rule
+  - If A1, A2, . . . , An → B1, B2, . . . , Bm and B1, B2, . . . , Bm → C1, C2, . . . , Ck hold in relation R, then A1, A2, . . . , An → C1, C2, . . . , Ck also holds in R.
+  ```
+  title year → studioName
+  studioName → studioAddr
+  ```
+  - The transitive rule allows us to combine the two FD’s above to get a new FD:
+  ```
+  title year → studioAddr
+  ```
+
+Chapter 3.2.7 Closing Sets of Functional Dependencies
+  - A minimal basis for a relation is a basis B that satisfies three conditions:
+    - All the FD’s in B have singleton right sides.
+    - If any FD is removed from B, the result is no longer a basis.
+    - If for any FD in B we remove one or more attributes from the left side of F, the result is no longer a basis.
+    - A Complete Set of Inference Rules: there is a set of rules, called Armstrong’s axioms, from which it is possible to derive any FD that follows from a given set. These axioms are:
+      1. Reflexivity. If {B1, B2, . . . , Bm} ⊆ {A1, A2, . . . , An}, then A1,A2, . . . , An → B1,B2, . . . , Bm. These are what we have called trivial FD’s.
+      2. Augmentation. If A1, A2, . . . , An → B1, B2, . . . , Bm then A1, A2, . . ., An, C1, C2, . . ., Ck → B1, B2, . . . ,Bm, C1, C2, . . ., Ck for any set of attributes C1 C2, . . ., Ck. Since some of the C’s may also be A's or B's or both, we should eliminate from the left side duplicate attributes and do the same for the right side.
+      3. Transitivity. If A1, A2, . . . , An → B1, B2, . . . , Bm andB1, B2, . . . , Bm → C1, C2, . . ., Ck then A1, A2, . . . , An → C1, C2, . . . , Ck.
+
+Chapter 3.2.8 Projecting Functional Dependencies
+  - Algorithm Projecting a Set of Functional Dependencies:
+    - INPUT: A relation R and a second relation R1 computed by the projection R1 = πL( R ). Also, a set of FD’s S that hold in R.
+    - OUTPUT: The set of FD’s that hold in R1
+    - METHOD:
+      1. Let T be the eventual output set of FD’s. Initially, T is empty.
+      2. For each set of attributes X that is a subset of the attributes of R1, compute X+. This computation is performed with respect to the set of FD’s S, and may involve attributes that are in the schema of R but not R1. Add to T all nontrivial FD’s X → A such that A is both in X+ and an attribute of R1.
+      3. Now, T is a basis for the FD’s that hold in R1, but may not be a minimal basis. We may construct a minimal basis by modifying T as follows:
+        - a) If there is an FD F in T that follows from the other FD’s in T, remove F from T.
+        - b) Let Y → B be an FD in T, with at least two attributes in Y, and let Z be Y with one of its attributes removed. If Z → B follows from the FD’s in T (including Y → B), then replace Y → B by Z → B.
+        - c) Repeat the above steps in all possible ways until no more changes to T can be made
+
+Chapter 3.3 Design of Relational Database Schemas
+  - Careless selection of a relational database schema can lead to redundancy and related anomalies.
+
+Chapter 3.3.1 Anomalies
+  - Problems such as redundancy that occur when we try to cram too much into a single relation axe called anomalies. The principal kinds of anomalies that we encounter are:
+    1. Redundancy. Information may be repeated unnecessarily in several tuples.
+    2. Update Anomalies. We may change information in one tuple but leave the same information unchanged in another.
+    3. Deletion Anomalies. If a set of values becomes empty, we may lose other information as a side effect.
+
+Chapter 3.3.2 Decomposing Relations
+  - The accepted way to eliminate these anomalies is to decompose relations.
+  - Decomposition of R involves splitting the attributes of R to make the schemas of two new relations.
+  - Given a relation R(A1, A2, . . . , An), we may decompose R into two relations S(B1, B2, . . . , Bm) and T(C1, C2, . . ., Ck) such that:
+    1. {A1, A2, . . . , An} = {B1, B2, . . . , Bm} U {C1, C2, . . ., Ck}.
+    2. S = π(B1, B2, . . . , Bm)(R)
+    3. T = π(C1, C2, . . . , Ck)(R)
+
+Chapter 3.3.3 Boyce-Codd Normal Form
+  - The goal of decomposition is to replace a relation by several that do not exhibit anomalies. There is, it turns out, a simple condition under which the anomalies discussed above can be guaranteed not to exist. This condition is called Boyce-Codd normal form, or BCNF.
+  - A relation R is in BCNF if and only if: whenever there is a nontrivial FD A1, A2, . . . , An → B1, B2, . . . , Bm for R, it is the case that {A1, A2, . . . , An} is a superkey for R.
+
+Chapter 3.3.4 Decomposition into BCNF
+  - By repeatedly choosing suitable decompositions, we can break any relation schema into a collection of subsets of its attributes with the following important properties:
+   1. These subsets are the schemas of relations in BCNF.
+   2. The data in the original relation is represented faithfully by the data in the relations that are the result of the decomposition. Roughly, we need to be able to reconstruct the original relation instance exactly from the decomposed relation instances.
+  - In general, we must keep applying the decomposition rule as many times as needed, until all our relations are in BCNF. We can be sure of ultimate success, because every time we apply the decomposition rule to a relation R, the two resulting schemas each have fewer attributes than that of R.
+  - Algorithm BCNF Decomposition:
+    - INPUT: A relation R0 with a set of functional dependencies S0
+    - OUTPUT: A decomposition of R0 into a collection of relations, all of which are in BCNF.
+    - METHOD: The following steps can be applied recursively to any relation R and set of FD’s S. Initially, apply them with R = R0 and S = S0.
+      1. Check whether R is in BCNF. If so, nothing more needs to be done. Return {R} as the answer.  
+      2. If there are BCNF violations, let one be X → Y. Compute X . Choose R1 = X+ as one relation schema and let R2 have attributes X and those attributes of R that are not in X+.
+      3. Compute the sets of FD’s for R1 and R2, let these be S1 and S2, respectively.
+      4. Recursively decompose R1 and R2 using this algorithm. Return the union of the results of these decompositions.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES

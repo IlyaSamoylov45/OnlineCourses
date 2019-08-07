@@ -1,4 +1,4 @@
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+α-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INTRODUCTION AND RELATIONAL DATABASES NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Chapter 1.1 Database-System Applications
@@ -1029,7 +1029,7 @@ Chapter 8.1.2 Design Alternative: Smaller Schemas
   - We shall refer to such decompositions as being lossy decompositions, and, conversely, to those that are not as lossless decompositions.
 
 Chapter 8.3 Decomposition Using Functional Dependencies
-  -  In general, we use Greek letters for sets of attributes (for example, ). We use a lowercase Roman letter followed by an uppercase Roman letter in parentheses to refer to a relation schema (for example, r(R)). We use the notation r(R) to show that the schema is for relation r, with R denoting the set of attributes, but at times simplify our notation to use just R when the relation name does not matter to us. Of course, a relation schema is a set of attributes, but not all sets of attributes are schemas. When we use a lowercase Greek letter, we are referring to a set of attributes that may or may not be a schema. A Roman letter is used when we wish to indicate that the set of attributes is deﬁnitely a schema.
+  -  In general, we use Greek letters for sets of attributes (for example, α). We use a lowercase Roman letter followed by an uppercase Roman letter in parentheses to refer to a relation schema (for example, r(R)). We use the notation r(R) to show that the schema is for relation r, with R denoting the set of attributes, but at times simplify our notation to use just R when the relation name does not matter to us. Of course, a relation schema is a set of attributes, but not all sets of attributes are schemas. When we use a lowercase Greek letter, we are referring to a set of attributes that may or may not be a schema. A Roman letter is used when we wish to indicate that the set of attributes is deﬁnitely a schema.
   - When a set of attributes is a superkey, we denote it by K. A superkey pertains to a speciﬁc relation schema, so we use the terminology “K is a superkey of r(R).”
   - We use a lowercase name for relations. In our examples, these names are intended to be realistic(for example, instructor), while in our deﬁnitions and algorithms, we use single letters, like r.
   - A relation, of course, has a particular value at any given time; we refer to that as an instance and use the term “instance of r”. When it is clear that we are talking about an instance, we may uses imply the relation name (for example, r).
@@ -1043,9 +1043,9 @@ Chapter 8.3.1 Keys and Functional Dependencies
   - An instance of a relation that satisﬁes all such real-world constraints is called a legal instance of the relation; a legal instance of a database is one where all the relation instances are legal instances.
   - We deﬁned the notion of a superkey as a set of one or more attributes that, taken collectively, allows us to identify uniquely a tuple in the relation. We restate that deﬁnition here as follows: Let r (R) be a relation schema. A subset K of R is a superkey of r(R) if, in any legal instance of r (R), for all pairs t1 and t2 of tuples in the instance of r if t1 /= t2, thent1[K] /= t2[K]. That is, no two tuples in any legal instance of relation r(R) may have the same value on attribute k.
   - Whereas a superkey is a set of attributes that uniquely identiﬁes an entire tuple, a functional dependency allows us to express constraints that uniquely identify the values of certain attributes.
-  - Consider a relation schema r(R), and let alpha ⊆ R and beta ⊆ R.
-    - Given an instance of r(R), we say that the instance satisﬁes the functional dependency alpha → beta if for all pairs of tuplest1 and t2 in the instance such that t1[alpha] = t2[beta], it is also the case that t1[alpha] = t2[beta].
-    - We say that the functional dependency alpha → beta holds on schema r(R) if, in every legal instance of r (R) it satisﬁes the functional dependency.
+  - Consider a relation schema r(R), and let α ⊆ R and β ⊆ R.
+    - Given an instance of r(R), we say that the instance satisﬁes the functional dependency α → β if for all pairs of tuplest1 and t2 in the instance such that t1[α] = t2[β], it is also the case that t1[α] = t2[β].
+    - We say that the functional dependency α → β holds on schema r(R) if, in every legal instance of r (R) it satisﬁes the functional dependency.
   - Using the functional-dependency notation, we say that K is a superkey of r(R)if the functional dependency K → R holds on r(R). In other words, K is a superkey if, for every legal instance of r(R), for every pair of tuples t1 and t2 from the instance, whenever t1[K] = t2[K], it is also the case that t1[R] = t2[R]
   - Functional dependencies allow us to express constraints that we cannot express with superkeys.
   - ``` inst_dept (ID, name, salary, dept_name, building, budget) ```
@@ -1055,21 +1055,21 @@ Chapter 8.3.1 Keys and Functional Dependencies
     1. To test instances of relations to see whether they satisfy a given set F of functional dependencies.
     2. To specify constraints on the set of legal relations. We shall thus concern ourselves with only those relation instances that satisfy a given set of functional dependencies. If we wish to constrain ourselves to relations on schema r(R) that satisfy a set F of functional dependencies, we say that F holds on r(R).
   - Some functional dependencies are said to be trivial because they are satisﬁed by all relations. For example, A → A is satisﬁed by all relations involving attribute A.
-  - Similarly, AB → A is satisﬁed by all relations involving attribute A. In general, a functional dependency of the form alpha → beta is trivial if beta ⊆ alpha.
+  - Similarly, AB → A is satisﬁed by all relations involving attribute A. In general, a functional dependency of the form α → β is trivial if β ⊆ α.
   - In the instance of the classroom relation we see that ```room_number → capacity``` is satisﬁed. However, we believe that, in the real world, two classrooms in different buildings can have the same room number but with different room capacity. Thus, it is possible, at some time, to have an instance of the classroom relation in which ```room_number → capacity``` is not satisﬁed. So, we would not include ```room_number → capacity ``` in the set of functional dependencies that hold on the schema for the classroom relation. However, we would expect the functional dependency building, ```room_number → capacity``` to hold on the classroom schema.
   - We will use the notation F+ to denote the closure of the set F, that is, the set of all functional dependencies that can be inferred given the set F. Clearly F+ contains all of the functional dependencies in F.
 
 Chapter 8.3.2 Boyce-Codd Normal Form
   - One of the more desirable normal forms that we can obtain is Boyce–Codd normal form (BCNF). It eliminates all redundancy that can be discovered based on functional dependencies.
-  - A relation schema R is in BCNF with respect to a set F of functional dependencies if, for all functional dependencies in F+ of the form alpha → beta, where alpha ⊆ R and beta ⊆ R, at least one of the following holds:
-    - alpha → beta is a trivial functional dependency(that is, alpha ⊆ beta).
-    - alpha is a superkey for schema R.
-  - We now state a general rule for decomposing that are not in BCNF. Let R be a schema that is not in BCNF. Then there is at least one nontrivial functional dependency alpha → beta such that alpha is not a superkey for R. We replace R in our design with two schemas:
-    - (alpha U beta)
-    - (R - (alpha - beta))
-  - In the case of inst_dept above, alpha = dept_name, beta = {building, budget}, and inst_dept is replaced by
-    - (alpha U beta) = (dept_name, building, budget)
-    - (R - (alpha - beta)) = (ID, name, dept_name, salary)
+  - A relation schema R is in BCNF with respect to a set F of functional dependencies if, for all functional dependencies in F+ of the form α → β, where α ⊆ R and β ⊆ R, at least one of the following holds:
+    - α → β is a trivial functional dependency(that is, α ⊆ β).
+    - α is a superkey for schema R.
+  - We now state a general rule for decomposing that are not in BCNF. Let R be a schema that is not in BCNF. Then there is at least one nontrivial functional dependency α → β such that α is not a superkey for R. We replace R in our design with two schemas:
+    - (α U β)
+    - (R - (α - β))
+  - In the case of inst_dept above, α = dept_name, β = {building, budget}, and inst_dept is replaced by
+    - (α U β) = (dept_name, building, budget)
+    - (R - (α - β)) = (ID, name, dept_name, salary)
 
 Chapter 8.3.3 BCNF and Dependency Preservation
   - We have seen several ways in which to express database consistency constraints: primary-key constraints, functional dependencies, check constraints, assertions, and triggers. Testing these constraints each time the database is updated can be costly and, therefore, it is useful to design the database in a way that constraints can be tested efﬁciently. In particular, if testing a functional dependency can be done by considering just one relation, then the cost of testing this constraint is low.
@@ -1077,10 +1077,10 @@ Chapter 8.3.3 BCNF and Dependency Preservation
   - Because dependency preservation is usually considered desirable, we consider another normal form, weaker than BCNF, that will allow us to preserve dependencies. That normal form is called third normal form.
 
 Chapter 8.3.4 Third Normal Form
-  - A relation schema R is in third normal form with respect to a set F of functional dependencies if, for all functional dependencies in F+ of the form alpha → beta, where alpha ⊆ R and beta ⊆ R, at least one of the following holds:
-    - alpha → beta is a trivial functional dependency
-    - alpha is a superkey for R.
-    - Each attribute A in alpha → beta is contained in a candidate key for R.
+  - A relation schema R is in third normal form with respect to a set F of functional dependencies if, for all functional dependencies in F+ of the form α → β, where α ⊆ R and β ⊆ R, at least one of the following holds:
+    - α → β is a trivial functional dependency
+    - α is a superkey for R.
+    - Each attribute A in α → β is contained in a candidate key for R.
   - Example:
     - i_ID → dept_name
     - s_ID, dept_name→ i_ID
@@ -1094,12 +1094,12 @@ Chapter 8.5.1 BCNF Decomposition
 
 Chapter 8.5.1.1 Testing for BCNF
   - Testing of a relation schema R to see if it satisﬁes BCNF can be simplified in some cases:
-    - To check if a nontrivial dependency alpha → beta causes a violation of BCNF, compute alpha+ (the attribute closure of alpha), and verify that it includes all attributes of R; that is, it is a superkey of R.
+    - To check if a nontrivial dependency α → β causes a violation of BCNF, compute α+ (the attribute closure of α), and verify that it includes all attributes of R; that is, it is a superkey of R.
     - To check if a relation schema R is in BCNF, it sufﬁces to check only the dependencies in the given set F for violation of BCNF, rather than check all dependencies in F+. We can show that if none of the dependencies in F causes a violation of BCNF, then none of the dependencies in F+ will cause a violation of BCNF, either.
   - Unfortunately, the latter procedure does not work when a relation is decomposed. That is, it does not suffice to use F when we test a relation Ri, in a decomposition of R, for violation of BCNF
   - Consider relation schema R(A, B,C, D, E), with functional dependencies F containing A → B and BC → D. Suppose this were decomposed into R1(A, B) and R2(A,C, D, E). Now, neither of the dependencies in F contains only attributes from (A,C, D, E) so we might be misled into thinking R2 satisﬁes BCNF. In fact, there is a dependency AC → D in F+ that shows R2 is not in BCNF.
   - To check if a relation Ri in a decomposition of R is in BCNF, we apply this test:
-    - For every subset  of attributes in Ri, check that alpha+ (the attribute closure of alpha under F) either includes no attribute of Ri − alpha, or includes all attributes of Ri.
+    - For every subset α of attributes in Ri, check that α+ (the attribute closure of α under F) either includes no attribute of Ri − α, or includes all attributes of Ri.
   - BCNF decomposition algorithm:
   ```
   result := {R};
@@ -1108,17 +1108,17 @@ Chapter 8.5.1.1 Testing for BCNF
   while (not done) do
     if (there is a schema Ri in result that is not in BCNF)
       then begin
-        let alpha → beta be a nontrivial functional dependency that holds on Ri such that alpha → Ri is not in F+, and alpha ∩ beta =∅;
-        result :=(result− Ri) ∪ (Ri −beta) ∪ (alpha,beta);
+        let α → β be a nontrivial functional dependency that holds on Ri such that α → Ri is not in F+, and α ∩ β =∅;
+        result :=(result− Ri) ∪ (Ri − β) ∪ (α, β);
     end
     else done := true;   
   ```
-  - alpha → (alpha+ - alpha) ∩ Ri.
+  - α → (α+ - α) ∩ Ri.
   - The above dependencyshows that Ri violates BCNF.
 
 Chapter 8.5.1.2 BCNF Decomposition Algorithm
   -  If R is not in BCNF, we can decompose R into a collection of BCNF schemas R1, R2,...,Rn by the algorithm. The algorithm uses dependencies that demonstrate violation of BCNF to perform the decomposition.
-  - To see why our algorithm generates only lossless decompositions, we note that, when we replace a schema Ri with (Ri − beta) and (alpha,beta), the dependency alpha → beta holds, and (Ri − beta) ∩ (alpha, beta) = alpha. If we did not require alpha ∩ beta =∅, then those attributes in alpha ∩ beta would not appear in the schema(Ri − beta) and the dependency alpha → beta would no longer hold.
+  - To see why our algorithm generates only lossless decompositions, we note that, when we replace a schema Ri with (Ri − β) and (α, β), the dependency α → β holds, and (Ri − β) ∩ (α, β) = α. If we did not require α ∩ β =∅, then those attributes in α ∩ β would not appear in the schema(Ri − β) and the dependency α → β would no longer hold.
   - Example:
     - As a longer example of the use of the BCNF decomposition algorithm, suppose we have a database design using the class schema below:
       ```
@@ -1170,31 +1170,31 @@ Chapter 8.6 Decomposition Using Multivalued Dependencies
 Chapter 8.6.1 Multivalued Dependencies
   - Multivalued dependencies do not rule out the existence of certain tuples. Instead, they require that other tuples of a certain form be present in the relation
   - Functional dependencies sometimes are referred to as equality-generating dependencies, and multivalued dependencies are referred to as tuple-generating dependencies.
-  - Let r(R) be a relation schema and let alpha ⊆ R and beta ⊆ R. The multivalued dependency alpha →→ beta holds on R if, in any legal instance of relation r(R), for all pairs of tuples t1 and t2 in r such that t1[alpha]=t2[alpha], there exist tuples t3 and t4 in r such that:
+  - Let r(R) be a relation schema and let α ⊆ R and β ⊆ R. The multivalued dependency α →→ β holds on R if, in any legal instance of relation r(R), for all pairs of tuples t1 and t2 in r such that t1[α]=t2[α], there exist tuples t3 and t4 in r such that:
   ```
-  t1[alpha] = t2[alpha] = t3[alpha] = t4[alpha]
-  t3[beta] = t1[beta]
-  t3[R − beta] = t2[R − beta]
-  t4[beta] = t2[beta]
-  t4[R − beta] = t1[R − beta]
+  t1[α] = t2[α] = t3[α] = t4[α]
+  t3[β] = t1[β]
+  t3[R − β] = t2[R − β]
+  t4[β] = t2[β]
+  t4[R − β] = t1[R − β]
   ```
-  - Intuitively, the multivalued dependency alpha →→ beta says that the relationship between alpha and beta is independent of the relationship between alpha and R−beta.
-  - If the multivalued dependency alpha →→ beta is satisﬁed by all relations on schema R, then alpha →→ beta is a trivial multivalued dependency on schema R. Thus, alpha →→ beta is trivial if beta ⊆ alpha or beta U alpha = R.
+  - Intuitively, the multivalued dependency α →→ β says that the relationship between α and β is independent of the relationship between α and R−β.
+  - If the multivalued dependency α →→ β is satisﬁed by all relations on schema R, then α →→ β is a trivial multivalued dependency on schema R. Thus, α →→ β is trivial if β ⊆ α or β U α = R.
   - As with functional dependencies, we shall use multivalued dependencies in two ways:
     1. To test relations to determine whether they are legal under a given set of functional and multivalued dependencies
     2. To specify constraints on the set of legal relations; we shall thus concern ourselves with only those relations that satisfy a given set of functional and multivalued dependencies
   - Let D denote a set of functional and multivalued dependencies. The closure D+ of D is the set of all functional and multivalued dependencies logically implied by D.
   - As we did for functional dependencies, we can compute D+ from D, using the formal deﬁnitions of functional dependencies and multivalued dependencies.
-  - From the deﬁnition of multivalued dependency, we can derive the following rules for alpha, beta ⊆ R:
-    - If alpha → beta, then alpha →→ beta. In other words, every functional dependency is also a multivalued dependency.
-    -  If alpha →→ beta, then alpha →→ R − alpha − beta  
+  - From the deﬁnition of multivalued dependency, we can derive the following rules for α, β ⊆ R:
+    - If α → β, then α →→ β. In other words, every functional dependency is also a multivalued dependency.
+    -  If α →→ β, then α →→ R − α − β  
 
 Chapter 8.6.2 Fourth Normal Form
   - Example: ```r2 (ID, dept_name, street, city)```
     - Although this schema is in BCNF, the design is not ideal, since we must repeat an instructor’s address information for each department.
-  - A relation schema r(R) is in fourth normal form(4NF) with respect to a set D of functional and multivalued dependencies if, for all multivalued dependencies in D+ of the form alpha →→ beta, where alpha ⊆ R and beta ⊆ R, at least one of the following holds:
-    - alpha →→ beta is a trivial multivalued dependency.
-    - alpha is a superkey for R.
+  - A relation schema r(R) is in fourth normal form(4NF) with respect to a set D of functional and multivalued dependencies if, for all multivalued dependencies in D+ of the form α →→ β, where α ⊆ R and β ⊆ R, at least one of the following holds:
+    - α →→ β is a trivial multivalued dependency.
+    - α is a superkey for R.
   - A database design is in 4NF if each member of the set of relation schemas that constitutes the design is in 4NF.
   - Note that the deﬁnition of 4NF differs from the deﬁnition of BCNF in only the use of multivalued dependencies. Every 4NF schema is in BCNF.
 
@@ -1206,14 +1206,14 @@ Chapter 8.6.3 4NF Decomposition
   compute D+; Given schema Ri, let Di denote the restriction of D+ to Ri
   while (not done) do
     if (there is a schema Ri in result that is not in 4NF w.r.t. Di)
-      then begin let alpha →→ beta be a nontrivial multivalued dependency that holds on Ri such that alpha → Ri is not in Di, and alpha ∩ beta = ∅ ;
-      result := (result − Ri) ∪ (Ri − beta) ∪ (alpha, beta);
+      then begin let α →→ β be a nontrivial multivalued dependency that holds on Ri such that α → Ri is not in Di, and α ∩ β = ∅ ;
+      result := (result − Ri) ∪ (Ri − β) ∪ (α, β);
     end
     else done := true;
   ```
   - Let r(R) be a relation schema, and let D be a set of functional and multivalued dependencies on R. Let r1(R1) and r2(R2) form a decomposition of R. This decomposition is lossless of R if and only if at least one of the following multivalued dependencies is in D+:
     - R1 ∩ R2 →→ R1
-    - R1 ∩ R2 →→ R2 
+    - R1 ∩ R2 →→ R2
 
 Chapter 8.8.4 Other Design Issues
   - There are some aspects of database design that are not addressed by normalization, and can thus lead to bad database design. Data pertaining to time or to ranges of time have several such issues.
