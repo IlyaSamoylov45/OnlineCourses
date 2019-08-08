@@ -1,4 +1,4 @@
-α-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INTRODUCTION AND RELATIONAL DATABASES NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Chapter 1.1 Database-System Applications
@@ -1170,7 +1170,7 @@ Chapter 8.6 Decomposition Using Multivalued Dependencies
 Chapter 8.6.1 Multivalued Dependencies
   - Multivalued dependencies do not rule out the existence of certain tuples. Instead, they require that other tuples of a certain form be present in the relation
   - Functional dependencies sometimes are referred to as equality-generating dependencies, and multivalued dependencies are referred to as tuple-generating dependencies.
-  - Let r(R) be a relation schema and let α ⊆ R and β ⊆ R. The multivalued dependency α →→ β holds on R if, in any legal instance of relation r(R), for all pairs of tuples t1 and t2 in r such that t1[α]=t2[α], there exist tuples t3 and t4 in r such that:
+  - Let r(R) be a relation schema and let α ⊆ R and β ⊆ R. The multivalued dependency α ↠ β holds on R if, in any legal instance of relation r(R), for all pairs of tuples t1 and t2 in r such that t1[α]=t2[α], there exist tuples t3 and t4 in r such that:
   ```
   t1[α] = t2[α] = t3[α] = t4[α]
   t3[β] = t1[β]
@@ -1178,22 +1178,22 @@ Chapter 8.6.1 Multivalued Dependencies
   t4[β] = t2[β]
   t4[R − β] = t1[R − β]
   ```
-  - Intuitively, the multivalued dependency α →→ β says that the relationship between α and β is independent of the relationship between α and R−β.
-  - If the multivalued dependency α →→ β is satisﬁed by all relations on schema R, then α →→ β is a trivial multivalued dependency on schema R. Thus, α →→ β is trivial if β ⊆ α or β U α = R.
+  - Intuitively, the multivalued dependency α ↠ β says that the relationship between α and β is independent of the relationship between α and R−β.
+  - If the multivalued dependency α ↠ β is satisﬁed by all relations on schema R, then α ↠ β is a trivial multivalued dependency on schema R. Thus, α ↠ β is trivial if β ⊆ α or β U α = R.
   - As with functional dependencies, we shall use multivalued dependencies in two ways:
     1. To test relations to determine whether they are legal under a given set of functional and multivalued dependencies
     2. To specify constraints on the set of legal relations; we shall thus concern ourselves with only those relations that satisfy a given set of functional and multivalued dependencies
   - Let D denote a set of functional and multivalued dependencies. The closure D+ of D is the set of all functional and multivalued dependencies logically implied by D.
   - As we did for functional dependencies, we can compute D+ from D, using the formal deﬁnitions of functional dependencies and multivalued dependencies.
   - From the deﬁnition of multivalued dependency, we can derive the following rules for α, β ⊆ R:
-    - If α → β, then α →→ β. In other words, every functional dependency is also a multivalued dependency.
-    -  If α →→ β, then α →→ R − α − β  
+    - If α → β, then α ↠ β. In other words, every functional dependency is also a multivalued dependency.
+    -  If α ↠ β, then α ↠ R − α − β  
 
 Chapter 8.6.2 Fourth Normal Form
   - Example: ```r2 (ID, dept_name, street, city)```
     - Although this schema is in BCNF, the design is not ideal, since we must repeat an instructor’s address information for each department.
-  - A relation schema r(R) is in fourth normal form(4NF) with respect to a set D of functional and multivalued dependencies if, for all multivalued dependencies in D+ of the form α →→ β, where α ⊆ R and β ⊆ R, at least one of the following holds:
-    - α →→ β is a trivial multivalued dependency.
+  - A relation schema r(R) is in fourth normal form(4NF) with respect to a set D of functional and multivalued dependencies if, for all multivalued dependencies in D+ of the form α ↠ β, where α ⊆ R and β ⊆ R, at least one of the following holds:
+    - α ↠ β is a trivial multivalued dependency.
     - α is a superkey for R.
   - A database design is in 4NF if each member of the set of relation schemas that constitutes the design is in 4NF.
   - Note that the deﬁnition of 4NF differs from the deﬁnition of BCNF in only the use of multivalued dependencies. Every 4NF schema is in BCNF.
@@ -1206,14 +1206,14 @@ Chapter 8.6.3 4NF Decomposition
   compute D+; Given schema Ri, let Di denote the restriction of D+ to Ri
   while (not done) do
     if (there is a schema Ri in result that is not in 4NF w.r.t. Di)
-      then begin let α →→ β be a nontrivial multivalued dependency that holds on Ri such that α → Ri is not in Di, and α ∩ β = ∅ ;
+      then begin let α ↠ β be a nontrivial multivalued dependency that holds on Ri such that α → Ri is not in Di, and α ∩ β = ∅ ;
       result := (result − Ri) ∪ (Ri − β) ∪ (α, β);
     end
     else done := true;
   ```
   - Let r(R) be a relation schema, and let D be a set of functional and multivalued dependencies on R. Let r1(R1) and r2(R2) form a decomposition of R. This decomposition is lossless of R if and only if at least one of the following multivalued dependencies is in D+:
-    - R1 ∩ R2 →→ R1
-    - R1 ∩ R2 →→ R2
+    - R1 ∩ R2 ↠ R1
+    - R1 ∩ R2 ↠ R2
 
 Chapter 8.8.4 Other Design Issues
   - There are some aspects of database design that are not addressed by normalization, and can thus lead to bad database design. Data pertaining to time or to ranges of time have several such issues.

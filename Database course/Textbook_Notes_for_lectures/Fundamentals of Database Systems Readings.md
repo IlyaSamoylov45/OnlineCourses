@@ -1243,8 +1243,8 @@ Chapter 15.6.1 Formal Definition of Multivalued Dependency
       - t3[X] = t4[X] = t1[X] = t2[X].
       - t3[Y] = t1[Y] and t4[Y] = t2[Y].
       - t3[Z] = t2[Z] and t4[Z] = t1[Z].
-  - Whenever X →→ Y holds, we say that X multidetermines Y. Because of the symmetry in the definition, whenever X →→ Y holds in R, so does X →→ Z. Hence, X →→ Y implies X→→Z, and therefore it is sometimes written as X →→ Y|Z.
-  - An MVD X →→ Y in R is called a trivial MVD if
+  - Whenever X ↠ Y holds, we say that X multidetermines Y. Because of the symmetry in the definition, whenever X ↠ Y holds in R, so does X ↠ Z. Hence, X ↠ Y implies X↠Z, and therefore it is sometimes written as X ↠ Y|Z.
+  - An MVD X ↠ Y in R is called a trivial MVD if
     - a) Y is a subset of X, or
     - b) X ∪ Y = R.
     - An MVD that satisfies neither (a) nor (b) is called a nontrivial MVD.
@@ -1254,9 +1254,9 @@ Chapter 15.6.1 Formal Definition of Multivalued Dependency
   - Fourth normal form (4NF), which is violated when a relation has undesirable multivalued dependencies, and hence can be used to identify and decompose such relations.
   - The following points:
     - An all-key relation is always in BCNF since it has no FDs.
-    - An all-key relation which has no FDs but has the MVD Ename →→ Pname | Dname, is not in 4NF.
+    - An all-key relation which has no FDs but has the MVD Ename ↠ Pname | Dname, is not in 4NF.
     - A relation that is not in 4NF due to a nontrivial MVD must be decomposed to convert it into a set of relations in 4NF.
-    - The decomposition removes the redundancy caused by the MVD. 
+    - The decomposition removes the redundancy caused by the MVD.
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 Normalization Quiz
-  - Q1: Consider relation R(A,B,C,D,E) with multivalued dependencies: A →→ B, B →→ D and no functional dependencies. Suppose we decompose R into 4th Normal Form. Depending on the order in which we deal with 4NF violations, we can get different final decompositions. Which one of the following relation schemas could be in the final 4NF decomposition?
+  - Q1: Consider relation R(A,B,C,D,E) with multivalued dependencies: A ↠ B, B ↠ D and no functional dependencies. Suppose we decompose R into 4th Normal Form. Depending on the order in which we deal with 4NF violations, we can get different final decompositions. Which one of the following relation schemas could be in the final 4NF decomposition?
     - Solution : ACE
 
   - Q2 : Let R(A,B,C,D,E) be a relation in Boyce-Codd Normal Form (BCNF). Suppose ABC is the only key for R. Which of the following functional dependencies is guaranteed to hold for R?

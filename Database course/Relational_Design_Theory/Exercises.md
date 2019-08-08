@@ -9,9 +9,9 @@ Relational Design Theory
     - Solution : No, BCNF requires the left-hand side of functional dependencies to be a key for the relation. Neither sID nor courseNum are keys for Took.
 
   - Q4 : Consider the relation StudentInfo(sID, dorm, courseNum). Students typically live in several dorms and take many courses during college. Suppose the data does not capture which dorm(s) a student lived in when taking a specific course, i.e., all dorm-course combinations are recorded for each student. What are all of the multivalued dependencies for relation StudentInfo?
-    - Solution sID →→ dorm, sID →→ courseNum
+    - Solution sID ↠ dorm, sID ↠ courseNum
 
-  - Q5 : Consider the relation StudentInfo(sID, dorm, courseNum) with multivalued dependencies sID →→ dorm and sID →→ courseNum. Is StudentInfo in Fourth Normal Form?
+  - Q5 : Consider the relation StudentInfo(sID, dorm, courseNum) with multivalued dependencies sID ↠ dorm and sID ↠ courseNum. Is StudentInfo in Fourth Normal Form?
     - Solution : No, 4NF requires the left-hand side of multivalued dependencies to be a key for the relation. sID is not a key for StudentInfo.
 
   - Q6 : Consider a relation R(A,B,C,D) with functional dependencies A,B → C and C,D → E. Suppose there are at most 3 different values for each of A, B, and D. What's the maximum number of different values for E?
@@ -32,11 +32,11 @@ Relational Design Theory
   - Q11 : Consider relation Apply(SSN,cName,state,date,major) with FDs cName → state and SSN,cName → date,major. What schema would be produced by the BCNF decomposition algorithm?
     - Solution : A1(cName,state), A2(SSN,cName,date,major), {SSN,cName} is a key so only cName → state is a BCNF violation. Based on this violation we decompose into A1(cName,state), A2(SSN,cName,date,major). Now both FDs have keys on their left-hand-side so we're done.
 
-  - Q12 : Consider a relation R(A,B,C) with multivalued dependency A →→ B. Suppose there at least 3 different values for A, and each value of A is associated with at least 4 different B values and at least 5 different C values. What is the minimum number of tuples in R?
-    - Solution : 60, Multivalued dependency A →→ B says that for each value of A, we must have every combination of B and C values. So for each of the 3 values of A we must have at least 4*5=20 different tuples.
+  - Q12 : Consider a relation R(A,B,C) with multivalued dependency A ↠ B. Suppose there at least 3 different values for A, and each value of A is associated with at least 4 different B values and at least 5 different C values. What is the minimum number of tuples in R?
+    - Solution : 60, Multivalued dependency A ↠ B says that for each value of A, we must have every combination of B and C values. So for each of the 3 values of A we must have at least 4*5=20 different tuples.
 
-  - Q13 : For the relation Apply(SSN,cName,date,major) with functional dependency SSN,cName → date, what real-world constraint is captured by SSN →→ cName,date?
-    - Solution : A student must apply to the same set of majors at all colleges. SSN →→ cName,date says that (cName,date) and major are independent, i.e., all combinations of (cName,date) and major must be present for any college or major a student applies for.
+  - Q13 : For the relation Apply(SSN,cName,date,major) with functional dependency SSN,cName → date, what real-world constraint is captured by SSN ↠ cName,date?
+    - Solution : A student must apply to the same set of majors at all colleges. SSN ↠ cName,date says that (cName,date) and major are independent, i.e., all combinations of (cName,date) and major must be present for any college or major a student applies for.
 
-  - Q14 : Consider relation StudentInfo(sID, name, dorm, major) with functional dependency sID → name and multivalued dependency sID →→ dorm. What schema would be produced by the 4NF decomposition algorithm?
+  - Q14 : Consider relation StudentInfo(sID, name, dorm, major) with functional dependency sID → name and multivalued dependency sID ↠ dorm. What schema would be produced by the 4NF decomposition algorithm?
     - Solution : S1(sID,name), S2(sID,dorm), S3(sID,major), There is no key for the relation. Decomposing on the violating FD separates (sID,name) from (sID,dorm,major). Decomposing on the violating MVD separates (sID,dorm) from (sID,major). Now there are no violating FDs or nontrivial MVDs.

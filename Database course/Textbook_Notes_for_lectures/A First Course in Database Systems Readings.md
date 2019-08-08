@@ -11,7 +11,7 @@ CHAPTER 1.1 The Evolution of Database Systems
     5. Control access to the data from many users at the same time
 
 CHAPTER 1.1.1 Early Database Management Systems
-  - The first important applications of DBMS’s were ones where data was composed of many small items
+  - The first important applications of DBMS's were ones where data was composed of many small items
     ex: Banks, Airlines etc.
 
 CHAPTER 1.1.2 Relational Database Systems
@@ -148,8 +148,8 @@ Chapter 2.3.4 Modifying Relation Schemas
 
 Chapter 2.3.5 Default Values
   - Any place we declare an attribute and its data type, we may add the keyword DEFAULT and an appropriate value.
-    ex: gender CHAR(l) DEFAULT ’?’,
-    ex: birthdate DATE DEFAULT DATE ’0000-00-00’
+    ex: gender CHAR(l) DEFAULT '?',
+    ex: birthdate DATE DEFAULT DATE '0000-00-00'
 
 Chapter 2.3.6 Declaring Keys
   - Two ways if a set of attributes make a key must use option 2:
@@ -209,7 +209,7 @@ Chapter 11.2.5 Attributes That Connect Elements
   - Important use for attributes is to represent connections in a semi-structured data graph
 
 Chapter 11.2.6 Namespaces
-  - To say that an element’s tag should be interpreted as part of a certain namespace, we can use the attribute xmlns in its opening tag.
+  - To say that an element's tag should be interpreted as part of a certain namespace, we can use the attribute xmlns in its opening tag.
     ex: xmlns: name="URI”
 
 Chapter 11.2.7 XML and Databases
@@ -245,14 +245,14 @@ Chapter 11.3.3 Attribute Lists
     says that the named attribute can be an attribute of the named element, and that the type of this attribute is the indicated type.
   - The most common type for attributes is CDATA. This type is essentially character-string data with special characters like < escaped as in #PCDATA.
   - Following the data type there can be a keyword #REQUIRED or #IMPLIED, which means that the attribute must be present, or is optional, respectively.
-  - Another option is an enumerated type, which is a list of possible strings, surrounded by parentheses and separated by |’s.
+  - Another option is an enumerated type, which is a list of possible strings, surrounded by parentheses and separated by |'s.
 
 Chapter 11.3.4 Identifiers and References
   - Certain attributes can be used as identifiers for elements. In a DTD, we give these attributes the type ID.
-  - Other attributes have values that are references to these element ID’s; these attributes may be declared to have type IDREF.
+  - Other attributes have values that are references to these element ID's; these attributes may be declared to have type IDREF.
   - The value of an IDREF attribute must also be the value of some ID attribute of some element
   - IDREF is basically a pointer to the ID
-  - An alternative is to give an attribute the type IDREFS. In that case, the value of the attribute is a string consisting of a list of ID’s
+  - An alternative is to give an attribute the type IDREFS. In that case, the value of the attribute is a string consisting of a list of ID's
 
 Chapter 11.4 XML Schema
   - XML Schema is an alternative way to provide a schema for XML documents.
@@ -344,7 +344,7 @@ RELATIONAL ALGEBRA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Chapter 2.4 An Algebraic Query Language
   - Relational algebra, that consists of some simple but powerful ways to construct new relations from given relations.
-  - Relational algebra is not used today as a query language in commercial DBMS’s, although some of the early prototypes did use this algebra directly.
+  - Relational algebra is not used today as a query language in commercial DBMS's, although some of the early prototypes did use this algebra directly.
   - The “real” query language, SQL, incorporates relational algebra at its center, and many SQL programs are really “syntactically sugared” expressions of relational algebra.
 
 Chapter 2.4.1 Why Do We Need a Special Query Language?
@@ -374,11 +374,11 @@ Chapter 2.4.4 Set Operations on Relations
     2. The columns of R and S must be ordered so that the order of attributes is the same for both relations before we compute the union, intersection or difference.
 
 Chapter 2.4.5 Projection
-  - The projection operator is used to produce from a relation R a new relation that has only some of R’s columns.
+  - The projection operator is used to produce from a relation R a new relation that has only some of R's columns.
   - π(A1, A2, A3 ... An)(R) is a relation that has only columns for attributes A1, A2, A3 ... An of R.  
 
 Chapter 2.4.6 Selection
-  - The selection operator, applied to a relation R, produces a new relation with a subset of R’s tuples.
+  - The selection operator, applied to a relation R, produces a new relation with a subset of R's tuples.
   - σ(c)(R)
   - σ(length > 2 AND Color = 'red')(R)
 
@@ -440,19 +440,19 @@ Chapter 6.1 Simple Queries in SQL
 Chapter 6.1.1 Projection in SQL
   - SQL is case insensitive, meaning that it treats upper- and lower-case letters as the same letter.
   - Only inside quotes does SQL make a distinction between upper- and lower-case letters.
-  - Thus, ’FROM’ and ’from’ are different character strings.
+  - Thus, 'FROM' and 'from' are different character strings.
 
 Chapter 6.1.2 Selection in SQL
   - The selection operator of relational algebra, and much more, is available through the WHERE clause of SQL.
   - We may build expressions by comparing values using the six common comparison operators: =, <>, <, >, <=, and >=.
   - We may apply the concatenation operator || to strings
   - AND takes precedence over OR, and NOT takes precedence over both.
-  - A string of bits is represented by B followed by a quoted string of 0’s and l’s.
+  - A string of bits is represented by B followed by a quoted string of 0's and l's.
   - Hexadecimal notation may also be used, where an X is followed by a quoted string of hexadecimal digits (0 through 9, and a through f)
 
 Chapter 6.1.3 Comparison of Strings
   - When we compare strings by one of the “less than” operators, such as < or >=, we are asking whether one precedes the other in lexicographic order
-  - ’bar’ < ’bargain’ because the former is a proper prefix of the latter.
+  - 'bar' < 'bargain' because the former is a proper prefix of the latter.
 
 Chapter 6.1.4 Pattern Matching in SQL
   -  An alternative form of comparison expression is s LIKE p
@@ -460,11 +460,11 @@ Chapter 6.1.4 Pattern Matching in SQL
 
 Chapter 6.1.5 Dates and Times
   - Implementations of SQL generally support dates and times as special data types.
-  - A date constant is represented by the keyword DATE followed by a quoted string of a special form. For example, DATE ’1948-05-14’ follows the required form.
+  - A date constant is represented by the keyword DATE followed by a quoted string of a special form. For example, DATE '1948-05-14' follows the required form.
   - A time constant is represented similarly by the keyword TIME and a quoted string.
-  - For instance, TIME ’15:00:02.5’ represents the time at which all students will have left a class that ends at 3 PM: two and a half seconds past three o’clock.
+  - For instance, TIME '15:00:02.5' represents the time at which all students will have left a class that ends at 3 PM: two and a half seconds past three o'clock.
   - To combine dates and times we use a value of type TIMESTAMP.
-  - Thus, TIMESTAMP ’1948-05-14 12:00:00’ represents noon on May 14, 1948.
+  - Thus, TIMESTAMP '1948-05-14 12:00:00' represents noon on May 14, 1948.
   - We can compare dates or times using the same comparison operators we use for numbers or strings.
 
 Chapter 6.1.6 Null Values and Comparisons Involving NULL
@@ -472,7 +472,7 @@ Chapter 6.1.6 Null Values and Comparisons Involving NULL
     1. Value unknown
     2. Value inapplicable
     3. Value withheld
-  - SQL allows outerjoins and also produces NULL’s when a query involves outerjoins
+  - SQL allows outerjoins and also produces NULL's when a query involves outerjoins
   - There are two important rules to remember when we operate upon a NULL value:
     1. When we operate on a NULL and any value, including another NULL, using an arithmetic operator like x or +, the result is NULL.
     2. When we compare a NULL value and any value, including another NULL, using a comparison operator like = or >, the result is UNKNOWN.
@@ -488,7 +488,7 @@ Chapter 6.1.8 Ordering the Output
   ```SQL
     SELECT *
     FROM Movies
-    WHERE studioName = ’Disney’ AND year = 1990
+    WHERE studioName = 'Disney' AND year = 1990
     ORDER BY length, title;
   ```
   - A subtlety of ordering is that all the attributes of Movies are available at the time of sorting, even if they are not part of the SELECT clause. Thus, we could replace SELECT * by SELECT producerC#, and the query would still be legal.
@@ -535,7 +535,7 @@ Chapter 6.2.5 Union, Intersection, and Difference of Queries
       ```SQL
         (SELECT name, address  
          FROM MovieStar
-         WHERE gender = ’F’)
+         WHERE gender = 'F')
             INTERSECT  
         (SELECT name, address  
          FROM MovieExec  
@@ -573,7 +573,7 @@ Chapter 6.3.1 Subqueries that Produce Scalar Values
     WHERE cert# =
       (SELECT producerC#
       FROM Movies  
-      WHERE title = ’Star Wars’
+      WHERE title = 'Star Wars'
       );
     ```
 
@@ -585,7 +585,7 @@ Chapter 6.3.2 Conditions Involving Relations
   - The EXISTS, ALL, and ANY operators can be negated by putting NOT in front of the entire expression, NOT s >= ALL R is true if and only if s is not the maximum value in R, and NOT s > ANY R is true if and only if s is the minimum value in R.
 
 Chapter 6.3.3 Conditions Involving Tuples
-  - Ex: Finding the producers of Harrison Ford’s movies:
+  - Ex: Finding the producers of Harrison Ford's movies:
   ```SQL
   SELECT name
   FROM MovieExec
@@ -595,7 +595,7 @@ Chapter 6.3.3 Conditions Involving Tuples
      WHERE (title, year) IN
         (SELECT movieTitle, movieYear
          FROM Starsln
-         WHERE starName = ’Harrison Ford’
+         WHERE starName = 'Harrison Ford'
         )
     );
   ```
@@ -614,14 +614,14 @@ Chapter 6.3.4 Correlated Subqueries
 
 Chapter 6.3.5 Subqueries in FROM Clauses   
   - Another use for subqueries is as relations in a FROM clause. In a FROM list, instead of a stored relation, we may use a parenthesized subquery.
-  - Ex: Finding the producers of Ford’s movies using a subquery in the FROM clause
+  - Ex: Finding the producers of Ford's movies using a subquery in the FROM clause
   ```SQL
   SELECT name
   FROM MovieExec, (SELECT producerC#
                   FROM Movies, Starsln
                   WHERE title = movieTitle AND
                         year = movieYear AND
-                        starName = ’Harrison Ford’
+                        starName = 'Harrison Ford'
                   ) Prod
   WHERE cert# = Prod.producerC#;      
   ```
@@ -778,12 +778,12 @@ Chapter 6.5.1 Insertion
   - Ex: add Sydney Greenstreet to the list of stars of The Maltese Falcon.
   ```SQL
   INSERT INTO StarsIn(movieTitle, movieYear, starName)
-  VALUES(’The Maltese Falcon’, 1942, ’Sydney Greenstreet’);
+  VALUES('The Maltese Falcon', 1942, 'Sydney Greenstreet');
   ```
   - If, we provide values for all attributes of the relation, then we may omit the list of attributes that follows the relation name.
   ```SQL
   INSERT INTO StarsIn
-  VALUES(’The Maltese Falcon’, 1942, ’Sydney Greenstreet’);
+  VALUES('The Maltese Falcon', 1942, 'Sydney Greenstreet');
   ```
   - If we take the option above, we must be sure that the order of the values is the same as the standard order of attributes for the relation.
   - If you are not sure of the declared order for the attributes, it is best to list them in the INSERT clause in the order you choose for their values in the VALUES clause.
@@ -797,9 +797,9 @@ Chapter 6.5.2 Deletion
   - Unlike the insertion statement we cannot simply specify a tuple to be deleted. Rather, we must describe the tuple exactly by a WHERE clause.
   ```SQL
   DELETE FROM Starsln
-  WHERE movieTitle = ’The Maltese Falcon’
+  WHERE movieTitle = 'The Maltese Falcon'
         AND movieYear = 1942
-        AND starName = ’Sydney Greenstreet’
+        AND starName = 'Sydney Greenstreet'
   ```
 
 Chapter 6.5.3 Updates
@@ -919,7 +919,7 @@ Chapter 12.2.5 XQuery Comparison Operators
   - Unfortunately, the above will not report any star with two or more addresses, even if one of those addresses is 123 Maple St., Malibu because the left sides of the eq operator are not single items, and therefore the comparison fails.  
 
 Chapter 12.2.6 Elimination of Duplicates
-  - Strictly speaking, distinct-values applies to primitive types. It will strip the tags from an element that is a tagged text-string, but it won’t put them back.
+  - Strictly speaking, distinct-values applies to primitive types. It will strip the tags from an element that is a tagged text-string, but it won't put them back.
   - The input to distinct-values can be a list of elements and the result a list of strings.
 
 Chapter 12.2.7 Quantification in XQuery
@@ -1064,15 +1064,15 @@ Chapter 3.1.3 Superkeys
   - Note that every superkey satisfies the first condition of a key: it functionally determines all other attributes of the relation. However, a superkey need not satisfy the second condition: minimality.
 
 Chapter 3.2 Rules About Functional Dependencies
-  - Suppose we are told of a set of FD’s that a relation satisfies. Often, we can deduce that the relation must satisfy certain other FD’s.
+  - Suppose we are told of a set of FD's that a relation satisfies. Often, we can deduce that the relation must satisfy certain other FD's.
 
 Chapter 3.2.1 Reasoning About Functional Dependencies
-  - FD’s often can be presented in several different ways, without changing the set of legal instances of the relation. We say:
-    - Two sets of FD’s 5 and T are equivalent if the set of relation instances satisfying S is exactly the same as the set of relation instances satisfying T.
-    - More generally, a set of FD’s S follows from a set of FD’s T if every relation instance that satisfies all the FD’s in T also satisfies all the FD’s in S.
+  - FD's often can be presented in several different ways, without changing the set of legal instances of the relation. We say:
+    - Two sets of FD's 5 and T are equivalent if the set of relation instances satisfying S is exactly the same as the set of relation instances satisfying T.
+    - More generally, a set of FD's S follows from a set of FD's T if every relation instance that satisfies all the FD's in T also satisfies all the FD's in S.
 
 Chapter 3.2.2 The Splitting/Combining Rule
-  - A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to the set of FD’s:
+  - A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to the set of FD's:
   ```
   A1, A2, . . . , An → B1,
   A1, A2, . . . , An → B2,
@@ -1081,8 +1081,8 @@ Chapter 3.2.2 The Splitting/Combining Rule
   ```
   - The above is why we may split attributes on the right side so that only one attribute appears on the right of each FD.
   - The equivalence above can be used in two ways
-    - We can replace an FD A1, A2, . . . , An → B1, B2, . . . , Bm by a set of FD’s   A1, A2, . . . , An → Bi for i = 1,2,... ,m. This transformation we call the splitting rule.
-    - We can replace a set of FD’s A1, A2, . . . , An → Bi for i = 1,2,... , m by the single FD A1, A2, . . . , An → B1, B2, . . . , Bm. We call this transformation the combining rule.
+    - We can replace an FD A1, A2, . . . , An → B1, B2, . . . , Bm by a set of FD's   A1, A2, . . . , An → Bi for i = 1,2,... ,m. This transformation we call the splitting rule.
+    - We can replace a set of FD's A1, A2, . . . , An → Bi for i = 1,2,... , m by the single FD A1, A2, . . . , An → B1, B2, . . . , Bm. We call this transformation the combining rule.
   - Example:
     ```
     title year → length
@@ -1100,23 +1100,23 @@ Chapter 3.2.2 The Splitting/Combining Rule
     title → length
     year → length
     ```
-    - Then we get two false FD’s. That is, title does not functionally determine length, since there can be several movies with the same title (e.g., King Kong) but of different lengths.
+    - Then we get two false FD's. That is, title does not functionally determine length, since there can be several movies with the same title (e.g., King Kong) but of different lengths.
 
 Chapter 3.2.3 Trivial Functional Dependencies
   - A trivial FD has a right side that is a subset of its left side.
   - ```title year → length``` is a trivial FD, as is ```title → title```
   - There is an intermediate situation in which some, but not all, of the attributes on the right side of an FD are also on the left. This FD is not trivial, but it can be simplifed by removing from the right side of an FD those attributes that appear on the left.
-    - The FD A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to A1, A2, . . . , An → C1, C2, . . . , Ck where the C’s are all those B’s that are not also A’s.
+    - The FD A1, A2, . . . , An → B1, B2, . . . , Bm is equivalent to A1, A2, . . . , An → C1, C2, . . . , Ck where the C's are all those B's that are not also A's.
     - This rule is called the trivial-dependency rule.
 
 Chapter 3.2.4 Computing the Closure of Attributes
-  - The closure of {A1, A2, . . . , An} under the FD’s in S is the set of attributes B such that every relation that satisfies all the FD’s in set S also satisfies A1, A2, . . . , An → B.
+  - The closure of {A1, A2, . . . , An} under the FD's in S is the set of attributes B such that every relation that satisfies all the FD's in set S also satisfies A1, A2, . . . , An → B.
   - That is A1, A2, . . . , An → B follows from the FDs of S.
   - Algorithm for the Closure of a Set of Attributes:
-    - INPUT: A set of attributes {A1, A2, . . . , An} and a set of FD’s S.
+    - INPUT: A set of attributes {A1, A2, . . . , An} and a set of FD's S.
     - OUTPUT: The closure {A1, A2, . . . , An}+.  
     - METHOD:
-      1. If necessary, split the FD’s of S, so each FD in S has a single attribute on the right.
+      1. If necessary, split the FD's of S, so each FD in S has a single attribute on the right.
       2. Let X be a set of attributes that eventually will become the closure. Initialize X to be {A1, A2, . . . , An}.
       3. Repeatedly search for some FD B1, B2, . . . , Bm → C such that B1, B2, . . . , Bm are in the set of attributes X, but C is not. Add C to the set X and repeat the search. Since X can only grow, and the number of attributes of any relation schema must be finite, eventually nothing more can be added to X, and this step ends.
       4. The set X, after no more attributes can be added to it, is the correct value of {A1, A2, . . . , An}+
@@ -1130,31 +1130,31 @@ Chapter 3.2.6 The Transitive Rule
   title year → studioName
   studioName → studioAddr
   ```
-  - The transitive rule allows us to combine the two FD’s above to get a new FD:
+  - The transitive rule allows us to combine the two FD's above to get a new FD:
   ```
   title year → studioAddr
   ```
 
 Chapter 3.2.7 Closing Sets of Functional Dependencies
   - A minimal basis for a relation is a basis B that satisfies three conditions:
-    - All the FD’s in B have singleton right sides.
+    - All the FD's in B have singleton right sides.
     - If any FD is removed from B, the result is no longer a basis.
     - If for any FD in B we remove one or more attributes from the left side of F, the result is no longer a basis.
-    - A Complete Set of Inference Rules: there is a set of rules, called Armstrong’s axioms, from which it is possible to derive any FD that follows from a given set. These axioms are:
-      1. Reflexivity. If {B1, B2, . . . , Bm} ⊆ {A1, A2, . . . , An}, then A1,A2, . . . , An → B1,B2, . . . , Bm. These are what we have called trivial FD’s.
-      2. Augmentation. If A1, A2, . . . , An → B1, B2, . . . , Bm then A1, A2, . . ., An, C1, C2, . . ., Ck → B1, B2, . . . ,Bm, C1, C2, . . ., Ck for any set of attributes C1 C2, . . ., Ck. Since some of the C’s may also be A's or B's or both, we should eliminate from the left side duplicate attributes and do the same for the right side.
+    - A Complete Set of Inference Rules: there is a set of rules, called Armstrong's axioms, from which it is possible to derive any FD that follows from a given set. These axioms are:
+      1. Reflexivity. If {B1, B2, . . . , Bm} ⊆ {A1, A2, . . . , An}, then A1,A2, . . . , An → B1,B2, . . . , Bm. These are what we have called trivial FD's.
+      2. Augmentation. If A1, A2, . . . , An → B1, B2, . . . , Bm then A1, A2, . . ., An, C1, C2, . . ., Ck → B1, B2, . . . ,Bm, C1, C2, . . ., Ck for any set of attributes C1 C2, . . ., Ck. Since some of the C's may also be A's or B's or both, we should eliminate from the left side duplicate attributes and do the same for the right side.
       3. Transitivity. If A1, A2, . . . , An → B1, B2, . . . , Bm andB1, B2, . . . , Bm → C1, C2, . . ., Ck then A1, A2, . . . , An → C1, C2, . . . , Ck.
 
 Chapter 3.2.8 Projecting Functional Dependencies
   - Algorithm Projecting a Set of Functional Dependencies:
-    - INPUT: A relation R and a second relation R1 computed by the projection R1 = πL( R ). Also, a set of FD’s S that hold in R.
-    - OUTPUT: The set of FD’s that hold in R1
+    - INPUT: A relation R and a second relation R1 computed by the projection R1 = πL( R ). Also, a set of FD's S that hold in R.
+    - OUTPUT: The set of FD's that hold in R1
     - METHOD:
-      1. Let T be the eventual output set of FD’s. Initially, T is empty.
-      2. For each set of attributes X that is a subset of the attributes of R1, compute X+. This computation is performed with respect to the set of FD’s S, and may involve attributes that are in the schema of R but not R1. Add to T all nontrivial FD’s X → A such that A is both in X+ and an attribute of R1.
-      3. Now, T is a basis for the FD’s that hold in R1, but may not be a minimal basis. We may construct a minimal basis by modifying T as follows:
-        - a) If there is an FD F in T that follows from the other FD’s in T, remove F from T.
-        - b) Let Y → B be an FD in T, with at least two attributes in Y, and let Z be Y with one of its attributes removed. If Z → B follows from the FD’s in T (including Y → B), then replace Y → B by Z → B.
+      1. Let T be the eventual output set of FD's. Initially, T is empty.
+      2. For each set of attributes X that is a subset of the attributes of R1, compute X+. This computation is performed with respect to the set of FD's S, and may involve attributes that are in the schema of R but not R1. Add to T all nontrivial FD's X → A such that A is both in X+ and an attribute of R1.
+      3. Now, T is a basis for the FD's that hold in R1, but may not be a minimal basis. We may construct a minimal basis by modifying T as follows:
+        - a) If there is an FD F in T that follows from the other FD's in T, remove F from T.
+        - b) Let Y → B be an FD in T, with at least two attributes in Y, and let Z be Y with one of its attributes removed. If Z → B follows from the FD's in T (including Y → B), then replace Y → B by Z → B.
         - c) Repeat the above steps in all possible ways until no more changes to T can be made
 
 Chapter 3.3 Design of Relational Database Schemas
@@ -1186,11 +1186,305 @@ Chapter 3.3.4 Decomposition into BCNF
   - Algorithm BCNF Decomposition:
     - INPUT: A relation R0 with a set of functional dependencies S0
     - OUTPUT: A decomposition of R0 into a collection of relations, all of which are in BCNF.
-    - METHOD: The following steps can be applied recursively to any relation R and set of FD’s S. Initially, apply them with R = R0 and S = S0.
+    - METHOD: The following steps can be applied recursively to any relation R and set of FD's S. Initially, apply them with R = R0 and S = S0.
       1. Check whether R is in BCNF. If so, nothing more needs to be done. Return {R} as the answer.  
       2. If there are BCNF violations, let one be X → Y. Compute X . Choose R1 = X+ as one relation schema and let R2 have attributes X and those attributes of R that are not in X+.
-      3. Compute the sets of FD’s for R1 and R2, let these be S1 and S2, respectively.
+      3. Compute the sets of FD's for R1 and R2, let these be S1 and S2, respectively.
       4. Recursively decompose R1 and R2 using this algorithm. Return the union of the results of these decompositions.
+
+Chapter 3.4 Decomposition: The Good, Bad, and Ugly
+  - Three distinct properties we would like a decomposition to have:
+    1. Elimination of Anomalies by decomposition
+    2. Recoverability of Information. Can we recover the original relation from the tuples in its decomposition?
+    3. Preservation of Dependencies. If we check the projected FD's in the relations of the decomposition, can we can be sure that when we reconstruct the original relation from the decomposition by joining, the result will satisfy the original FD's?
+
+Chapter 3.4.1 Recovering Information from a Decomposition
+  - If we decompose using the algorithm where all decompositions are motivated by a BCNF-violating FD, then the projections of the original tuples can be joined again to produce all and only the original tuples.
+  - There is an algorithm called the “chase,” for testing whether the projection of a relation onto any decomposition allows us to recover the relation by rejoining.
+  - Example of chase:
+    - Consider a relation R{A, B, C) and an FD B → C that is a BCNF violation. The decomposition based on the FD B → C separates the attributes into relations R1(A, B) and R2 (B,C).
+    - Let t be a tuple of R. We may write t = (a, b, c), where a, b, and c are the components of t for attributes A, B, and C, respectively. Tuple t projects as (a, b) in R1 (A,B) = π a,b(R) and as (b, c) in R2 (B,C) = π b,c(R).
+    - When we compute the natural join Ri ix R2, these two projected tuples join, because they agree on the common B component (they both have b there). They give us t = (a. b, c). the tuple we started with, in the join.
+    - However, getting back those tuples we started with is not enough to assure that the original relation R is truly represented by the decomposition.
+    - Why?
+      - Consider what happens if there are two tuples of R, say t = (a,b,c) and v = (d,b,e). When we project t onto R1 (A. B) we get u = (a, b), and when we project v onto R2(B,C) we get w = (b,e). These tuples also match in the natural join, and the resulting tuple is x = (a,b,e). Is it possible that a: is a bogus tuple? That is, could (a, b, e) not be a tuple of R? Since we assume the FD B → C for relation R, the answer is "no."
+      - Recall that this FD says any two tuples of R that agree in their B components must also agree in their C components. Since t and v agree in their B components, they also agree on their C components. That means c = e; i.e., the two values we supposed were different are really the same. Thus, tuple (a, b, e) of R is really (a, b, c); that is, x = t.
+  - If we decompose a relation then the original relation can be recovered exactly by the natural join.
+  - The natural join is associative and commutative, so the order in which we perform the natural join of the decomposition components does not matter.
+
+Chapter 3.4.2 The Chase Test for Lossless Join
+  - Three important things to remember are:
+    - The natural join is associative and commutative. It does not matter in what order we join the projections; we shall get the same relation as a result. In particular, the result is the set of tuples t such that for all i = 1, 2, . . ., k, t projected onto the set of attributes Si is a tuple in πS1(R).
+    - Any tuple t in R is surely in πS1(R) ⋈ πS2(R) ⋈ . . . ⋈ πSk(R). The reason is that the projection of t onto Si is surely in πSi (R) for each i, and therefore by our first point above, t is in the result of the join.
+    - As a consequence, πS1(R) ⋈ πS2(R) ⋈ . . . ⋈ πSk(R) = R when the FD's in F hold for R if and only if every tuple in the join is also in R. That is, the membership test is all we need to verify that the decomposition has a lossless join.
+  - The chase test for a lossless join is just an organized way to see whether a tuple t in πS1(R) ⋈ πS2(R) ⋈ . . . ⋈ πSk(R) can be proved, using the FD's in F, also to be a tuple in R.
+  - Example of chase algorithm:
+
+    | A  | B  | C  | D  |
+    | -- | -- | -- | -- |                           
+    | a  | b1  | c1  | d  |
+    | a  | b2  | c  | d2  |
+    | a3  | b  | c  | d  |
+    - Suppose the given FD's are A → B, B → C, and CD → A.
+    - the FD A → B tells us they must also agree in their B-components. That is, b1 = b2.
+
+    | A  | B  | C  | D  |
+    | -- | -- | -- | -- |                           
+    | a  | b1  | c1  | d  |
+    | a  | b1  | c  | d2  |
+    | a3  | b  | c  | d  |
+    - FD B → C to deduce that their C-components, c1 and c, are the same.
+
+    | A  | B  | C  | D  |
+    | -- | -- | -- | -- |                           
+    | a  | b1  | c  | d  |
+    | a  | b1  | c  | d2  |
+    | a3  | b  | c  | d  |
+    - FD CD → A to deduce that these rows also have the same A-value; that is, a = a3.
+
+    | A  | B  | C  | D  |
+    | -- | -- | -- | -- |                           
+    | a  | b1  | c  | d  |
+    | a  | b1  | c  | d2  |
+    | a  | b  | c  | d  |
+    - At this point, we see that the last row has become equal to t, that is, (a,b,c,d).
+    - We have proved that if R satisfies the FD's A → B, B → C, and CD → A, then whenever we project onto {A. D}, {A, C}, and {B,C,D} and rejoin, what we get must have been in R. In particular, what we get is the same as the tuple of R that we projected onto {B,C,D}.
+
+Chapter 3.4.3 Why the Chase Works
+  - There are two issues to address:
+    1. When the chase results in a row that matches the tuple t (i.e., the tableau is shown to have a row with all unsubscripted variables), why must the join be lossless?
+      - The chase process itself is a proof that one of the projected tuples from R must in fact be the tuple t that is produced by the join. We also know that every tuple in R is sure to come back if we project and join. Thus, the chase has proved that the result of projection and join is exactly R.
+    2. When, after applying FD's whenever we can, we still find no row of all unsubscripted variables, why must the join not be lossless?
+      - Suppose that we eventually derive a tableau without an unsubscripted row, and that this tableau does not allow us to apply any of the FD's to equate any symbols.
+      - Then think of the tableau as an instance of the relation R. It obviously satisfies the given FD's, because none can be applied to equate symbols.
+      - We know that the ith row has unsubscripted symbols in the attributes of Si, the * th relation of the decomposition. Thus, when we project this relation onto the Si's and take the natural join, we get the tuple with all unsubscripted variables. This tuple is not in R, so we conclude that the join is not lossless.
+  - Example:
+    - Consider the relation R(A,B,C,D) with the FD B → AD and the proposed decomposition {A, B}, {B, C}, and {C, D}. Here is the initial tableau:
+
+      | A  | B  | C  | D  |
+      | -- | -- | -- | -- |                           
+      | a  | b  | c1  | d1  |
+      | a2  | b  | c  | d2  |
+      | a3  | b3  | c  | d  |
+      - When we apply the lone FD, we deduce that a = a2 and d1 = d2. Thus, the final tableau is:
+
+      | A  | B  | C  | D  |
+      | -- | -- | -- | -- |                           
+      | a  | b  | c1  | d1  |
+      | a  | b  | c  | d1  |
+      | a3  | b3  | c  | d  |
+      - No more changes can be made because of the given FD's, and there is no row that is fully unsubscripted. Thus, this decomposition does not have a lossless join.
+
+Chapter 3.4.4 Dependency Preservation
+  - It is not possible, in some cases, to decompose a relation into BCNF relations that have both the lossless-join and dependency-preservation properties.
+  - Example
+    - Suppose we have a relation Bookings with attributes:
+      1. ```title```, the name of a movie.
+      2. ```theater```, the name of a theater where the movie is being shown.
+      3. ```city```, the city where the theater is located.
+    - The intent behind a tuple (m,t,c) is that the movie with title m is currently being shown at theater t in city c.
+    - We might reasonably assert the following FD's:
+      ```
+      theater → city
+      title, city → theater
+      ```
+    - The first says that a theater is located in one city. The second is not obvious but is based on the common practice of not booking a movie into two theaters in the same city.
+    - No single attribute is a key. For example, title is not a key because a movie can play in several theaters at once and in several cities at once.
+    - Also, ```theater``` is not a key, because although ```theater``` functionally determines ```city```, there are multiscreen theaters that show many movies at once. Thus, ```theater``` does not determine ```title```. Finally, ```city``` is not a key because cities usually have more than one theater and more than one movie playing.
+    - On the other hand, two of the three sets of two attributes are keys. Clearly {title, city} is a key because of the given FD that says these attributes functionally determine ```theater```.
+    - It is also true that {theater, title} is a key, because its closure includes city due to the given FD ```theater → city```.
+    - We conclude that the only two keys are:
+      ```
+      {title, city}
+      {theater, title}
+      ```
+    - Now we immediately see a BCNF violation. We were given functional dependency ```theater → city```, but its left side, theater, is not a superkey.
+    - We are therefore tempted to decompose, using this BCNF-violating FD, into the two relation schemas:
+      ```
+      {theater, city}
+      {theater, title}
+      ```
+    - There is a problem with this decomposition, concerning the FD
+      ```
+      title, city → theater
+      ```
+    - There could be current relations for the decomposed schemas that satisfy the FD ```theater → city``` (which can be checked in the relation {theater, city}) but that, when joined, yield a relation not satisfying title ```city → theater```.
+
+Chapter 3.5 Third Normal Form
+
+Chapter 3.5.1 Definition of Third Normal Form
+  - A relation R is in third normal form (3NF) if:
+    - Whenever A1, A2, . . . , An → B1, B2, . . . , Bm is a nontrivial FD, either {A1,A2, . . . ,An} is a superkey, or those of B1, B2, . . . , Bm that are not among the A's, are each a member of some key (not necessarily the same key).
+  - An attribute that is a member of some key is often said to be prime.
+  - Thus, the 3NF condition can be stated as “for each nontrivial FD, either the left side is a superkey, or the right side consists of prime attributes only.”
+  - First normal form is simply the condition that every component of every tuple is an atomic value.
+  - Second normal form is a less restrictive verison of 3NF.
+
+Chapter 3.5.2 The Synthesis Algorithm for 3NF Schemas
+  - How we decompose a relation R into a set of relations such that:
+    - The relations of the decomposition are all in 3NF.
+    - The decomposition has a lossless join.
+    - The decomposition has the dependency-preservation property.
+  - Algorithm : Synthesis of Third-Normal-Form Relations With a Lossless Join and Dependency Preservation.
+    - INPUT:  A relation R and a set F of functional dependencies that hold for R.
+    - OUTPUT: A decomposition of R into a collection of relations, each of which is in 3NF. The decomposition has the lossless-join and dependency-preservation properties.
+    - METHOD:
+      1. Find a minimal basis for F, say G.
+      2. For each functional dependency X → A in G, use XA as the schema of one of the relations in the decomposition.
+      3. If none of the relation schemas from Step 2 is a superkey for R, add another relation whose schema is a key for R.
+  - Example:
+    - Consider the relation R(A,B,C,D,E) with FD's AB → C, C → B, and A → D. To start, notice that the given FD's are their own minimal basis.
+    - First, we need to verify that we cannot eliminate any of the given dependencies. We show that no two of the FD's imply the third. For example, we must take the closure of {A, B}, the left side of the first FD, using only the second and third FD's, C → B and A → D. This closure includes D but not C, so we conclude that the first FD AB → C is not implied by the second and third FD's.
+    - We must also verify that we cannot eliminate any attributes from a left side. In this simple case, the only possibility is that we could eliminate A or B from the first FD. For example, if we eliminate A, we would be left with B → C. We must show that B → C is not implied by the three original FD's, AB → C, C → B, and A → D. With these FD's, the closure of {B} is just B, so B → C does not follow. A similar conclusion is drawn if we try to drop B from AB → C. Thus, we have our minimal basis.
+    - We start the 3NF synthesis by taking the attributes of each FD as a relation schema. That is, we get relations S1(A,B,C), S2 {B, C). and S3{A,D). It is never necessary to use a relation whose schema is a proper subset of another relation's schema, so we can drop S2.
+    - We must also consider whether we need to add a relation whose schema is a key. In this example, R has two keys: {A,B,E} and {A,C,E}, as you can verify. Neither of these keys is a subset of the schemas chosen so far. Thus, we must add one of them, say S4(A,B,E). The final decomposition of R is thus S1(A,B,C), S3(A,D), and S4 (A,B,E).
+
+Chapter 3.5.3 Why the 3NF Synthesis Algorithm Works
+  - These things hold:
+    1. Lossless Join:
+      - Consider the sequence of FD's that are used to expand K to become K+. Since K is a superkey, we know K + is all the attributes.
+    2. Dependency Preservation:
+      - Each FD of the minimal basis has all its attributes in some relation of the decomposition. Thus, each dependency can be checked in the decomposed relations.
+    3. Third Normal Form:
+      - If we have to add a relation whose schema is a key, then this relation is surely in 3NF. The reason is that all attributes of this relation are prime, and thus no violation of 3NF could be present in this relation.
+
+Chapter 3.6 Multivalued Dependencies
+  - A "multivalued dependency" is an assertion that two attributes or sets of attributes are independent of one another.
+  - Every FD implies the corresponding multivalued dependency.
+
+Chapter 3.6.1 Attribute Independence and Its Consequent Redundancy
+  - There are occasional situations where we design a relation schema and find it is in BCNF, yet the relation has a kind of redundancy that is not related to FD's.
+  - The most common source of redundancy in BCNF schemas is an attempt to put two or more set-valued properties of the key into a single relation.
+
+Chapter 3.6.2 Definition of Multivalued Dependencies
+  - A multivalued dependency (abbreviated MVD) is a statement about some relation R that when you fix the values for one set of attributes, then the values in certain other attributes are independent of the values of all the other attributes in the relation.
+  - More precisely, we say the MVD ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` holds for a relation R if when we restrict ourselves to the tuples of R that have particular values for each of the attributes among the A's, then the set of values we find among the B's is independent of the set of values we find among the attributes of R that are not among the A's or B's.
+  - Still more precisely, we say this MVD holds if: For each pair of tuples t and u of relation R that agree on all the A's, we can find in R some tuple v that agrees:
+    1. With both t and u on the A's,
+    2. With t on the B's, and
+    3. With u on all attributes of R that axe not among the A's or B's.
+  - Example:
+    ```
+    name ↠ street city
+    ```
+    - That is, for each star's name, the set of addresses appears in conjunction with each of the star's movies.
+
+Chapter 3.6.3 Reasoning About Multivalued Dependencies
+  - There are a number of rules about MVD's that are similar to the rules we learned for FD's
+  - MVD's obey:
+    - Trivial MVD's. The MVD ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` holds in any relation if ```{B1, B2, . . . , Bm} ⊆ {A1, A2, . . . , An}```.
+    - The transitive rule, which says that if ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` and ```B1, B2, . . . , Bm ↠ C1, C2, . . . , Ck``` hold for some relation, then so does ```A1, A2, . . . , An ↠ C1, C2, . . . , Ck```. Any C's that are also A's must be deleted from the right side.
+  - On the other hand, MVD's do not obey the splitting part of the splitting/combining rule.
+  - Example:
+    - ```name ↠ street city ``` If the splitting rule applied to MVD's, we would expect ```name ↠ street``` also to be true. This MVD says that each star's street addresses are independent of the other attributes, including city. However, that statement is false.
+  - There are several new rules dealing with MVD's that we can learn:
+    - FD Promotion. Every FD is an MVD. That is, if ```A1, A2, . . . , An → B1, B2, . . . , Bm``` then ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm```.
+    - Complementation Rule. If ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` is an MVD for relation R, then R also satisfies ```A1, A2, . . . , An ↠ C1, C2, . . . , Ck```, where the C's are all attributes of R not among the A's and B's. That is, swapping the B's between two tuples that agree in the A's has the same effect as swapping the C's.
+    - More Trivial MVD's. If all the attributes of relation R are ```{A1, A2, . . . , An, B1, B2, . . . , Bm}``` then ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` holds in R.
+  - Example:
+    - ```name ↠ street city``` the complementation rule says that ```name ↠ title year``` must also hold in this relation, because title and year are the attributes not mentioned in the first MVD. The second MVD intuitively means that each star has a set of movies starred in, which are independent of the star's addresses.
+
+Chapter 3.6.4 Fourth Normal Form
+  -  In this normal form, all nontrivial MVD's are eliminated, as are all FD's that violate BCNF. As a result, the decomposed relations have neither the redundancy from FD's nor the redundancy from MVD's.
+  - The "fourth normal form" condition is essentially the BCNF condition, but applied to MVD's instead of FD's.
+  - Formally: A relation R is in fourth normal form (4NF) if whenever ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` is a nontrivial MVD, ```{A1, A2, . . . , An}``` is a superkey. That is, if a relation is in 4NF, then every nontrivial MVD is really an FD with a superkey on the left. Note that the notions of keys and super keys depend on FD's only; adding MVD's does not change the definition of "key".
+  - Every FD is also an MVD. Thus, every BCNF violation is also a 4NF violation.
+  - Every relation that is in 4NF is therefore in BCNF.
+
+Chapter 3.6.5 Decomposition into Fourth Normal Form
+  - Algorithm for Decomposition into Fourth Normal Form:
+    - INPUT: A relation R0 with a set of functional and multivalued dependencies S0.
+    - OUTPUT: A decomposition of R0 into relations all of which are in 4NF. The decomposition has the lossless-join property.
+    - METHOD:  Do the following steps, with R = R0 and S = S0.
+      1. Find a 4NF violation in R, say ```A1, A2, . . . , An ↠ B1, B2, . . . , Bm``` where ```{A1, A2, . . . , An}``` is not a superkey. Note this MVD could be a true MVD in S, or it could be derived from the corresponding FD ```A1, A2, . . . , An → B1, B2, . . . , Bm``` in S, since every FD is an MVD. If there is none, return; R by itself is a suitable decomposition.
+      2. If there is such a 4NF violation, break the schema for the relation R that has the 4NF violation into two schemas:
+        - R1, whose schema is A's and the B's
+        - R2 , whose schema is the A's and all attributes of R that are not among the A's or B's.
+      3. Find the FD's and MVD's that hold in R1 and R2. Recursively decompose R1 and R2 with respect to their projected dependencies.
+
+Chapter 3.6.6 Relationships Among Normal Forms
+  - BCNF eliminates the redundancy and other anomalies that are caused by FD's, while only 4NF eliminates the additional redundancy that is caused by the presence of MVD's that are not FD's
+  - Often, 3NF is enough to eliminate this redundancy, but there are examples where it is not.
+  - BCNF does not guarantee preservation of FD's, and none of the normal forms guarantee preservation of MVD's, although in typical cases the dependencies are preserved.
+  - Properties of normal forms and their decompositions:
+
+  | Property | 3NF  | BCNF  | 4NF  |
+  | -- | -- | -- | -- |                           
+  | Eliminates redundancy due to FD's  | NO  | YES  | YES  |
+  | Eliminates redundancy due to MVD's  | NO  | NO  | YES  |
+  | Preserves FD's | YES  | NO  | NO  |
+  | Preserves MVD's | NO  | NO  | NO  |
+
+Chapter 3.7 An Algorithm for Discovering MVD's
+  - The closure algorithm is really the same as the chase algorithm
+  - The ideas behind the chase can be extended to incorporate MVD's as well as FD's.
+
+Chapter 3.7.1 The Closure and the Chase
+  - A chase-based test for whether X → Y follows from F can be summarized as:
+    1. Start with a tableau having two rows that agree only on X.
+    2. Chase the tableau using the FD's of F.
+    3. If the final tableau agrees in all columns of Y, then X → Y holds; otherwise it does not.
+  - Example:
+    - ```R(A,B,C,D,E,F)``` with FD's AB → C, BC → AD, D → E, and CF → B. We want to test whether AB → D holds. Start with the tableau:
+
+    | A  | B  | C  | D  | E  | F  |
+    | -- | -- | -- | -- | -- | -- |                          
+    | a  | b  | c1  | d1  | e1  | f1  |
+    | a  | b  | c2  | d2  | e2  | f2  |
+    - We can apply AB → C to infer c1 = c2; say both become c1. The resulting tableau is:
+
+    | A  | B  | C  | D  | E  | F  |
+    | -- | -- | -- | -- | -- | -- |                          
+    | a  | b  | c1  | d1  | e1  | f1  |
+    | a  | b  | c1  | d2  | e2  | f2  |
+    - Next, apply BC → AD to infer that d1 = d2, and apply D → E to infer e1 = e2. At this point, the tableau is:
+
+    | A  | B  | C  | D  | E  | F  |
+    | -- | -- | -- | -- | -- | -- |                          
+    | a  | b  | c1  | d1  | e1  | f1  |
+    | a  | b  | c1  | d1  | e1  | f2  |
+    - and we can go no further. Since the two tuples now agree in the D column, we know that AB → D does follow from the given FD's.
+
+Chapter 3.7.2 Extending the Chase to MVD's
+  - X ↠ Y tells us that if we find two rows of the tableau that agree in X, then we can form two new tuples by swapping all their components in the attributes of Y ; the resulting two tuples must also be in the relation, and therefore in the tableau.
+
+Chapter 3.7.3 Why the Chase Works for MVD's
+  - Since the chase with MVD's adds rows to the tableau, how do we know we ever terminate the chase? Could we keep adding rows forever, never reaching our goal, but not sure that after a few more steps we would achieve that goal? Fortunately, that cannot happen.
+
+Chapter 3.7.4 Projecting MVD's
+  - Often, our search for FD's and MVD's in the projected relations does not have to be completely exhaustive. Here are some simplifications.
+    1. It is surely not necessary to check the trivial FD's and MVD's.
+    2. For FD's, we can restrict ourselves to looking for FD's with a singleton right side, because of the combining rule for FD's.
+    3. An FD or MVD whose left side does not contain the left side of any given dependency surely cannot hold, since there is no way for its chase test to get started. That is, the two rows with which you start the test are unchanged by the given dependencies.
+
+Chapter 3.8 Summary
+  - Functional Dependencies:
+    - A functional dependency is a statement that two tuples of a relation that agree on some particular set of attributes must also agree on some other particular set of attributes.
+  - Keys of a Relation:
+    - A superkey for a relation is a set of attributes that functionally determines all the attributes of the relation. A key is a superkey, no proper subset of which is also a superkey.
+  - Reasoning About Functional Dependencies:
+    - There are many rules that let us infer that one FD X → A holds in any relation instance that satisfies some other given set of FD's. To verify that X → A holds, compute the closure of X, using the given FD's to expand X until it includes A.
+  - Minimal Basis for a set of FD's:
+    - For any set of FD's, there is at least one minimal basis, which is a set of FD's equivalent to the original (each set implies the other set), with singleton right sides, no FD that can be eliminated while preserving equivalence, and no attribute in a left side that can be eliminated while preserving equivalence.
+  - Boyce-Codd Normal Form:
+    - A relation is in BCNF if the only nontrivial FD's say that some superkey functionally determines one or more of the other attributes. A major benefit of BCNF is that it eliminates redundancy caused by the existence of FD's.
+  - Lossless-Join Decomposition:
+    - A useful property of a decomposition is that the original relation can be recovered exactly by taking the natural join of the relations in the decomposition. Any decomposition gives us back at least the tuples with which we start, but a carelessly chosen decomposition can give tuples in the join that were not in the original relation.
+  - Dependency-Preserving Decomposition:
+    - Another desirable property of a decomposition is that we can check all the functional dependencies that hold in the original relation by checking FD's in the decomposed relations.
+  - Third Normal Form:
+    - Sometimes decomposition into BCNF can lose the dependency-preservation property. A relaxed form of BCNF, called 3NF, allows an FD X → A even if X is not a superkey, provided A is a member of some key. 3NF does not guarantee to eliminate all redundancy due to FD's, but often does so.
+  - The Chase:
+    - We can test whether a decomposition has the lossless-join property by setting up a tableau — a set of rows that represent tuples of the original relation. We chase a tableau by applying the given functional dependencies to infer that certain pairs of symbols must be the same. The decomposition is lossless with respect to a given set of FD's if and only if the chase leads to a row identical to the tuple whose membership in the join of the projected relations we assumed.
+  - Synthesis Algorithm, for 3NF:
+    - If we take a minimal basis for a given set of FD's, turn each of these FD's into a relation, and add a key for the relation, if necessary, the result is a decomposition into 3NF that has the lossless-join and dependency-preservation properties.
+  - Multivalued Dependencies:
+    - A multivalued dependency is a statement that two sets of attributes in a relation have sets of values that appear in all possible combinations.
+  - Fourth Normal Form:
+    - MVD's can also cause redundancy in a relation. 4NF is like BCNF, but also forbids nontrivial MVD's whose left side is not a superkey. It is possible to decompose a relation into 4NF without losing information.
+  - Reasoning About MVD's:
+    - We can infer MVD's and FD's from a given set of MVD's and FD's by a chase process. We start with a two-row tableau that represent the dependency we are trying to prove. FD's are applied by equating symbols, and MVD's are applied by adding rows to the tableau that have the appropriate components interchanged.
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
