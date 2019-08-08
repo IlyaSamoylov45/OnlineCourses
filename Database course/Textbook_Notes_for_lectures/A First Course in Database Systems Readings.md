@@ -1457,35 +1457,6 @@ Chapter 3.7.4 Projecting MVD's
     2. For FD's, we can restrict ourselves to looking for FD's with a singleton right side, because of the combining rule for FD's.
     3. An FD or MVD whose left side does not contain the left side of any given dependency surely cannot hold, since there is no way for its chase test to get started. That is, the two rows with which you start the test are unchanged by the given dependencies.
 
-Chapter 3.8 Summary
-  - Functional Dependencies:
-    - A functional dependency is a statement that two tuples of a relation that agree on some particular set of attributes must also agree on some other particular set of attributes.
-  - Keys of a Relation:
-    - A superkey for a relation is a set of attributes that functionally determines all the attributes of the relation. A key is a superkey, no proper subset of which is also a superkey.
-  - Reasoning About Functional Dependencies:
-    - There are many rules that let us infer that one FD X → A holds in any relation instance that satisfies some other given set of FD's. To verify that X → A holds, compute the closure of X, using the given FD's to expand X until it includes A.
-  - Minimal Basis for a set of FD's:
-    - For any set of FD's, there is at least one minimal basis, which is a set of FD's equivalent to the original (each set implies the other set), with singleton right sides, no FD that can be eliminated while preserving equivalence, and no attribute in a left side that can be eliminated while preserving equivalence.
-  - Boyce-Codd Normal Form:
-    - A relation is in BCNF if the only nontrivial FD's say that some superkey functionally determines one or more of the other attributes. A major benefit of BCNF is that it eliminates redundancy caused by the existence of FD's.
-  - Lossless-Join Decomposition:
-    - A useful property of a decomposition is that the original relation can be recovered exactly by taking the natural join of the relations in the decomposition. Any decomposition gives us back at least the tuples with which we start, but a carelessly chosen decomposition can give tuples in the join that were not in the original relation.
-  - Dependency-Preserving Decomposition:
-    - Another desirable property of a decomposition is that we can check all the functional dependencies that hold in the original relation by checking FD's in the decomposed relations.
-  - Third Normal Form:
-    - Sometimes decomposition into BCNF can lose the dependency-preservation property. A relaxed form of BCNF, called 3NF, allows an FD X → A even if X is not a superkey, provided A is a member of some key. 3NF does not guarantee to eliminate all redundancy due to FD's, but often does so.
-  - The Chase:
-    - We can test whether a decomposition has the lossless-join property by setting up a tableau — a set of rows that represent tuples of the original relation. We chase a tableau by applying the given functional dependencies to infer that certain pairs of symbols must be the same. The decomposition is lossless with respect to a given set of FD's if and only if the chase leads to a row identical to the tuple whose membership in the join of the projected relations we assumed.
-  - Synthesis Algorithm, for 3NF:
-    - If we take a minimal basis for a given set of FD's, turn each of these FD's into a relation, and add a key for the relation, if necessary, the result is a decomposition into 3NF that has the lossless-join and dependency-preservation properties.
-  - Multivalued Dependencies:
-    - A multivalued dependency is a statement that two sets of attributes in a relation have sets of values that appear in all possible combinations.
-  - Fourth Normal Form:
-    - MVD's can also cause redundancy in a relation. 4NF is like BCNF, but also forbids nontrivial MVD's whose left side is not a superkey. It is possible to decompose a relation into 4NF without losing information.
-  - Reasoning About MVD's:
-    - We can infer MVD's and FD's from a given set of MVD's and FD's by a chase process. We start with a two-row tableau that represent the dependency we are trying to prove. FD's are applied by equating symbols, and MVD's are applied by adding rows to the tableau that have the appropriate components interchanged.
-
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
