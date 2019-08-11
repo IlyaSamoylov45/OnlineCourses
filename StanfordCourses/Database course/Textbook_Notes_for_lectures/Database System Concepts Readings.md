@@ -1221,6 +1221,24 @@ Chapter 8.8.4 Other Design Issues
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 7.9.2 The Uniﬁed Modeling Language UML
+  - The Uniﬁed Modeling Language (UML) is a standard developed under the auspices of the Object Management Group (OMG) for creating speciﬁcations of various components of a software system.
+  - Some of the parts of UML are:
+    - Class diagram. A class diagram is similar to an E-R diagram.
+    - Use case diagram. Use case diagrams show the interaction between users and the system, in particular the steps of tasks that users perform (such as withdrawing money or registering for a course).
+    - Activity diagram. Activity diagrams depict the flow of tasks between various components of a system.
+    - Implementation diagram. Implementation diagrams show the system components and their interconnections, both at the software component level and the hardware component level.
+  - UML actually models objects, whereas E-R models entities.
+  - Objects are like entities, and have attributes, but additionally provide a set of functions (called methods) that can be invoked to compute values on the basis of attributes of the objects, or to update the object itself.
+  - UML does not support composite or multivalued attributes, and derived attributes are equivalent to methods that take no parameters.
+  - Since classes support encapsulation, UML allows attributes and methods to be preﬁxed with a “+”, “-”, or“#”, which denote respectively public, private and protected access.
+  - In UML terminology, relationship sets are referred to as association
+  - UML supports nonbinary relationships, using the same diamond notation used in E-R diagrams.
+  - You should be aware that the positioning of the constraints is exactly the reverse of the positioning of constraints in E-R diagrams.
+  - UML class diagrams also provide notations to represent object-oriented language features such as interfaces.
+  
+  <img src= "images/DSCUML.jpg">
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

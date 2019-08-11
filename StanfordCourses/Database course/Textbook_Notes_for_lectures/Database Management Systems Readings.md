@@ -1040,6 +1040,26 @@ Chapter 19.8.2 Fourth Normal Form
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 2.7 THE UNIFIED MODELING LANGUAGE
+  - UML, like the ER model, has the attractive feature that its constructs can be drawn as diagrams.
+  - It encompasses a broader spectrum of the software design process than the ER model:
+    - Business Modeling: In this phase, the goal is to describe the business processes involved in the software application being developed.
+    - System Modeling: The understanding of business processes is used to identify the requirements for the software application. One part of the requirements is the database requirements.
+    - Conceptual Database Modeling: This step corresponds to the creation of the ER design for the database. For this purpose, UML provides many constructs that parallel the ER constructs.
+    - Physical Database Modeling: UML also provides pictorial representations for physical database design choices, such as the creation of table spaces and indexes.
+    - Hardware System Modeling: UML diagrams can be used to describe the hardware configuration used for the application.
+  - There are many kinds of diagrams in UML.
+    - Use case diagrams describe the actions performed by the system in response to user requests, and the people involved in these actions.
+    - Activity diagrams 8hmv the flow of actions in a business process.
+    - Statechart diagrams describe dynamic interactions between system objects. These diagrams, used in business and system modeling, describe how the external functionality is to be implemented, consistent with the business rules and processes of the enterprise.
+    - Class diagrams are similar to ER diagrams, although they are more general in that they are intended to model application entities.
+  - Both entity sets and relationship sets can be represented as classes in UML, together with key constraints, weak entities, and class hierarchies.
+  - The term relationship is used slightly differently in UML, and UML's relationships are binary.
+  - Relationship sets with key constraints are usually omitted from UML diagrams, and the relationship is indicated by directly linking the entity sets involved.
+  - ER diagrams are translated into the relational model by mapping each entity set into a table and each relationship set into a table.
+  - UML's database diagrams show how classes are represented in the database and contain additional details about the structure of the database such as integrity constraints and indexes.
+  - UML's component diagrams describe storage aspects of the database, such as tablespaces and database partitions, as well as interfaces to applications that access the database. Finally, deployment diagrams show the hardware aspects of the system.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

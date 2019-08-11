@@ -1258,10 +1258,81 @@ Chapter 15.6.1 Formal Definition of Multivalued Dependency
     - A relation that is not in 4NF due to a nontrivial MVD must be decomposed to convert it into a set of relations in 4NF.
     - The decomposition removes the redundancy caused by the MVD.
 
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 10.3 Use of UML Diagrams as an Aid to Database Design Specification
+
+Chapter 10.3.1 UML as a Design Specification Standard
+  - Presently, UML can be used by software developers, data modelers, database designers, and so on to define the detailed specification of an application.
+  - UML has many types of diagrams. Class diagrams, which can represent the end result of conceptual database design.
+  - To arrive at the class diagrams, the application requirements may be gathered and specified using use case diagrams, sequence diagrams, and statechart diagrams.
+
+Chapter 10.3.2 UML for Database Application Design
+  - The advantage of UML is that even though its concepts are based on object-oriented techniques, the resulting models of structure and behavior can be used to design relational, object-oriented, or object-relational databases
+  - One of the major contributions of the UML approach has been to bring the traditional database modelers, analysts, and designers together with the software application developers.
+
+Chapter 10.3.3 Different Types of Diagrams in UML
+  - UML defines nine types of diagrams divided into these two categories:
+    -  Structural Diagrams:
+      - These describe the structural or static relationships among schema objects, data objects, and software components. They include class diagrams, object diagrams, component diagrams, and deployment diagrams.
+    - Behavioral Diagrams:
+      - Their purpose is to describe the behavioral or dynamic relationships among components. They include use case diagrams, sequence diagrams, collaboration diagrams, statechart diagrams, and activity diagrams.
+  - Structural diagrams
+    - Class Diagrams:
+      - Class diagrams capture the static structure of the system and act as foundation for other models.
+      - They show classes, interfaces, collaborations, dependencies, generalizations, associations, and other relationships.
+      - Class diagrams are a very useful way to model the conceptual database schema.
+      - Package Diagrams
+        - Package diagrams are a subset of class diagrams.
+        - They organize elements of the system into related groups called packages.
+        - A package may be a collection of related classes and the relationships between them. Package diagrams help minimize dependencies in a system.
+    - Object Diagrams
+      - Object diagrams show a set of individual objects and their relationships, and are sometimes referred to as instance diagrams.
+      - They give a static view of a system at a particular time and are normally used to test class diagrams for accuracy.
+    - Component Diagrams
+      - Component diagrams illustrate the organizations and dependencies among software components.
+      - A component diagram typically consists of components, interfaces, and dependency relationships.
+      - A component may be a source code component, a runtime component, or an executable component.
+      - It is a physical building block in the system and is represented as a rectangle with two small rectangles or tabs overlaid on its left side.
+      - An interface is a group of operations used or created by a component and is usually represented by a small circle.
+      - Dependency relationship is used to model the relationship between two components and is represented by a dotted arrow pointing from a component to the component it depends on.
+      - For databases, component diagrams stand for stored data such as tablespaces or partitions.
+      - Interfaces refer to applications that use the stored data.
+    - Deployment Diagrams
+      - Deployment diagrams represent the distribution of components (executables, libraries, tables, files) across the hardware topology.
+      - They depict the physical resources in a system, including nodes, components, and connections, and are basically used to show the configuration of runtime processing
+  - Behavioral diagrams
+    - Use Case Diagrams
+      - Use case diagrams are used to model the functional interactions between users and the system.
+      - A scenario is a sequence of steps describing an interaction between a user and a system.
+      - A use case is a set of scenarios that have a common goal.
+      - A use case diagram shows actors interacting with use cases and can be understood easily without the knowledge of any notation.
+      - Since they do not specify any implementation detail and are supposed to be easy to understand, they are used as a vehicle for communicating between the end users and developers to help in easier user validation at an early stage.
+      - Test plans can also be described using use case diagrams.
+    - Sequence Diagrams
+      - Sequence diagrams describe the interactions between various objects over time.
+      - They basically give a dynamic view of the system by showing the flow of messages between objects.
+    - Collaboration Diagrams
+      - Collaboration diagrams represent interactions among objects as a series of sequenced messages.
+      - In collaboration diagrams the emphasis is on the structural organization of the objects that send and receive messages, whereas in sequence diagrams the emphasis is on the time-ordering of the messages.
+      - Collaboration diagrams show objects as icons and number the messages; numbered messages represent an ordering.
+    - Statechart Diagrams
+      - Statechart diagrams describe how an object’s state changes in response to external events.
+      - Important elements of a statechart diagram :
+        - States :
+          - Shown as boxes with rounded corners, they represent situations in the lifetime of an object.
+        - Transitions :
+          - Shown as solid arrows between the states, they represent the paths between different states of an object. They are labeled by the eventname [guard] /action; the event triggers the transition and the action results from it. The guard is an additional and optional condition that specifies a condition under which the change of state may not occur.
+        - Start/Initial State :
+          - Shown by a solid circle with an outgoing arrow to a state
+        - Stop/Final State :
+          - Shown as a double-lined filled circle with an arrow pointing into it from a state.
+    - Activity Diagrams
+      - Activity diagrams present a dynamic view of the system by modeling the flow of control from activity to activity.
+      - They can be considered as flowcharts with states.
+      - An activity is a state of doing something, which could be a real-world process or an operation on some object or class in the database.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

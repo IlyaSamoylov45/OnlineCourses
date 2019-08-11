@@ -1,4 +1,4 @@
-Relational Design Theory
+Relational Design Theory Exercises
   - Q1 : Consider a database containing information about courses taken by students. Students have a unique student ID and (possibly not unique) name; courses have a unique course number and (possibly not unique) title; students take a course in a given year and receive a grade. Which of the following schemas would you recommend?
     - Solution : Student(sID, name), Course(courseNum, title), Took(sID, courseNum, year, grade)
 

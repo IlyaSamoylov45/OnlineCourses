@@ -1460,6 +1460,70 @@ Chapter 3.7.4 Projecting MVD's
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 4.7 Unified Modeling Language
+  -  UML offers much the same capabilities as the E/R model, with the exception of multiway relationships.
+
+Chapter 4.7.1 UML Classes
+  - A class in UML is similar to an entity set in the E/R model.
+  - The box for a class is divided into three parts. At the top is the name of the class. The middle has the attributes, which are like instance variables of a class. The bottom portion is for methods.
+  - The UML specification doesn’t tell anything more about a method than the types of any arguments and the type of its return-value.
+
+Chapter 4.7.2 Keys for UML classes
+  - As for entity sets, we can declare one key for a UML class. To do so, we follow each attribute in the key by the letters PK, standing for “primary key.”
+  - There is no convenient way to stipulate that several attributes or sets of attributes are each keys.
+
+Chapter 4.7.3 Associations
+  - A binary relationship between classes is called an association.
+  - There is no analog of multiway relationships in UML. Rather, a multiway relationship has to be broken into binary relationships
+  - We draw a UML association between two classes simply by drawing a line between them, and giving the line a name.
+  - Every association has constraints on the number of objects from each of its classes that can be connected to an object of the other class.
+  - A ```* in place of n, as in m..*```, stands for “infinity.” That is, there is no upper limit.
+  - A ```* alone, in place of m..n, stands for the range 0..*```, that is, no constraint at all on the number of objects.
+  - If there is no label at all at an end of an association edge, then the label is taken to be 1..1, i.e., “exactly one.”
+
+Chapter 4.7.4 Self-Associations
+  - An association can have both ends at the same class; such an association is called a self-association.
+
+Chapter 4.7.5 Association Classes
+  - We can attach attributes to an association in much the way we did in the E/R model
+  - In UML, we create a new class, called an association class, and attach it to the middle of the association.
+
+Chapter 4.7.6 Subclasses in UML
+  - Any UML class can have a hierarchy of subclasses below it. The primary key comes from the root of the hierarchy, just as with E/R hierarchies. UML permits a class C to have four different kinds of subclasses below it, depending on our choices of answer to two questions
+    - Complete versus Partial. Is every object in the class C a member of some subclass? If so, the subclasses are complete; otherwise they are partial or incomplete.
+    - Disjoint versus Overlapping. Are the subclasses disjoint (an object cannot be in two of the subclasses)? If an object can be in two or more of the subclasses, then the subclasses are said to be overlapping.
+  - In a typical object-oriented system, subclasses are disjoint. That is, no object can be in two classes. Of course they inherit properties from their parent class, so in a sense, an object also “belongs” in the parent class. However, the object may not also be in a sibling class.
+  - The E/R model automatically allows overlapping subclasses.
+  - Both the E/R model and object-oriented systems allow either complete or partial subclasses. That is, there is no requirement that a member of the superclass be in any subclass.
+  - Subclasses are represented by rectangles, like any class.
+  - To represent the class/subclass relationship in UML diagrams, we use a triangular, open arrow pointing to the superclass.
+
+Chapter 4.7.7 Aggregations and Compositions
+   - An aggregation is a line between two classes that ends in an open diamond at one end.
+   - A composition is similar to an association, but the label at the diamond end must be 1..1.
+   - Compositions are distinguished by making the diamond be solid black.
+
+Chapter 4.8 From UML Diagrams to Relations
+  - Many of the ideas needed to turn E/R diagrams into relations work for UML diagrams as well.
+
+Chapter 4.8.1 UML-to-Relations Basics
+  - Outline of the points
+    - Classes to Relations. For each class, create a relation whose name is the name of the class, and whose attributes are the attributes of the class.
+    - Associations to Relations. For each association, create a relation with the name of that association. The attributes of the relation are the key attributes of the two connected classes. If there is a coincidence of attributes between the two classes, rename them appropriately.
+
+Chapter 4.8.2 From UML Subclasses to Relations
+  - Options are “E/R style” (relations for each subclass have only the key attributes and attributes of that subclass), “object-oriented” (each entity is represented in the relation for only one subclass), and “use nulls” (one relation for all subclasses).
+  - Here are some considerations:
+    - If a hierarchy is disjoint at every level, then an object-oriented representation is suggested. We do not have to consider each possible tree of subclasses when forming relations, since we know that each object can belong to only one class and its ancestors in the hierarchy. Thus, there is no possibility of an exponentially exploding number of relations being created.
+    - If the hierarchy is both complete and disjoint at every level, then the task is even simpler. If we use the object-oriented approach, then we have only to construct relations for the classes at the leaves of the hierarchy.
+    - If the hierarchy is large and overlapping at some or all levels, then the E/R approach is indicated. We are likely to need so many relations that the relational database schema becomes unwieldy.
+
+Chapter 4.8.3 From Aggregations and Compositions to Relations
+  - We suggest that aggregations and compositions be treated routinely in this manner. Construct no relation for the aggregation or composition. Rather, add to the relation for the class at the nondiamond end the key attribute(s) of the class at the diamond end. 
+
+Chapter 4.8.4 The UML Analog of Weak Entity Sets
+  - We shall use a special notation for a supporting composition: a small box attached to the weak class with “PK” in it will serve as the anchor for the supporting composition.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
