@@ -2,6 +2,7 @@ UML Extra Exercises
   - Q1 :  Consider the following UML diagram.
   <img src= "images/UMLEXCERCISES1.png">
 
+  - Given the above:
     - If there are 6 authors, what's the minimum and maximum number of books? What's the minimum and maximum number of readers?
       - Solution :
       ```
@@ -26,6 +27,7 @@ UML Extra Exercises
   - Q4 : Consider the following UML diagram.
   <img src= "images/UMLEXCERCISES2.png">
 
+  - Given the above:
     - No two companies can have the same name
       - Solution : ```True```
     - No two employees can have the same name
@@ -47,13 +49,14 @@ UML Extra Exercises
 
   - Q5 : Consider the following UML diagram.
   <img src= "images/UMLEXCERCISES3.png">
-
+  
+  - Given the above:
     - ( a ) According to the diagram, what are the minimum and maximum total number of instructors for a given course?
       - Solution :
       ```
       min 1, max 5
       ```
-      
+
     - ( b ) According to the diagram, what is the minimum and maximum teaching load (number of courses) for professors? For assistants?
       - Solution :
       ```
