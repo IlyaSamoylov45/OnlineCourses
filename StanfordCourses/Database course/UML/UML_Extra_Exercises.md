@@ -1,5 +1,6 @@
 UML Extra Exercises
   - Q1 :  Consider the following UML diagram.
+
   <img src= "images/UMLEXCERCISES1.png">
 
     - If there are 6 authors, what's the minimum and maximum number of books? What's the minimum and maximum number of readers?
@@ -17,13 +18,16 @@ UML Extra Exercises
 
   - Q2 : Consider a tiny social network containing high school students and their "crushes" (desired romantic relationships). Each student may have a crush on at most one other student, and associated with each crush is the length of time the crush has been going on. Students have a name and a grade, and names are unique. Draw a UML diagram that models this information. Make sure to capture the asymmetry and multiplicity of the crush relationship.
     - Solution : (I had a similar answer) Pasting the one given:
+
     <img src= "images/UMLEXCERCISES4.png">
 
   - Q3 : Consider a class Book with four subclasses: Anthology, Fiction, Children, and Nonfiction. Is the subclassing relationship overlapping or disjoint (exclusive)? Is it complete or incomplete (partial)?
     - Solution : ```Overlapping and complete```
 
   - Q4 : Consider the following UML diagram.
+
   <img src= "images/UMLEXCERCISES2.png">
+
     - No two companies can have the same name
       - Solution : ```True```
     - No two employees can have the same name
@@ -44,7 +48,9 @@ UML Extra Exercises
       - Solution : ```False```
 
   - Q5 : Consider the following UML diagram.
+
   <img src= "images/UMLEXCERCISES3.png">
+
     - ( a ) According to the diagram, what are the minimum and maximum total number of instructors for a given course?
       - Solution :
       ```
