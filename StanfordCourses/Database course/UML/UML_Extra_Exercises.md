@@ -1,6 +1,5 @@
 UML Extra Exercises
   - Q1 :  Consider the following UML diagram.
-
   <img src= "images/UMLEXCERCISES1.png">
 
     - If there are 6 authors, what's the minimum and maximum number of books? What's the minimum and maximum number of readers?
@@ -25,7 +24,6 @@ UML Extra Exercises
     - Solution : ```Overlapping and complete```
 
   - Q4 : Consider the following UML diagram.
-
   <img src= "images/UMLEXCERCISES2.png">
 
     - No two companies can have the same name
@@ -48,7 +46,6 @@ UML Extra Exercises
       - Solution : ```False```
 
   - Q5 : Consider the following UML diagram.
-
   <img src= "images/UMLEXCERCISES3.png">
 
     - ( a ) According to the diagram, what are the minimum and maximum total number of instructors for a given course?
@@ -56,12 +53,14 @@ UML Extra Exercises
       ```
       min 1, max 5
       ```
+      
     - ( b ) According to the diagram, what is the minimum and maximum teaching load (number of courses) for professors? For assistants?
       - Solution :
       ```
       Professor : min 0, max 1
       Assistant : min 3, max 6
       ```
+
     - ( c ) Translate the UML diagram to a relational schema. There are several possible automatic translations; use the translation for subclassing most appropriate for the specified properties as described in the video. If it makes sense to eliminate any association-class relations as described in the video, do so.
       - Solution :
       ```
@@ -70,6 +69,7 @@ UML Extra Exercises
       Course(course#, dept)
       ATeach(name, course#)
       ```
+
     - ( d ) Specify a minimal key for each relation in your solution to part (c).
       - Solution :
       ```
@@ -78,5 +78,6 @@ UML Extra Exercises
       Course(course#)
       ATeach(name, course#)
       ```
+
     - ( e ) Suppose by default attribute values cannot contain null. Does your solution to part (c) require any attributes to permit null values?
       - Solution : ```Professor.course# and Professor.rating must allow nulls```
