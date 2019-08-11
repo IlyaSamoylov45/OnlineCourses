@@ -49,7 +49,7 @@ UML Extra Exercises
 
   - Q5 : Consider the following UML diagram.
   <img src= "images/UMLEXCERCISES3.png">
-  
+
   - Given the above:
     - ( a ) According to the diagram, what are the minimum and maximum total number of instructors for a given course?
       - Solution :
