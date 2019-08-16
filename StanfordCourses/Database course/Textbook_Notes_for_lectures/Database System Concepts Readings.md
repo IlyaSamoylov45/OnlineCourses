@@ -9,7 +9,7 @@ Chapter 1.2 Purpose of Database Systems
   - Disadvantages (file-processing system):
     1. Data redundancy and inconsistency
     2. Difficulty accessing data
-        -  Conventional file-processing environments do not allow needed data to be retrieved in a convenient and efﬁcient manner
+        -  Conventional file-processing environments do not allow needed data to be retrieved in a convenient and efficient manner
     3. Data isolation
     4. Integrity problems
     5. Atomicity problems
@@ -36,7 +36,7 @@ Chapter 1.3.3 Data Models
   - Data model: a collection of conceptual tools for describing data, data relationships, data semantics, and consistency constraints.
 
 Chapter 1.4 Database Languages
-  - A database system provides a data-deﬁnition language to specify the database schema and a data-manipulation language to express database queries and updates. They are not really two separate languages but instead form parts of a single database language.
+  - A database system provides a data-definition language to specify the database schema and a data-manipulation language to express database queries and updates. They are not really two separate languages but instead form parts of a single database language.
 
 Chapter 1.4.1 Data-Manipulation Language
   - A data-manipulation language (DML) is a language that enables users to access or manipulate data as organized by the appropriate data model.
@@ -50,7 +50,7 @@ Chapter 1.4.1 Data-Manipulation Language
     2. Declarative DMLs: user specify what data are needed not how to get it.
   - The portion of a DML that involves information retrieval is called a query language.   
 
-Chapter 1.4.2 Data-Deﬁnition Language
+Chapter 1.4.2 Data-Definition Language
   - Database schema is expressed by a special language known as the DDL
   - Database systems implement integrity constraints that can be tested with minimal overhead:
     1. Domain Constraints
@@ -58,33 +58,33 @@ Chapter 1.4.2 Data-Deﬁnition Language
     3. Assertions
        - An assertion is any condition that the database must always satisfy.
        - Domain constraints and referential-integrity constraints are special forms of assertions.
-       -  When an assertion is created, the system tests it for validity. If the assertion is valid, then any future modiﬁcation to the database is allowed only if it does not cause that assertion to be violated.
+       -  When an assertion is created, the system tests it for validity. If the assertion is valid, then any future modification to the database is allowed only if it does not cause that assertion to be violated.
     4. Authorization
-       1. Read authorization, which allows reading, but not modiﬁcation, of data
-       2. Insert authorization, which allows insertion of new data, but not modiﬁcation of existing data
-       3. Update authorization, which allows modiﬁcation, but not deletion of data
+       1. Read authorization, which allows reading, but not modification, of data
+       2. Insert authorization, which allows insertion of new data, but not modification of existing data
+       3. Update authorization, which allows modification, but not deletion of data
        4. Delete authorization, which allows deletion of data.
 
 Chapter 1.5 Relational Databases
 
 Chapter 1.5.1 Tables
   - The relational model is an example of a record-based model.
-  - Record-based models are so named because the database is structured in ﬁxed-format records of several types
+  - Record-based models are so named because the database is structured in fixed-format records of several types
 Chapter 1.6 Database Design
   - Database design mainly involves the design of the database schema.
 
 Chapter 1.5.2 Data-Manipulation Language
   - The SQL query language is nonprocedural. A query takes as input several tables (possibly only one) and always returns a single table.
 
-Chapter 1.5.3 Data-Deﬁnition Language
-  - SQL provides a rich DDL that allows one to deﬁne tables, integrity constraints, assertions, etc.
+Chapter 1.5.3 Data-Definition Language
+  - SQL provides a rich DDL that allows one to define tables, integrity constraints, assertions, etc.
 
 Chapter 1.5.4 Database Access from Application Programs
   - SQL also does not support actions such as input from users, output to displays, or communication over the network.
   - Application programs are programs that are used to interact with the database
 Chapter 1.6.1 Design Process
   - The focus at this point is on describing the data and their relationships, rather than on specifying physical storage details.
-  - In a speciﬁcation of functional requirements, users describe the kinds of operations (or transactions) that will be performed on the data
+  - In a specification of functional requirements, users describe the kinds of operations (or transactions) that will be performed on the data
 
 Chapter 1.6.2 Database Design for a University Organization
 
@@ -108,13 +108,13 @@ Chapter 1.7.1 Storage Manager
   - The storage manager is the component of a database system that provides the interface between the low-level data stored in the database and the application programs and queries submitted to the system.
   - The storage manager components include
     1. Authorization and integrity manager : tests for the satisfaction of integrity constraints and checks the authority of users to access data.
-    2. Transaction manager : ensures that the database remains in a consistent (correct) state despite system failures, and that concurrent transaction executions proceed without conﬂicting.
+    2. Transaction manager : ensures that the database remains in a consistent (correct) state despite system failures, and that concurrent transaction executions proceed without conflicting.
     3. File manager : manages the allocation of space on disk storage and the data structures used to represent information stored on disk.
     4. Buffer manager : responsible for fetching data from disk storage into main memory, and deciding what data to cache in main memory.
 
 Chapter 1.7.2 The Query Processor
   - The query processor components include:
-    1. DDL interpreter, which interprets DDL statements and records the deﬁnitions in the data dictionary.
+    1. DDL interpreter, which interprets DDL statements and records the definitions in the data dictionary.
     2. DML compiler, which translates DML statements in a query language into an evaluation plan consisting of low-level instructions that the query evaluation engine understands.
        Also performs query optimizations.
     3. Query evaluation engine, which executes low-level instructions generated by the DML compiler.
@@ -137,8 +137,8 @@ Chapter 1.9 Database Architecture
   - Three-tier applications are more appropriate for large applications, and for applications that run on the World Wide Web.
 
 Chapter 1.10 Data Mining and Information Retrieval
-  - The term data mining refers loosely to the process of semi automatically analyzing large databases to ﬁnd useful patterns.
-  - Data warehouses gather data from multiple sources under a uniﬁed schema, at a single site.
+  - The term data mining refers loosely to the process of semi automatically analyzing large databases to find useful patterns.
+  - Data warehouses gather data from multiple sources under a unified schema, at a single site.
 
 Chapter 1.11 Specialty Databases
 
@@ -146,7 +146,7 @@ Chapter 1.11.1 Object-Based Data Models
   - The major database vendors presently support the object-relational data model, a data model that combines features of the object-oriented data model and relational data model.
 
 Chapter 1.11.2 Semi-structured Data Models
-  -Semi-structured data models permit the speciﬁcation of data where individual data items of the same type may have different sets of attributes.
+  -Semi-structured data models permit the specification of data where individual data items of the same type may have different sets of attributes.
   - XML
 
 Chapter 1.12 Database Users and Administrators
@@ -161,8 +161,8 @@ Chapter 1.12.1 Database Users and User Interfaces
 Chapter 1.12.2 Database Administrator
   - The functions of DBA include:
     - Schema definition
-    - Storage structure and access-method deﬁnition.
-    - Schema and physical-organization modiﬁcation.
+    - Storage structure and access-method definition.
+    - Schema and physical-organization modification.
     - Granting of authorization for data access.
     - Routine maintenance
 
@@ -188,7 +188,7 @@ Chapter 2.2 Database Schema
 Chapter 3.1 Overview of the SQL Query Language
   - Originally called Sequel but renamed to Structured Query Language
   - The SQL language has several parts:
-    - Data-deﬁnition language(DDL): DDL provides commands for deﬁning relation schemas, deleting relations, and modifying relation schemas.
+    - Data-definition language(DDL): DDL provides commands for defining relation schemas, deleting relations, and modifying relation schemas.
     - Data-manipulation language (DML): provides the ability to query information from the database and work with tuples.
     - Integrity: integrity constraints, updates that violate integrity constraints are not allowed
     - View Definition
@@ -201,7 +201,7 @@ XML DATA NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Chapter 23.1 Motivation
   - The term markup refers to anything in a document that is not intended to be part of the printed output.
-  - Benefits of XML when it's used to exchange data between organizations, and for storing complex structured information in ﬁles
+  - Benefits of XML when it's used to exchange data between organizations, and for storing complex structured information in files
     1. The presence of the tags makes the message self-documenting
     2. the format of the document is not rigid
     3. XML allows nested structures
@@ -210,32 +210,32 @@ Chapter 23.2 Structure of XML Data
   - An element is simply a pair of matching start-tag and end-tag
   - XML documents must have a single root element that encompasses all other elements in the document
   - The ability to nest elements within other elements provides an alternative way to represent information.
-  - In general, it is advisable to use attributes only to represent identiﬁers, and to store all other data as sub-elements.
-  - One ﬁnal syntactic note is that an element of the form <element></element> that contains no subelements or text can be abbreviated as <element/>
+  - In general, it is advisable to use attributes only to represent identifiers, and to store all other data as sub-elements.
+  - One final syntactic note is that an element of the form <element></element> that contains no subelements or text can be abbreviated as <element/>
   - A document can have more than one namespace, declared as part of the root element.
 
-Chapter 23.3.1 Document Type Deﬁnition
-  - The document type deﬁnition(DTD) is an optional part of an XML document.
+Chapter 23.3.1 Document Type Definition
+  - The document type definition(DTD) is an optional part of an XML document.
   - The keyword #PCDATA indicates text data
-  - An attribute of type ID provides a unique identiﬁer for the element
+  - An attribute of type ID provides a unique identifier for the element
   - The type IDREFS allows a list of references, separated by spaces.
   - An attribute of type IDREF is a reference to an element; the attribute must contain a value that appears in the ID attribute of some element in the document.
 
 Chapter 23.3.2 XML Schema
-  - Made to address deficiencies in DTD XMLSchemadeﬁnesanumberofbuilt-intypessuchasstring,integer,decimal date, and boolean.
-  - Schema deﬁnitions in XML Schema are themselves speciﬁed in XML syntax
+  - Made to address deficiencies in DTD XML Schema defines a number of built-in types such as string, integer, decimal date, and boolean.
+  - Schema definitions in XML Schema are themselves specified in XML syntax
   - Key Ex:
   ```xml
     <xs:key name = “deptKey”>
         <xs:selector xpath = “/university/department”/>
-        <xs:ﬁeld xpath = “dept name”/>
+        <xs:field xpath = “dept_name”/>
     </xs:key>
   ```
   - Foreign Key Ex:
   ```xml
     <xs: name = “courseDeptFKey” refer=“deptKey”>
         <xs:selector xpath = “/university/course”/>
-        <xs:ﬁeld xpath = “dept name”/>
+        <xs:field xpath = “dept_name”/>
     </xs:keyref>
   ```
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -275,7 +275,7 @@ Chapter 6.1.1.4 The Union Operation
     2. The domains of the ith attribute of r and the ith attribute of s must be the same, for all i.
 
 Chapter 6.1.1.5 The Set-Difference Operation
-  - The set-difference operation, denoted by ¬, allows us to ﬁnd tuples that are in one relation but are not in another.
+  - The set-difference operation, denoted by ¬, allows us to find tuples that are in one relation but are not in another.
   - As with the union operation, we must ensure that set differences are taken between compatible relations.
 
 Chapter 6.1.1.6 The Cartesian-Product Operation
@@ -286,9 +286,9 @@ Chapter 6.1.1.7 The Rename Operation
   - The rename operator, denoted by the lowercase Greek letter rho(p)
     - p(x)(E) : returns the result of expression E under the name x
     - p(x)(A1,A2, . . . , An)(E) : returns the result of expression E under the name x, and with the attributes renamed to A1, A2,...,An.
-  - We can name attributes of a relation implicitly by using a positional notation, where $1,$2, ... refer to the ﬁrst attribute, the second attribute, and so on.
+  - We can name attributes of a relation implicitly by using a positional notation, where $1,$2, ... refer to the first attribute, the second attribute, and so on.
 
-Chapter 6.1.2 Formal Deﬁnition of the Relational Algebra
+Chapter 6.1.2 Formal Definition of the Relational Algebra
   - A basic expression in the relational algebra consists of either one of the following:
     - A relation in the database
     - A constant relation
@@ -312,7 +312,7 @@ Chapter 6.1.3.2 The Natural-Join Operation
   - Please note that if r(R) and s(S) are relations without any attributes in common, that is, R ∩ S = ∅, then r ⋈ s = r × s.
 
 Chapter 6.1.3.3 The Assignment Operation
-  - The assignment operation, denoted by ←, works like assignment in a programming language. To illustrate this operation, consider the deﬁnition of the natural-join operation.
+  - The assignment operation, denoted by ←, works like assignment in a programming language. To illustrate this operation, consider the definition of the natural-join operation.
   - The result of the expression to the right of the ← is assigned to the relation variable on the left of the ←.
 
 Chapter 6.1.3.4 Outer join Operations
@@ -327,7 +327,7 @@ Chapter 6.1.4 Extended Relational-Algebra Operations
   - Queries that cannot be expressed using the basic relational-algebra operations, these operations are called extended relational-algebra operations.
 
 Chapter 6.1.4.1 Generalized Projection
-  - The ﬁrst operation is the generalized-projection operation, which extends the projection operation by allowing operations such as arithmetic and string functions to be used in the projection list.
+  - The first operation is the generalized-projection operation, which extends the projection operation by allowing operations such as arithmetic and string functions to be used in the projection list.
   - The generalized-projection operation has the form: π(F1,F2,...,Fn)(E)
     - where E is any relational-algebra expression, and each of F1, F2,...,Fn is an arithmetic expression involving constants and attributes in the schema of E.
   - In general, an expression can use arithmetic operations such as +, −, ∗, and ÷ on numeric valued attributes, numeric constants, and on expressions that generate a numeric result.
@@ -343,7 +343,7 @@ Chapter 6.1.4.2 Aggregation
   - The collections on which aggregate functions operate can have multiple occurrences of a value; the order in which the values appear is not relevant. Such collections are called multisets.
   - Sets are a special case of multisets where there is only one copy of each element.
   - G(sum(salary))(instructor)
-    -  The relational-algebra operation G signiﬁes that aggregation is to be applied, and its subscript speciﬁes the aggregate operation to be applied.
+    -  The relational-algebra operation G signifies that aggregation is to be applied, and its subscript specifies the aggregate operation to be applied.
   - There are cases where we must eliminate multiple occurrences of a value before computing an aggregate function. If we do want to eliminate duplicates, we use the same function names as before, with the addition of the hyphenated string “distinct” appended to the end of the function name.
   - The aggregate function count-distinct ensures that even if an instructor teaches more than one course, she is counted only once in the result.
   - There are circumstances where we would like to apply the aggregate function not to a single set of tuples, but instead to a group of sets of tuples.
@@ -843,30 +843,30 @@ Chapter 23.4.2 XPath
   - The result of a path expression is then the set of nodes after the last step of path expression evaluation.
   - The nodes returned by each step appear in the same order as their appearance in the document.
   - Attribute values may also be accessed, using the “@” symbol.
-  - For instance, /university-3/course/@course_id returns a set of all values of course id attributes of course elements.
+  - For instance, /university-3/course/@course_id returns a set of all values of course_id attributes of course elements.
   - By default, IDREF links are not followed.
   - XPath supports a number of other features:
     1. Selection predicates : ``` /university-3/course[credits >=4] ``` returns course elements with a credits value greater than or equal to 4.
     2. XPath provides several functions that can be used as part of predicates, including testing the position of the current node in the sibling order and the aggregate function count(), which counts the number of nodes matched by the expression to which it is applied. ``` /university-2/instructor[count(./teaches/course)> 2]``` returns instructors who teach more than two courses.  Boolean connectives AND and OR can be used in predicates, while the function not( ... ) can be used for negation.
-    3. The function id(“foo”) returns the node (if any) with an attribute of type ID and value “foo”. ``` /university-3/course/id(@dept name)``` returns all department elements referred to from the dept_name attribute of course elements, while: ```XPATH /university-3/course/id(@instructors)``` returns the instructor elements referred to in the instructor attribute of course elements.
-    4. The | operator allows expression results to be unioned. ``` /university-3/course[@dept name=“Comp. Sci”] | /university-3/course[@dept name=“Biology”] ``` : union of Computer Science and Biology courses. The | operator cannot be nested inside other operators.
-    5. An XPath expression can skip multiple levels of nodes by using “//”. For instance, the expression ``` /university-3//name``` ﬁnds all name elements anywhere under the /university-3 element, regardless of the elements in which they are contained, and regardless of how many levels of enclosing elements are present between the university-3 and name elements.
-    6. A step in the path need not just select from the children of the nodes in the current node set. “//”, described above, is a short form for specifying “all descendants,” while “..” speciﬁes the parent.
-    7. The built-in function doc(name) returns the root of a named document; the name could be a ﬁle name or a URL. For example, if the university data in our university example is contained in a ﬁle “university.xml”, the following path expression would return all departments at the university: ``` doc(“university.xml”)/university/department``` The function collection(name) is similar to doc, but returns a collection of documents identiﬁed by name.
+    3. The function id(“foo”) returns the node (if any) with an attribute of type ID and value “foo”. ``` /university-3/course/id(@dept_name)``` returns all department elements referred to from the dept_name attribute of course elements, while: ```XPATH /university-3/course/id(@instructors)``` returns the instructor elements referred to in the instructor attribute of course elements.
+    4. The | operator allows expression results to be unioned. ``` /university-3/course[@dept_name=“Comp. Sci”] | /university-3/course[@dept_name=“Biology”] ``` : union of Computer Science and Biology courses. The | operator cannot be nested inside other operators.
+    5. An XPath expression can skip multiple levels of nodes by using “//”. For instance, the expression ``` /university-3//name``` finds all name elements anywhere under the /university-3 element, regardless of the elements in which they are contained, and regardless of how many levels of enclosing elements are present between the university-3 and name elements.
+    6. A step in the path need not just select from the children of the nodes in the current node set. “//”, described above, is a short form for specifying “all descendants,” while “..” specifies the parent.
+    7. The built-in function doc(name) returns the root of a named document; the name could be a file name or a URL. For example, if the university data in our university example is contained in a file “university.xml”, the following path expression would return all departments at the university: ``` doc(“university.xml”)/university/department``` The function collection(name) is similar to doc, but returns a collection of documents identified by name.
 
 Chapter 23.4.3 XQuery
   - The World Wide Web Consortium (W3C) has developed XQuery as the standard query language for XML.
 
 Chapter 23.4.3.1 FLWOR Expressions
-  - XQuery queries are modeled after SQL queries, but differ signiﬁcantly from SQL.
-  - They are organized into ﬁve sections: for, let, where, order by, and return : FLWOR (pronounced “ﬂower”)
+  - XQuery queries are modeled after SQL queries, but differ significantly from SQL.
+  - They are organized into five sections: for, let, where, order by, and return : FLWOR (pronounced “flower”)
   ```XQUERY
   for $x in /university-3/course
   let $courseId := $x/@course_id
   where $x/credits > 3
   return <course_id> {$courseId} </course_id>
   ```
-  - The for clause is like the from clause of SQL, and speciﬁes variables that range over the results of XPath expressions. When more than one variable is speciﬁed, the results include the Cartesian product of the possible values the variables can take, just as the SQL from clause does.
+  - The for clause is like the from clause of SQL, and specifies variables that range over the results of XPath expressions. When more than one variable is specified, the results include the Cartesian product of the possible values the variables can take, just as the SQL from clause does.
   - The let clause simply allows the results of XPath expressions to be assigned to variable names for simplicity of representation
   - The where clause, like the SQL where clause, performs additional tests on the joined tuples from the for clause.
   - The order by clause, like the SQL order by clause, allows sorting of the output.
@@ -875,9 +875,9 @@ Chapter 23.4.3.1 FLWOR Expressions
   - Similar Query:
   ```XQUERY
   for $x in /university-3/course[credits > 3]
-  return <course id> {$x/@course id} </course id>
+  return <course_id> {$x/@course_id} </course_id>
   ```
-  - Observe the use of curly brackets (“{}”) in the return clause. When XQuery ﬁnds an element such as ```<course_id>``` starting an expression, it treats its contents as regular XML text, except for portions enclosed within curly brackets, which are evaluated as expressions.
+  - Observe the use of curly brackets (“{}”) in the return clause. When XQuery finds an element such as ```<course_id>``` starting an expression, it treats its contents as regular XML text, except for portions enclosed within curly brackets, which are evaluated as expressions.
   - XQuery provides another way of constructing elements using the element and attribute constructors.
   ```XQuery
   return element course{
@@ -889,7 +889,7 @@ Chapter 23.4.3.1 FLWOR Expressions
   ```
 
 Chapter 23.4.3.2 Joins
-  - Joins are speciﬁed in XQuery much as they are in SQL
+  - Joins are specified in XQuery much as they are in SQL
   ```XQUERY
   for $c in /university/course,
       $i in /university/instructor,
@@ -906,7 +906,7 @@ Chapter 23.4.3.2 Joins
             and $t/IID = $i/IID]
   return <course_instructor> {$c $i} </course_instructor>
   ```
-  - XQuery has an interesting deﬁnition of comparison operations on sequences. For example, the expression ```$x/credits > 3``` would have the usual interpretation if the result of $x/credits is a single value, but if the result is a sequence containing multiple values, the expression evaluates to true if at least one of the values is greater than 3. If this behavior is not appropriate, the operators eq, ne, lt, gt, le, ge can be used instead. These raise an error if either of their inputs is a sequence with multiple values.
+  - XQuery has an interesting definition of comparison operations on sequences. For example, the expression ```$x/credits > 3``` would have the usual interpretation if the result of $x/credits is a single value, but if the result is a sequence containing multiple values, the expression evaluates to true if at least one of the values is greater than 3. If this behavior is not appropriate, the operators eq, ne, lt, gt, le, ge can be used instead. These raise an error if either of their inputs is a sequence with multiple values.
 
 Chapter 23.4.3.3 Nested Queries
   - XQuery FLWOR expressions can be nested in the return clause, in order to generate element nestings that do not appear in the source document.
@@ -935,7 +935,7 @@ Chapter 23.4.3.3 Nested Queries
   - The syntax $d/* , which refers to all the children of the node (or sequence of nodes) bound to the variable $d.
   - XQuery provides a variety of aggregate functions such as sum() and count() that can be applied on sequences of elements or values.
   - While XQuery does not provide a group by construct, aggregate queries can be written by using the aggregate functions on path or FLWOR expressions nested within the return clause.
-  - For example, the following query on the university XML schema ﬁnds the total salary of all instructors in each department:
+  - For example, the following query on the university XML schema finds the total salary of all instructors in each department:
   ```XQUERY
   for $d in /university/department
   return
@@ -972,8 +972,8 @@ Chapter 23.4.3.4 Sorting of Results
 
 Chapter 23.4.3.5 Functions and Types
   - XQuery provides a variety of built-in functions, such as numeric functions and string matching and manipulation functions.
-  - XQuery supports user deﬁned functions.
-  - The following user-deﬁned function takes as input an instructor identiﬁer, and returns a list of all courses offered by the department to which the instructor belongs:
+  - XQuery supports user defined functions.
+  - The following user-defined function takes as input an instructor identifier, and returns a list of all courses offered by the department to which the instructor belongs:
   ```XQUERY
   declare function local:dept courses($iid as xs:string) as element(course)*{
      for $i in /university/instructor[IID = $iid],
@@ -981,17 +981,17 @@ Chapter 23.4.3.5 Functions and Types
      return $c
   }
   ```
-  - The namespace preﬁx xs: used in the above example is predeﬁned by XQuery to be associated with the XML Schema namespace, while the namespace local: is predeﬁned to be associated with XQuery local functions.
+  - The namespace prefix xs: used in the above example is predefined by XQuery to be associated with the XML Schema namespace, while the namespace local: is predefined to be associated with XQuery local functions.
   - XQuery performs type conversion automatically whenever required.
   - XQuery also provides functions to convert between types
 
 Chapter 23.4.3.6 Other Features
-  - XQuery offers a variety of other features, such as if-then-else constructs that can be used within return clauses, and existential and universal quantiﬁcation that can be used in predicates in where clauses.
+  - XQuery offers a variety of other features, such as if-then-else constructs that can be used within return clauses, and existential and universal quantification that can be used in predicates in where clauses.
   ```XQUERY
-  some $e in path satisﬁes P
+  some $e in path satisfies P
   ```
   - where path is a path expression and P is a predicate that can use $e.
-  - Universal quantiﬁcation can be expressed by using every in place of some.
+  - Universal quantification can be expressed by using every in place of some.
   - The query also introduces the syntax $d/* , which refers to all the children of the node (or sequence of nodes) bound to the variable $d.
   - Similarly, $d/text() gives the text content of an element, without the tags.
 
@@ -1015,7 +1015,7 @@ Chapter 8.1.1 Design Alternative: Larger Schemas
 
 Chapter 8.1.2 Design Alternative: Smaller Schemas
   - By observing the contents of actual relations on schema inst_dept, we could note the repetition of information resulting from having to list the building and budget once for each instructor associated with a department. However, this is an unreliable process.
-  - In other words, we need to write a rule that says “if there were a schema(dept_name, budget), then dept_name is able to serve as the primary key.” This rule is speciﬁed as a functional dependency ```dept_name → budget```
+  - In other words, we need to write a rule that says “if there were a schema(dept_name, budget), then dept_name is able to serve as the primary key.” This rule is specified as a functional dependency ```dept_name → budget```
   - Observations such as these and the rules (functional dependencies in particular) that result from them allow the database designer to recognize situations where a schema ought to be split, or decomposed, into two or more schemas. It is not hard to see that the right way to decompose inst_dept is into schemas instructor and department as in the original design.
   - Not all decompositions of schemas are helpful. Consider an extreme case where all we had were schemas consisting of one attribute. No interesting relationships of any kind could be expressed.
   - Consider a less extreme case where we choose to decompose the employee schema ```employee (ID, name, street, city, salary)``` into the following two schemas ``` employee1 (ID, name) ``` and ```employee2 (name, street, city, salary)```
@@ -1029,23 +1029,23 @@ Chapter 8.1.2 Design Alternative: Smaller Schemas
   - We shall refer to such decompositions as being lossy decompositions, and, conversely, to those that are not as lossless decompositions.
 
 Chapter 8.3 Decomposition Using Functional Dependencies
-  -  In general, we use Greek letters for sets of attributes (for example, α). We use a lowercase Roman letter followed by an uppercase Roman letter in parentheses to refer to a relation schema (for example, r(R)). We use the notation r(R) to show that the schema is for relation r, with R denoting the set of attributes, but at times simplify our notation to use just R when the relation name does not matter to us. Of course, a relation schema is a set of attributes, but not all sets of attributes are schemas. When we use a lowercase Greek letter, we are referring to a set of attributes that may or may not be a schema. A Roman letter is used when we wish to indicate that the set of attributes is deﬁnitely a schema.
-  - When a set of attributes is a superkey, we denote it by K. A superkey pertains to a speciﬁc relation schema, so we use the terminology “K is a superkey of r(R).”
-  - We use a lowercase name for relations. In our examples, these names are intended to be realistic(for example, instructor), while in our deﬁnitions and algorithms, we use single letters, like r.
+  -  In general, we use Greek letters for sets of attributes (for example, α). We use a lowercase Roman letter followed by an uppercase Roman letter in parentheses to refer to a relation schema (for example, r(R)). We use the notation r(R) to show that the schema is for relation r, with R denoting the set of attributes, but at times simplify our notation to use just R when the relation name does not matter to us. Of course, a relation schema is a set of attributes, but not all sets of attributes are schemas. When we use a lowercase Greek letter, we are referring to a set of attributes that may or may not be a schema. A Roman letter is used when we wish to indicate that the set of attributes is definitely a schema.
+  - When a set of attributes is a superkey, we denote it by K. A superkey pertains to a specific relation schema, so we use the terminology “K is a superkey of r(R).”
+  - We use a lowercase name for relations. In our examples, these names are intended to be realistic(for example, instructor), while in our definitions and algorithms, we use single letters, like r.
   - A relation, of course, has a particular value at any given time; we refer to that as an instance and use the term “instance of r”. When it is clear that we are talking about an instance, we may uses imply the relation name (for example, r).
 
 Chapter 8.3.1 Keys and Functional Dependencies
   - A database models a set of entities and relationships in the real world. There are usually a variety of constraints(rules) on the data in the real world. For example, some of the constraints that are expected to hold in a university database are:
-    1. Students and instructors are uniquely identiﬁed by their ID.
+    1. Students and instructors are uniquely identified by their ID.
     2. Each student and instructor has only one name.
     3. Each instructor and student is (primarily) associated with only one department.
     4. Each department has only one value for its budget, and only one associated building.
-  - An instance of a relation that satisﬁes all such real-world constraints is called a legal instance of the relation; a legal instance of a database is one where all the relation instances are legal instances.
-  - We deﬁned the notion of a superkey as a set of one or more attributes that, taken collectively, allows us to identify uniquely a tuple in the relation. We restate that deﬁnition here as follows: Let r (R) be a relation schema. A subset K of R is a superkey of r(R) if, in any legal instance of r (R), for all pairs t1 and t2 of tuples in the instance of r if t1 /= t2, thent1[K] /= t2[K]. That is, no two tuples in any legal instance of relation r(R) may have the same value on attribute k.
-  - Whereas a superkey is a set of attributes that uniquely identiﬁes an entire tuple, a functional dependency allows us to express constraints that uniquely identify the values of certain attributes.
+  - An instance of a relation that satisfies all such real-world constraints is called a legal instance of the relation; a legal instance of a database is one where all the relation instances are legal instances.
+  - We defined the notion of a superkey as a set of one or more attributes that, taken collectively, allows us to identify uniquely a tuple in the relation. We restate that definition here as follows: Let r (R) be a relation schema. A subset K of R is a superkey of r(R) if, in any legal instance of r (R), for all pairs t1 and t2 of tuples in the instance of r if t1 /= t2, thent1[K] /= t2[K]. That is, no two tuples in any legal instance of relation r(R) may have the same value on attribute k.
+  - Whereas a superkey is a set of attributes that uniquely identifies an entire tuple, a functional dependency allows us to express constraints that uniquely identify the values of certain attributes.
   - Consider a relation schema r(R), and let α ⊆ R and β ⊆ R.
-    - Given an instance of r(R), we say that the instance satisﬁes the functional dependency α → β if for all pairs of tuplest1 and t2 in the instance such that t1[α] = t2[β], it is also the case that t1[α] = t2[β].
-    - We say that the functional dependency α → β holds on schema r(R) if, in every legal instance of r (R) it satisﬁes the functional dependency.
+    - Given an instance of r(R), we say that the instance satisfies the functional dependency α → β if for all pairs of tuplest1 and t2 in the instance such that t1[α] = t2[β], it is also the case that t1[α] = t2[β].
+    - We say that the functional dependency α → β holds on schema r(R) if, in every legal instance of r (R) it satisfies the functional dependency.
   - Using the functional-dependency notation, we say that K is a superkey of r(R)if the functional dependency K → R holds on r(R). In other words, K is a superkey if, for every legal instance of r(R), for every pair of tuples t1 and t2 from the instance, whenever t1[K] = t2[K], it is also the case that t1[R] = t2[R]
   - Functional dependencies allow us to express constraints that we cannot express with superkeys.
   - ``` inst_dept (ID, name, salary, dept_name, building, budget) ```
@@ -1054,9 +1054,9 @@ Chapter 8.3.1 Keys and Functional Dependencies
   - We shall use functional dependencies in two ways:
     1. To test instances of relations to see whether they satisfy a given set F of functional dependencies.
     2. To specify constraints on the set of legal relations. We shall thus concern ourselves with only those relation instances that satisfy a given set of functional dependencies. If we wish to constrain ourselves to relations on schema r(R) that satisfy a set F of functional dependencies, we say that F holds on r(R).
-  - Some functional dependencies are said to be trivial because they are satisﬁed by all relations. For example, A → A is satisﬁed by all relations involving attribute A.
-  - Similarly, AB → A is satisﬁed by all relations involving attribute A. In general, a functional dependency of the form α → β is trivial if β ⊆ α.
-  - In the instance of the classroom relation we see that ```room_number → capacity``` is satisﬁed. However, we believe that, in the real world, two classrooms in different buildings can have the same room number but with different room capacity. Thus, it is possible, at some time, to have an instance of the classroom relation in which ```room_number → capacity``` is not satisﬁed. So, we would not include ```room_number → capacity ``` in the set of functional dependencies that hold on the schema for the classroom relation. However, we would expect the functional dependency building, ```room_number → capacity``` to hold on the classroom schema.
+  - Some functional dependencies are said to be trivial because they are satisfied by all relations. For example, A → A is satisfied by all relations involving attribute A.
+  - Similarly, AB → A is satisfied by all relations involving attribute A. In general, a functional dependency of the form α → β is trivial if β ⊆ α.
+  - In the instance of the classroom relation we see that ```room_number → capacity``` is satisfied. However, we believe that, in the real world, two classrooms in different buildings can have the same room number but with different room capacity. Thus, it is possible, at some time, to have an instance of the classroom relation in which ```room_number → capacity``` is not satisfied. So, we would not include ```room_number → capacity ``` in the set of functional dependencies that hold on the schema for the classroom relation. However, we would expect the functional dependency building, ```room_number → capacity``` to hold on the classroom schema.
   - We will use the notation F+ to denote the closure of the set F, that is, the set of all functional dependencies that can be inferred given the set F. Clearly F+ contains all of the functional dependencies in F.
 
 Chapter 8.3.2 Boyce-Codd Normal Form
@@ -1072,8 +1072,8 @@ Chapter 8.3.2 Boyce-Codd Normal Form
     - (R - (α - β)) = (ID, name, dept_name, salary)
 
 Chapter 8.3.3 BCNF and Dependency Preservation
-  - We have seen several ways in which to express database consistency constraints: primary-key constraints, functional dependencies, check constraints, assertions, and triggers. Testing these constraints each time the database is updated can be costly and, therefore, it is useful to design the database in a way that constraints can be tested efﬁciently. In particular, if testing a functional dependency can be done by considering just one relation, then the cost of testing this constraint is low.
-  - Any schema with only two attributes is in BCNF by deﬁnition
+  - We have seen several ways in which to express database consistency constraints: primary-key constraints, functional dependencies, check constraints, assertions, and triggers. Testing these constraints each time the database is updated can be costly and, therefore, it is useful to design the database in a way that constraints can be tested efficiently. In particular, if testing a functional dependency can be done by considering just one relation, then the cost of testing this constraint is low.
+  - Any schema with only two attributes is in BCNF by definition
   - Because dependency preservation is usually considered desirable, we consider another normal form, weaker than BCNF, that will allow us to preserve dependencies. That normal form is called third normal form.
 
 Chapter 8.3.4 Third Normal Form
@@ -1087,17 +1087,17 @@ Chapter 8.3.4 Third Normal Form
     - Since the functional dependency s_ID, dept_name → i_ID holds on dept_advisor, the attribute dept_name is contained in a candidate key and, therefore, dept_advisor is in 3NF.
 
 Chapter 8.3.5 Higher Normal Forms
-  - Using functional dependencies to decompose schemas may not be sufﬁcient to avoid unnecessary repetition of information in certain cases.
+  - Using functional dependencies to decompose schemas may not be sufficient to avoid unnecessary repetition of information in certain cases.
 
 Chapter 8.5.1 BCNF Decomposition   
   - If a relation is not in BCNF, it can be decomposed to create relations that are in BCNF.
 
 Chapter 8.5.1.1 Testing for BCNF
-  - Testing of a relation schema R to see if it satisﬁes BCNF can be simplified in some cases:
+  - Testing of a relation schema R to see if it satisfies BCNF can be simplified in some cases:
     - To check if a nontrivial dependency α → β causes a violation of BCNF, compute α+ (the attribute closure of α), and verify that it includes all attributes of R; that is, it is a superkey of R.
-    - To check if a relation schema R is in BCNF, it sufﬁces to check only the dependencies in the given set F for violation of BCNF, rather than check all dependencies in F+. We can show that if none of the dependencies in F causes a violation of BCNF, then none of the dependencies in F+ will cause a violation of BCNF, either.
+    - To check if a relation schema R is in BCNF, it suffices to check only the dependencies in the given set F for violation of BCNF, rather than check all dependencies in F+. We can show that if none of the dependencies in F causes a violation of BCNF, then none of the dependencies in F+ will cause a violation of BCNF, either.
   - Unfortunately, the latter procedure does not work when a relation is decomposed. That is, it does not suffice to use F when we test a relation Ri, in a decomposition of R, for violation of BCNF
-  - Consider relation schema R(A, B,C, D, E), with functional dependencies F containing A → B and BC → D. Suppose this were decomposed into R1(A, B) and R2(A,C, D, E). Now, neither of the dependencies in F contains only attributes from (A,C, D, E) so we might be misled into thinking R2 satisﬁes BCNF. In fact, there is a dependency AC → D in F+ that shows R2 is not in BCNF.
+  - Consider relation schema R(A, B,C, D, E), with functional dependencies F containing A → B and BC → D. Suppose this were decomposed into R1(A, B) and R2(A,C, D, E). Now, neither of the dependencies in F contains only attributes from (A,C, D, E) so we might be misled into thinking R2 satisfies BCNF. In fact, there is a dependency AC → D in F+ that shows R2 is not in BCNF.
   - To check if a relation Ri in a decomposition of R is in BCNF, we apply this test:
     - For every subset α of attributes in Ri, check that α+ (the attribute closure of α under F) either includes no attribute of Ri − α, or includes all attributes of Ri.
   - BCNF decomposition algorithm:
@@ -1179,13 +1179,13 @@ Chapter 8.6.1 Multivalued Dependencies
   t4[R − β] = t1[R − β]
   ```
   - Intuitively, the multivalued dependency α ↠ β says that the relationship between α and β is independent of the relationship between α and R−β.
-  - If the multivalued dependency α ↠ β is satisﬁed by all relations on schema R, then α ↠ β is a trivial multivalued dependency on schema R. Thus, α ↠ β is trivial if β ⊆ α or β U α = R.
+  - If the multivalued dependency α ↠ β is satisfied by all relations on schema R, then α ↠ β is a trivial multivalued dependency on schema R. Thus, α ↠ β is trivial if β ⊆ α or β U α = R.
   - As with functional dependencies, we shall use multivalued dependencies in two ways:
     1. To test relations to determine whether they are legal under a given set of functional and multivalued dependencies
     2. To specify constraints on the set of legal relations; we shall thus concern ourselves with only those relations that satisfy a given set of functional and multivalued dependencies
   - Let D denote a set of functional and multivalued dependencies. The closure D+ of D is the set of all functional and multivalued dependencies logically implied by D.
-  - As we did for functional dependencies, we can compute D+ from D, using the formal deﬁnitions of functional dependencies and multivalued dependencies.
-  - From the deﬁnition of multivalued dependency, we can derive the following rules for α, β ⊆ R:
+  - As we did for functional dependencies, we can compute D+ from D, using the formal definitions of functional dependencies and multivalued dependencies.
+  - From the definition of multivalued dependency, we can derive the following rules for α, β ⊆ R:
     - If α → β, then α ↠ β. In other words, every functional dependency is also a multivalued dependency.
     -  If α ↠ β, then α ↠ R − α − β  
 
@@ -1196,7 +1196,7 @@ Chapter 8.6.2 Fourth Normal Form
     - α ↠ β is a trivial multivalued dependency.
     - α is a superkey for R.
   - A database design is in 4NF if each member of the set of relation schemas that constitutes the design is in 4NF.
-  - Note that the deﬁnition of 4NF differs from the deﬁnition of BCNF in only the use of multivalued dependencies. Every 4NF schema is in BCNF.
+  - Note that the definition of 4NF differs from the definition of BCNF in only the use of multivalued dependencies. Every 4NF schema is in BCNF.
 
 Chapter 8.6.3 4NF Decomposition
   - 4NF decomposition algorithm:
@@ -1221,8 +1221,8 @@ Chapter 8.8.4 Other Design Issues
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UNIFIED MODELING LANGUAGE NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Chapter 7.9.2 The Uniﬁed Modeling Language UML
-  - The Uniﬁed Modeling Language (UML) is a standard developed under the auspices of the Object Management Group (OMG) for creating speciﬁcations of various components of a software system.
+Chapter 7.9.2 The Unified Modeling Language UML
+  - The Unified Modeling Language (UML) is a standard developed under the auspices of the Object Management Group (OMG) for creating specifications of various components of a software system.
   - Some of the parts of UML are:
     - Class diagram. A class diagram is similar to an E-R diagram.
     - Use case diagram. Use case diagrams show the interaction between users and the system, in particular the steps of tasks that users perform (such as withdrawing money or registering for a course).
@@ -1231,12 +1231,12 @@ Chapter 7.9.2 The Uniﬁed Modeling Language UML
   - UML actually models objects, whereas E-R models entities.
   - Objects are like entities, and have attributes, but additionally provide a set of functions (called methods) that can be invoked to compute values on the basis of attributes of the objects, or to update the object itself.
   - UML does not support composite or multivalued attributes, and derived attributes are equivalent to methods that take no parameters.
-  - Since classes support encapsulation, UML allows attributes and methods to be preﬁxed with a “+”, “-”, or“#”, which denote respectively public, private and protected access.
+  - Since classes support encapsulation, UML allows attributes and methods to be prefixed with a “+”, “-”, or“#”, which denote respectively public, private and protected access.
   - In UML terminology, relationship sets are referred to as association
   - UML supports nonbinary relationships, using the same diamond notation used in E-R diagrams.
   - You should be aware that the positioning of the constraints is exactly the reverse of the positioning of constraints in E-R diagrams.
   - UML class diagrams also provide notations to represent object-oriented language features such as interfaces.
-  
+
   <img src= "images/DSCUML.jpg">
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1245,6 +1245,192 @@ INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CONSTRAINTS AND TRIGGERS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 4.4 Integrity Constraints
+  - Integrity constraints guard against accidental damage to the database.
+  - Examples of integrity constraints are:
+    - An instructor name cannot be null.
+    - No two instructors can have the same instructor ID.
+    - Every department name in the course relation must have a matching department name in the department relation.
+    - The budget of a department must be greater than $0.00.
+  - Arbitrary predicates may be costly to test. Thus, most database systems allow one to specify integrity constraints that can be tested with minimal overhead.
+  - Another form of integrity constraint, called functional dependencies.
+  - Integrity constraints are usually identified as part of the database schema design process, and declared as part of the create table command used to create relations
+  - Integrity constraints can also be added to an existing relation by using the command alter table table-name add constraint, where constraint can be any constraint on the relation.
+
+Chapter 4.4.1 Constraints on a Single Relation
+  - In addition to the primary-key constraint, there are a number of other ones that can be included in the create table command.
+  - The allowed integrity constraints include
+    - not null
+    - unique
+    - check(<predicate>)
+
+Chapter 4.4.2 Not Null Constraint
+  - To forbid null values:
+  ```SQL
+  name varchar(20) not null
+  budget numeric(12,2) not null
+  ```
+
+Chapter 4.4.3 Unique Constraint
+  - SQL also supports an integrity constraint: ```unique(Aj1, Aj2, . . ., Ajm)```
+  - The unique specification says that attributes Aj1, Aj2,...,Ajm form a candidate key; that is, no two tuples in the relation can be equal on all the listed attributes.
+  - However, candidate key attributes are permitted to be null unless they have explicitly been declared to be not null.
+  - A null value does not equal any other value.
+
+Chapter 4.4.4 The check Clause
+  - The clause check(P) specifies a predicate P that must be satisfied by every tuple in a relation.
+  - For instance, a clause check (budget > 0) in the create table command for relation department would ensure that the value of budget is nonnegative.
+  - As another example, consider the following:
+  ```SQL
+  create table section (
+    course_id varchar (8),
+    sec_id varchar (8),
+    semester varchar (6),
+    year numeric (4,0),
+    building varchar (15),
+    room number varchar (7),
+    time slot_id varchar (4),
+    primary key (course_id, sec_id, semester, year),
+    check (semester in (’Fall’, ’Winter’, ’Spring’, ’Summer’)));
+  ```
+  - Here, we use the check clause to simulate an enumerated type, by specifying that semester must be one of ’Fall’, ’Winter’, ’Spring’, or ’Summer’. Thus, the check clause permits attribute domains to be restricted in powerful ways that most programming-language type systems do not permit.
+
+Chapter 4.4.5 Referential Integrity
+  - SQL also supports a version of the references clause where a list of attributes of the referenced relation can be specified explicitly.
+  - We can use the following short form as part of an attribute definition to declare that the attribute forms a foreign key: ```dept_name varchar(20) references department```
+  - When a referential-integrity constraint is violated, the normal procedure is to reject the action that caused the violation.
+  - A foreign key clause can specify that if a delete or update action on the referenced relation violates the constraint, then, instead of rejecting the action, the system must take steps to change the tuple in the referencing relation to restore the constraint.
+  - SQL also allows the foreign key clause to specify actions other than cascade, if the constraint is violated: The referencing field (here, dept_name) can be set to null (by using set null in place of cascade), or to the default value for the domain (by using set default).
+  - Null values complicate the semantics of referential-integrity constraints in SQL. Attributes of foreign keys are allowed to be null, provided that they have not otherwise been declared to be not null.
+
+Chapter 4.4.6 Integrity Constraint Violation During a Transaction
+  - Transactions may consist of several steps, and integrity constraints may be violated temporarily after one step, but a later step may remove the violation.
+  - The SQL standard allows a clause initially deferred to be added to a constraint specification; the constraint would then be checked at the end of a transaction, and not at intermediate steps.
+  - A constraint can alternatively be specified as deferrable, which means it is checked immediately by default, but can be deferred when desired. For constraints declared as deferrable, executing a statement set constraints constraint-list deferred as part of a transaction causes the checking of the specified constraints to be deferred to the end of that transaction.
+
+Chapter 4.4.7 Complex Check Conditions and Assertions
+  - If a database implementation supports subqueries in the check clause, we could specify the following referential-integrity constraint on the relation section:
+  ```SQL
+  check (time slot_id in (select time slot_id from time slot))
+  ```
+  - Complex check conditions can be useful when we want to ensure integrity of data, but may be costly to test.
+  - An assertion example:
+  ```
+  create assertion credits_earned_constraint check
+      (not exists (select ID
+          from student
+          where tot_cred <> (select sum(credits)
+          from takes natural join course
+          where student.ID = takes.ID
+            and grade is not null and grade<>’F’ )
+  ```
+  - An assertion is a predicate expressing a condition that we wish the database always to satisfy.
+  - Domain constraints and referential-integrity constraints are special forms of assertions.
+  - There are many constraints that we cannot express by using only these special forms. Two examples of such constraints are:
+    - For each tuple in the student relation, the value of the attribute tot_cred must equal the sum of credits of courses that the student has completed successfully.
+    - An instructor cannot teach in two different classrooms in a semester in the same time slot.
+  - An assertion in SQL takes the form: ```create assertion <assertion-name> check <predicate>;```
+  - The high overhead of testing and maintaining assertions has led some system developers to omit support for general assertions, or to provide specialized forms of assertion that are easier to test.
+  - Currently, none of the widely used database systems supports either subqueries in the check clause predicate, or the create assertion construct.
+
+Chapter 5.3 Triggers
+  - A trigger is a statement that the system executes automatically as a side effect of a modification to the database.
+  - To design a trigger mechanism, we must meet two requirements:
+    - Specify when a trigger is to be executed. This is broken up into an event that causes the trigger to be checked and a condition that must be satisfied for trigger execution to proceed.
+    - Specify the actions to be taken when the trigger executes.
+  - Once we enter a trigger into the database, the database system takes on the responsibility of executing it whenever the specified event occurs and the corresponding condition is satisfied.
+
+Chapter 5.3.1 Need for Triggers
+  - Note that trigger systems cannot usually per form updates outside the database.
+
+Chapter 5.3.2 Triggers in SQL
+  - An SQL insert statement could insert multiple tuples of the relation, and the for each row clause in the trigger code would then explicitly iterate over each inserted row.
+  - The referencing new row as clause creates a variable nrow (called a transition variable) that stores the value of an inserted row after the insertion.
+  - The when statement specifies a condition. The system executes the rest of the trigger body only for tuples that satisfy the condition.
+  - The begin atomic ... end clause can serve to collect multiple SQL statements into a single compound statement.
+  - Trigger Example:
+  ```SQL
+  create trigger timeslot_check1 after insert on section
+  referencing new row as nrow
+  for each row
+  when (nrow.time_slot_id not in (
+      select time_slot_id
+      from time_slot)) /* time slot id not present in time slot */
+  begin
+    rollback
+  end;
+
+
+  create trigger timeslot_check2 after delete on timeslot
+  referencing old row as orow
+  for each row
+  when (orow.time_slot_id not in (
+      select time_slot_id
+      from time_slot) /* last tuple for time slot id deleted from time slot */
+    and orow.time_slot_id in (
+      select time_slot_id
+      from section)) /* and time slot id still referenced from section*/
+  begin
+    rollback
+  end;
+  ```
+  - The referencing old row as clause can be used to create a variable storing the old value of an updated or deleted row. The referencing new row as clause can be used with updates in addition to inserts.
+  - Example : trigger to maintain credits_earned values.
+  ```SQL
+  create trigger credits_earned after update of takes on (grade)
+  referencing new row as nrow
+  referencing old row as orow
+  for each row
+  when nrow.grade <> ’F’ and nrow.grade is not null
+      and (orow.grade = ’F’ or orow.grade is null)
+  begin atomic
+      update student
+      set tot_cred = tot_cred +
+          (select credits
+          from course
+          where course.course_id = nrow.course_id)
+      where student.id = nrow.id;
+  end;
+  ```
+  - Example of using set to change an inserted value:
+  ```SQL
+  create trigger setnull before update on takes
+  referencing new row as nrow
+  for each row
+  when (nrow.grade = ’ ’)
+  begin atomic
+    set nrow.grade = null;
+  end;
+  ```
+  - Example of trigger for reordering an item
+  ```SQL
+  create trigger reorder after update of amount on inventory
+  referencing old row as orow, new row as nrow
+  for each row
+  when nrow.level <= (select level   
+                      from minlevel
+                      where minlevel.item = orow.item)
+  and orow.level > (select level
+                    from minlevel
+                    where minlevel.item = orow.item)
+  begin atomic
+        insert into orders
+              (select item, amount
+               from reorder
+               where reorder.item = orow.item);
+  end;
+  ```
+  - Triggers can be disabled or enabled; by default they are enabled when they are created, but can be disabled by using alter trigger trigger_name disable
+  - A trigger that has been disabled can be enabled again.
+  - A trigger can instead be dropped, which removes it permanently, by using the command drop trigger trigger_name.
+
+Chapter 5.3.3 When Not to Use Triggers
+  - Many database systems now support materialized views, which are automatically maintained by the database system. As a result, there is no need to write trigger code for maintaining such materialized views.
+  - Modern database systems, however, provide built-in facilities for database replication, making triggers unnecessary for replication in most cases.
+  - Triggers should be written with great care, since a trigger error detected at runtime causes the failure of the action statement that set off the trigger.
+  - The action of one trigger can set off another trigger. In the worst case, this could even lead to an infinite chain of triggering.
+  - Triggers can serve a very useful purpose, but they are best avoided when alternatives exist. Many trigger applications can be substituted by appropriate use of stored procedures.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 VIEWS AND AUTHORIZATION NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

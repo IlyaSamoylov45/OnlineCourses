@@ -1519,7 +1519,7 @@ Chapter 4.8.2 From UML Subclasses to Relations
     - If the hierarchy is large and overlapping at some or all levels, then the E/R approach is indicated. We are likely to need so many relations that the relational database schema becomes unwieldy.
 
 Chapter 4.8.3 From Aggregations and Compositions to Relations
-  - We suggest that aggregations and compositions be treated routinely in this manner. Construct no relation for the aggregation or composition. Rather, add to the relation for the class at the nondiamond end the key attribute(s) of the class at the diamond end. 
+  - We suggest that aggregations and compositions be treated routinely in this manner. Construct no relation for the aggregation or composition. Rather, add to the relation for the class at the nondiamond end the key attribute(s) of the class at the diamond end.
 
 Chapter 4.8.4 The UML Analog of Weak Entity Sets
   - We shall use a special notation for a supporting composition: a small box attached to the weak class with “PK” in it will serve as the anchor for the supporting composition.
@@ -1530,6 +1530,165 @@ INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CONSTRAINTS AND TRIGGERS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 7.1 Keys and Foreign Keys
+  - SQL allows us to define an attribute or attributes to be a key for a relation with the keywords PRIMARY KEY or UNIQUE.
+
+Chapter 7.1.1 Declaring Foreign-Key Constraints
+  - In SQL we may declare an attribute or attributes of one relation to be a foreign key, referencing some attribute(s) of a second relation (possibly the same relation).
+  - The implication of this declaration is twofold:
+    - The referenced attribute(s) of the second relation must be declared UNIQUE or the PRIMARY KEY for their relation. Otherwise, we cannot make the foreign-key declaration.
+    - Values of the foreign key appearing in the first relation must also appear in the referenced attributes of some tuple. More precisely, let there be a foreign-key F that references set of attributes G of some relation. Suppose a tuple t of the first relation has non-NULL values in all the attributes of F; call the list of t's values in these attributes t[F], Then in the referenced relation there must be some tuple s that agrees with t[F] on the attributes G. That is, s[G] = t[F],
+  - Two ways to declare a foreign key
+    - If the foreign key is a single attribute we may follow its name and type by a declaration that it “references” some attribute (which must be a key — primary or unique) of some table. The form of the declaration is ```REFERENCES <table> (<attribute>)```
+    - Alternatively, we may append to the list of attributes in a CREATE TABLE statement one or more declarations stating that a set of attributes is a foreign key. We then give the table and its attributes (which must be a key) to which the foreign key refers. The form of this declaration is: ```FOREIGN KEY (<attributes>) REFERENCES <table> (<attributes>)```
+  - Declare Foreign key 2 ways:
+  ```SQL
+  CREATE TABLE Studio (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    presC# INT REFERENCES MovieExec(cert#)
+  );
+  ```
+  ```SQL
+  CREATE TABLE Studio (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    presC# INT,
+    FOREIGN KEY (presC#) REFERENCES MovieExec(cert#)
+  );
+  ```
+
+Chapter 7.1.2 Maintaining Referential Integrity
+  - Three alternatives to enforce a foreign-key constraint:
+    - The Default Policy: Reject Violating Modifications. SQL has a default policy that any modification violating the referential integrity constraint is rejected.
+    - The Cascade Policy. Under this policy, changes to the referenced attribute (s) are mimicked at the foreign key.
+    - The Set-Null Policy. Here, when a modification to the referenced relation affects a foreign-key value, the latter is changed to NULL.
+  - Example: preserve referential integrity
+  ```SQL
+  CREATE TABLE Studio (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    presC# INT REFERENCES MovieExec(cert#)
+      ON DELETE SET NULL
+      ON UPDATE CASCADE
+  );
+  ```
+
+Chapter 7.1.3 Deferred Checking of Constraints
+  - If we declare a constraint to be DEFERRABLE, then we have the option of having it wait until a transaction is complete before checking the constraint.
+  - We follow the keyword DEFERRABLE by either INITIALLY DEFERRED or INITIALLY IMMEDIATE. In the former case, checking will be deferred to just before each transaction commits. In the latter case, the check will be made immediately after each statement.
+  - Checking of its foreign-key constraint to be deferred until the end of each transaction:
+  ```SQL
+  CREATE TABLE Studio (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    presC# INT UNIQUE
+      REFERENCES MovieExec(cert#)
+      DEFERRABLE INITIALLY DEFERRED
+  );
+  ```
+  - Two additional points about deferring constraints:
+    - Constraints of any type can be given names.
+    - If a constraint has a name, say MyConstraint, then we can change a deferrable constraint from immediate to deferred by the SQL statement ```SET CONSTRAINT MyConstraint DEFERRED;``` and we can reverse the process by replacing DEFERRED in the above to IMMEDIATE.
+
+Chapter 7.2 Constraints on Attributes and Tuples
+  - Within a SQL CREATE TABLE statement, we can declare two kinds of constraints:
+    - A constraint on a single attribute.
+    - A constraint on a tuple as a whole.
+
+Chapter 7.2.1 Not-Null Constraints
+  - One simple constraint to associate with an attribute is NOT NULL.
+  - The constraint is declared by the keywords NOT NULL following the declaration of the attribute in a CREATE TABLE statement.
+
+Chapter 7.2.2 Attribute-Based CHECK Constraints
+  - In practice, an attribute-based CHECK constraint is likely to be a simple limit on values, such as an enumeration of legal values or an arithmetic inequality.
+  - An attribute-based CHECK constraint is checked whenever any tuple gets a new value for this attribute.
+  - In the case of an update, the constraint is checked on the new value, not the old value. If the constraint is violated by the new value, then the modification is rejected.
+
+Chapter 7.2.3 Tuple-Based CHECK Constraints
+  - The careful database designer will use attribute- and tuple-based checks only when there is no possibility that they will be violated, and will use another mechanism, such as assertions or triggers otherwise.
+  - Like an attribute-based CHECK, a tuple-based CHECK is invisible to other relations.
+  - A constraint on the table MovieStar:
+  ```SQL
+  CREATE TABLE MovieStar (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    gender CHAR(l),
+    birthdate DATE,
+    CHECK (gender = ’F’ OR name NOT LIKE ’Ms.%’)
+  );
+  ```
+
+Chapter 7.2.4 Comparison of Tuple- and Attribute-Based Constraints
+  - If a constraint on a tuple involves more than one attribute of that tuple, then it must be written as a tuple-based constraint. However, if the constraint involves only one attribute of the tuple, then it can be written as either a tuple- or attribute-based constraint.
+
+Chapter 7.5 Triggers
+  - Triggers, sometimes called event-condition-action rules or ECA rules, differ from the kinds of constraints discussed previously in three ways.
+    - Triggers are only awakened when certain events, specified by the database programmer, occur. The sorts of events allowed are usually insert, delete, or update to a particular relation.
+    - Once awakened by its triggering event, the trigger tests a condition. If the condition does not hold, then nothing else associated with the trigger happens in response to this event.
+    - If the condition of the trigger is satisfied, the action associated with the trigger is performed by the DBMS. A possible action is to modify the effects of the event in some way, even aborting the transaction of which the event is part. However, the action could be any sequence of database operations, including operations not connected in any way to the triggering event.
+
+Chapter 7.5.1 Triggers in SQL
+  - Here are the principal features.
+    - The check of the trigger’s condition and the action of the trigger may be executed either on the state of the database (i.e., the current instances of all the relations) that exists before the triggering event is itself executed or on the state that exists after the triggering event is executed.
+    - The condition and action can refer to both old and/or new values of tuples that were updated in the triggering event.
+    - It is possible to define update events that are limited to a particular attribute or set of attributes.
+    - The programmer has an option of specifying that the trigger executes either:
+      - Once for each modified tuple (a row-level trigger), or
+      - Once for all the tuples that are changed in one SQL statement (a statement-level trigger, remember that one SQL modification statement can affect many tuples).
+  - The key elements and the order in which they appear:
+    - The CREATE TRIGGER statement
+    - A clause indicating the triggering event and telling whether the trigger uses the database state before or after the triggering event
+    - A REFERENCING clause to allow the condition and action of the trigger to refer to the tuple being modified. In the case of an update, such as this one, this clause allows us to give names to the tuple both before and after the change.
+    - A clause telling whether the trigger executes once for each modified row or once for all the modifications made by one SQL statement
+    - The condition, which uses the keyword WHEN and a boolean expression
+    - The action, consisting of one or more SQL statements
+  - Example of above:
+  ```SQL
+  CREATE TRIGGER NetWorthTrigger
+  AFTER UPDATE OF netWorth ON MovieExec
+  REFERENCING
+    OLD ROW AS OldTuple,
+    NEW ROW AS NewTuple
+  FOR EACH ROW  
+  WHEN (OldTuple.netWorth > NewTuple.netWorth)
+      UPDATE MovieExec
+      SET netWorth = OldTuple.netWorth
+      WHERE cert# = NewTuple.cert#;
+  ```
+  - The phrase FOR EACH ROW, expresses the requirement that this trigger is executed once for each updated tuple.
+
+Chapter 7.5.2 The Options for Trigger Design
+  - A statement-level trigger is executed once whenever a statement of the appropriate type is executed, no matter how many rows — zero, one, or many — it actually affects.
+  - Trigger example: Constraining the average net worth
+  ```SQL
+  CREATE TRIGGER AvgNetWorthTrigger
+  AFTER UPDATE OF netWorth ON MovieExec
+  REFERENCING
+    OLD TABLE AS OldStuff,
+    NEW TABLE AS NewStuff
+  FOR EACH STATEMENT
+  WHEN (500000 > (SELECT AVG(netWorth) FROM MovieExec))
+  BEGIN
+    DELETE FROM MovieExec
+    WHERE (name, address, cert#, netWorth) IN NewStuff;
+    INSERT INTO MovieExec
+      (SELECT * FROM OldStuff);
+  END;
+  ```
+  - An important use of BEFORE triggers is to fix up the inserted tuples in some way before they are inserted.
+  - Trigger Example : Fixing NULL's in inserted tuples
+  ```SQL
+  CREATE TRIGGER FixYearTrigger
+  BEFORE INSERT ON Movies
+  REFERENCING
+    NEW ROW AS NewRow
+    NEW TABLE AS NewStuff
+  FOR EACH ROW
+  WHEN NewRow.year IS NULL
+  UPDATE NewStuff SET year = 1915;
+  ```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 VIEWS AND AUTHORIZATION NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

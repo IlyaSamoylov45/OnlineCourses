@@ -1063,9 +1063,160 @@ Chapter 2.7 THE UNIFIED MODELING LANGUAGE
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CONSTRAINTS AND TRIGGERS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 3.2 INTEGRITY CONSTRAINTS OVER RELATIONS
+  - An integrity constraint (IC) is a condition specified on a database schema and restricts the data that can be stored in an instance of the database.
+  - If a database instance satisfies all the integrity constraints specified on the database schema, it is a legal instance.
+  - A DBMS enforces integrity constraints, in that it permits only legal instances to be stored in the database.
+  - Integrity constraints are specified and enforced at different times:
+    - When the DBA or end user defines a database schema, he or she specifies the ICs that must hold on any instance of this database.
+    - When a database application is run, the DBMS checks for violations and disallows changes to the data that violate the specified ICs.
+
+Chapter 3.2.1 Key Constraints
+  - A key constraint is a statement that a certain minimal subset of the fields of a relation is a unique identifier for a tuple.
+  - A set of fields that uniquely identifies a tuple according to a key constraint is called a candidate key for the relation
+  - Candidate Key Definition:
+    - Two distinct tuples in a legal instance cannot have identical values in all the fields of a key.
+    - No subset of the set of fields in a key is a unique identifier for a tuple.
+  - Since a relation is a set of tuples, the set of all fields is always a superkey. If other constraints hold, some subset of the fields may form a key, but if not, the set of all fields is a key.
+  - In SQL, we can declare that a subset of the columns of a table constitute a key by using the UNIQUE constraint.
+  - At most one of these candidate keys can be declared to be a primary key, using the PRIMARY KEY constraint.
+  - Example :
+  ```SQL
+  CREATE TABLE Students (
+    sid CHAR(20) ,
+    name CHAR (30) ,
+    login CHAR(20) ,
+    age INTEGER,
+    gpa REAL,
+    UNIQUE (name, age),
+    CONSTRAINT StudentsKey PRIMARY KEY (sid) )
+  ```
+
+Chapter 3.2.2 Foreign Key Constraints
+  - The most common IC involving two relations is a foreign key constraint.
+  - Suppose that, in addition to Students, we have a second relation: ```Enrolled(studid: string, cid: string, grade: string)```
+  - The foreign key in the referencing relation (Enrolled, in our example) must match the primary key of the referenced relation (Students); that is, it must have the same number of columns and compatible data types, although the column names can be different.
+  - Every studid value that appears in the instance of the Enrolled table appears in the primary key column of a row in the Students table.
+  - A foreign key could refer to the same relation.
+  - The use of null in a field of a tuple means that value in that field is either unknown or not applicable
+  - The appearance of null in a foreign key field does not violate the foreign key constraint.
+  - null values are not allowed to appear in a primary key field
+  - Foreign Key example :
+  ```SQL
+  CREATE TABLE Enrolled ( studid CHAR(20) ,
+                          cid CHAR(20),
+                          grade CHAR(10),
+                          PRIMARY KEY (studid, cid),
+                          FOREIGN KEY (studid) REFERENCES Students)
+  ```
+
+Chapter 3.2.3 General Constraints
+  - The IC that students must be older than 16 can be thought of as an extended domain constraint, since we are essentially defining the set of permissible age values more stringently than is possible by simply using a standard domain such as integer.
+  - Table constraints are associated with a single table and checked whenever that table is modified.
+  - In contrast, assertions involve several tables and are checked whenever any of these tables is modified.
+
+Chapter 3.3 ENFORCING INTEGRITY CONSTRAINTS
+  - ICs are specified when a relation is created and enforced when a relation is modified.
+  - Deletion does not cause a violation of domain, primary key or unique constraints.
+  - An update can cause violations, similar to an insertion.
+  - The impact of foreign key constraints is more complex because SQL sometimes tries to rectify a foreign key constraint violation instead of simply rejecting the change.
+  - SQL provides several alternative ways to handle foreign key violations. We must consider three basic questions:
+    - What should we do if an Enrolled row is inserted, with a studid column value that does not appear in any row of the Students table?
+      - In this case, the INSERT command is simply rejected.
+    - What should we do if a Students row is deleted?
+      - The options are:
+        - Delete all Enrolled rows that refer to the deleted Students row.
+        - Disallow the deletion of the Students row if an Enrolled row refers to it.
+        - Set the studid column to the sid of some (existing) 'default' student, for every Enrolled row that refers to the deleted Students row.
+        - For every Enrolled row that refers to it, set the studid column to null.
+    - What should we do if the primary key value of a Students row is updated?
+  - The default option is NO ACTION, which means that the action (DELETE or UPDATE) is to be rejected
+  - The CASCADE keyword says that, if a Students row is deleted, all Enrolled rows that refer to it are to be deleted as well.
+  - If the UPDATE clause specified CASCADE, and the sid column of a Students row is updated, this update is also carried out in each Enrolled row that refers to the updated Students row.
+  - If a Students row is deleted, we can switch the enrollment to a 'default' student by using ON DELETE SET DEFAULT.
+  - The default student is specified as part of the definition of the sid field in Enrolled; for example, sid CHAR(20) DEFAULT '53666'.
+  - SQL also allows the use of null as the default value by specifying ON DELETE SET NULL.
+
+Chapter 3.3.1 Transactions and Constraints
+  - By default, a constraint is checked at the end of every SQL statement that could lead to a violation, and if there is a violation, the statement is rejected.
+  - Example :
+  ```SQL
+  CREATE TABLE Students (
+    sid CHAR(20) ,
+    name CHAR(30),
+    login CHAR (20),
+    age INTEGER,
+    honors CHAR(10) NOT NULL,
+    gpa REAL)
+    PRIMARY KEY (sid),
+    FOREIGN KEY (honors) REFERENCES Courses (cid))
+
+  CREATE TABLE Courses (
+    cid CHAR(10),
+    cname CHAR (10) ,
+    credits INTEGER,
+    grader CHAR(20) NOT NULL,
+    PRIMARY KEY (cid)
+    FOREIGN KEY (grader) REFERENCES Students (sid))
+  ```
+    - How are we to insert the very first course or student tuple? One cannot be inserted  without the other. The only way to accomplish this insertion is to defer the constraint checking that would normally be carried out at the end of an INSERT statement.
+  - SQL allows a constraint to be in DEFERRED or IMMEDIATE mode. ```SET CONSTRAINT ConstraintFoo DEFERRED``` A constraint in deferred mode is checked at commit time.
+
+Chapter 5.8 TRIGGERS AND ACTIVE DATABASES
+  - A trigger is a procedure that is automatically invoked by the DBMS in response to specified changes to the database, and is typically specified by the DBA.
+  - A database that has a set of associated triggers is called an active database. A trigger description contains three parts:
+    - Event: A change to the database that activates the trigger.
+    - Condition: A query or test that is run when the trigger is activated.
+    - Action: A procedure that is executed when the trigger is activated and its condition is true.
+  - A trigger can be thought of as a 'daemon' that monitors a databa.se, and is executed when the database is modified in a way that matches the event specification.
+  - An insert, delete, or update statement could activate a trigger, regardless of which user or application invoked the activating statement; users may not even be aware that a trigger was executed as a side effect of their program.
+  - A condition in a trigger can be a true/false statement or a query.
+  - A query is interpreted as true if the answer set is nonempty and false if the query has no answers. If the condition part evaluates to true, the action associated with the trigger is executed.
+  - A trigger action can examine the answers to the query in the condition part of the trigger, refer to old and new values of tuples modified by the statement activating the trigger, execute Hew queries, and make changes to the database.
+  - A trigger that initializes a variable used to count the number of qualifying insertions should be executed before, and a trigger that executes once per qualifying inserted record and increments the variable should be executed after each record is inserted.
+
+Chapter 5.8.1 Examples of Triggers in SQL
+  - A trigger can also be scheduled to execute instead of the activating statement; or in deferred fashion, at the end of the transaction containing the activating statement; or in asynchronous fashion, as part of a separate transaction.
+  - A user must be able to specify whether a trigger is to be executed once per modified record or once per activating statement.
+  - Trigger Example 1:
+  ```SQL
+  CREATE TRIGGER init_count BEFORE INSERT ON Students
+    DECLARE
+      count INTEGER;
+    BEGIN
+      count := 0;
+  END
+  ```
+  - Trigger Example 2:
+  ```SQL
+  CREATE TRIGGER incr_count AFTER INSERT ON Students
+    WHEN (new.age < 18)
+    FOR EACH ROW
+    BEGIN
+      count := count + 1;
+    END
+  ```
+
+Chapter 5.9 DESIGNING ACTIVE DATABASES
+  - Triggers offer a powerful mechanism for dealing with changes to a database, but they must be used with caution.
+
+Chapter 5.9.1 Why Triggers Can Be Hard to Understand
+  - If a statement activates more than one trigger, the DBMS typically processes all of them, in some arbitrary order. An important point is that the execution of the action part of a trigger could in turn activate another trigger.
+  - The execution of the action part of a trigger could again activate the same trigger; such triggers are called recursive triggers.
+  - The potential for such chain activations and the unpredictable order in which a DBMS processes activated triggers can make it difficult to understand the effect of a collection of triggers.
+
+Chapter 5.9.2 Constraints versus Triggers
+  - A common use of triggers is to maintain database consistency, and in such cases, we should always consider whether using an integrity constraint (e.g., a foreign key constraint) achieves the same goals.
+  - A constraint also prevents the data from being made inconsistent by any kind of statement, whereas a trigger is activated by a specific kind of statement (INSERT, DELETE, or UPDATE).
+
+Chapter 5.9.3 Other Uses of Triggers
+  - Many potential uses of triggers go beyond integrity maintenance. Triggers can alert users to unusual events (as reflected in updates to the database).
+  - Triggers can generate a log of events to support auditing and security checks
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 VIEWS AND AUTHORIZATION NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------

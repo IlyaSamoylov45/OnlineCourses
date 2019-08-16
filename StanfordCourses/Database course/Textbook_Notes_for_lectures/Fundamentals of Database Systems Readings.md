@@ -1339,6 +1339,151 @@ INDEXES AND TRANSACTIONS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CONSTRAINTS AND TRIGGERS NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 3.2 Relational Model Constraints and Relational Database Schemas
+  - There are generally many restrictions or constraints on the actual values in a database state.
+  - Constraints on databases can generally be divided into three main categories:
+    - Constraints that are inherent in the data model. We call these inherent model-based constraints or implicit constraints.
+    - Constraints that can be directly expressed in schemas of the data model, typically by specifying them in the DDL. We call these schema-based constraints or explicit constraints.
+    - Constraints that cannot be directly expressed in the schemas of the data model, and hence must be expressed and enforced by the application programs. We call these application-based or semantic constraints or business rules.
+  - Another important category of constraints is data dependencies, which include functional dependencies and multivalued dependencies.
+
+Chapter 3.2.1 Domain Constraints
+  - Domain constraints specify that within each tuple, the value of each attribute A must be an atomic value from the domain dom(A).
+
+Chapter 3.2.2 Key Constraints and Constraints on NULL Values
+  - In the formal relational model, a relation is defined as a set of tuples. By definition, all elements of a set are distinct; hence, all tuples in a relation must also be distinct.
+  - Usually, there are other subsets of attributes of a relation schema R with the property that no two tuples in any relation state r of R should have the same combination of values for these attributes.
+  - A superkey SK specifies a uniqueness constraint that no two distinct tuples in any state r of R can have the same value for SK.
+  - Every relation has at least one default superkey—the set of all its attributes.
+  - A key satisfies two properties:
+    - Two distinct tuples in any state of the relation cannot have identical values for (all) the attributes in the key. This first property also applies to a superkey.
+    - It is a minimal superkey—that is, a superkey from which we cannot remove any attributes and still have the uniqueness constraint in condition 1 hold. This property is not required by a superkey.
+  - Consider the STUDENT relation. The attribute set {Ssn} is a key of STUDENT because no two student tuples can have the same value for Ssn.8 Any set of attributes that includes Ssn— for example,{Ssn, Name, Age}—is a superkey. However, the superkey {Ssn, Name, Age} is not a key of STUDENT because removing Name or Age or both from the set still leaves us with a superkey.
+  - In general, any superkey formed from a single attribute is also a key.
+  - In general, a relation schema may have more than one key. In this case, each of the keys is called a candidate key.
+  - It is usually better to choose a primary key with a single attribute or a small number of attributes.
+  - The other candidate keys are designated as unique keys, and are not underlined.
+
+Chapter 3.2.3 Relational Databases and Relational Database Schemas
+  - A database state that does not obey all the integrity constraints is called an invalid state, and a state that satisfies all the constraints in the defined set of integrity constraints IC is called a valid state.
+  - Each relational DBMS must have a data definition language (DDL) for defining a relational database schema.
+
+Chapter 3.2.4 Integrity, Referential Integrity, and Foreign Keys
+  - The entity integrity constraint states that no primary key value can be NULL.
+  - If two or more tuples had NULL for their primary keys, we may not be able to distinguish them if we try to reference them from other relations.
+  - Key constraints and entity integrity constraints are specified on individual relations.
+  - The referential integrity constraint is specified between two relations and is used to maintain the consistency among tuples in the two relations.
+  - A set of attributes FK in relation schema R1 is a foreign key of R1 that references relation R2 if it satisfies the following rules:
+    - The attributes in FK have the same domain(s) as the primary key attributes PK of R2; the attributes FK are said to reference or refer to the relation R2.
+    - A value of FK in a tuple t1 of the current state r1(R1) either occurs as a value of PK for some tuple t2 in the current state r2(R2) or is NULL. In the former case, we have t1[FK] = t2[PK], and we say that the tuple t1 references or refers to the tuple t2.
+  - R1 is called the referencing relation and R2 is the referenced relation.
+  - If these two conditions hold, a referential integrity constraint from R1 to R2 is said to hold.
+
+Chapter 3.2.5 Other Types of Constraints
+  - Mechanisms called triggers and assertions can be used using constraint specification language.
+  - In SQL, CREATE ASSERTION and CREATE TRIGGER statements can be used for this purpose.
+  - It is more common to check for these types of constraints within the application programs than to use constraint specification languages because the latter are sometimes difficult and complex to use.
+
+Chapter 3.3 Update Operations, Transactions, and Dealing with Constraint Violations
+  - There are three basic operations that can change the states of relations in the database: Insert, Delete, and Update (or Modify).
+  - Insert is used to insert one or more new tuples in a relation, Delete is used to delete tuples, and Update (or Modify) is used to change the values of some attributes in existing tuples.
+
+Chapter 3.3.1 The Insert Operation
+  - Key constraints can be violated if a key value in the new tuple t already exists in another tuple in the relation r(R).
+  - Entity integrity can be violated if any part of the primary key of the new tuple t is NULL.
+  - Referential integrity can be violated if the value of any foreign key in t refers to a tuple that does not exist in the referenced relation.
+  - If an insertion violates one or more constraints, the default option is to reject the insertion.
+
+Chapter 3.3.2 The Delete Operation
+  - The Delete operation can violate only referential integrity. This occurs if the tuple being deleted is referenced by foreign keys from other tuples in the database.
+  - Several options are available if a deletion operation causes a violation:
+    - The first option, called restrict, is to reject the deletion.
+    - The second option, called cascade, is to attempt to cascade (or propagate) the deletion by deleting tuples that reference the tuple that is being deleted.
+    - A third option, called set null or set default, is to modify the referencing attribute values that cause the violation.
+
+Chapter 3.3.3 The Update Operation
+  - The Update (or Modify) operation is used to change the values of one or more attributes in a tuple (or tuples) of some relation R.
+  - Updating an attribute that is neither part of a primary key nor of a foreign key usually causes no problems; the DBMS need only check to confirm that the new value is of the correct data type and domain.
+  - Modifying a primary key value is similar to deleting one tuple and inserting another in its place because we use the primary key to identify tuples.
+
+Chapter 3.3.4 The Transaction Concept
+  - A database application program running against a relational database typically executes one or more transactions.
+  - A transaction is an executing program that includes some database operations, such as reading from the database, or applying insertions, deletions, or updates to the database.
+  - At the end of the transaction, it must leave the database in a valid or consistent state that satisfies all the constraints specified on the database schema.
+  - A single transaction may involve any number of retrieval operations and any number of update operations.
+  - A large number of commercial applications running against relational databases in online transaction processing (OLTP) systems are executing transactions at rates that reach several hundred per second.
+
+Chapter 26.1.1 Generalized Model for Active Databases and Oracle Triggers
+  - The model that has been used to specify active database rules is referred to as the Event-Condition-Action (ECA) model.
+  - A rule in the ECA model has three components:
+    - The event(s) that triggers the rule: These events are usually database update operations that are explicitly applied to the database.
+    - The condition that determines whether the rule action should be executed: Once the triggering event has occurred, an optional condition may be evaluated. If no condition is specified, the action will be executed once the event occurs.
+    - The action to be taken: The action is usually a sequence of SQL statements, but it could also be a database transaction or an external program that will be automatically executed.
+  - Trigger examples:
+  ```SQL
+  CREATE TRIGGER Total_sal1
+  AFTER INSERT ON EMPLOYEE
+  FOR EACH ROW
+  WHEN ( NEW.Dno IS NOT NULL )
+    UPDATE DEPARTMENT
+    SET Total_sal = Total_sal + NEW.Salary
+    WHERE Dno = NEW.Dno;
+  ```
+  ```SQL
+  CREATE TRIGGER Total_sal2
+  AFTER UPDATE OF Salary ON EMPLOYEE
+  FOR EACH ROW
+  WHEN ( NEW.Dno IS NOT NULL )
+    UPDATE DEPARTMENT
+    SET Total_sal = Total_sal + NEW.Salary – OLD.Salary
+    WHERE Dno = NEW.Dno;
+  ```
+  ```SQL
+  CREATE TRIGGER Total_sal3
+  AFTER UPDATE OF Dno ON EMPLOYEE
+  FOR EACH ROW
+    BEGIN
+    UPDATE DEPARTMENT
+    SET Total_sal = Total_sal + NEW.Salary
+    WHERE Dno = NEW.Dno;
+    UPDATE DEPARTMENT
+    SET Total_sal = Total_sal – OLD.Salary
+    WHERE Dno = OLD.Dno;
+    END;
+  ```
+  ```SQL
+  CREATE TRIGGER Total_sal4
+  AFTER DELETE ON EMPLOYEE
+  FOR EACH ROW
+  WHEN ( OLD.Dno IS NOT NULL )
+    UPDATE DEPARTMENT
+    SET Total_sal = Total_sal – OLD.Salary
+    WHERE Dno = OLD.Dno;
+  ```
+  ```SQL
+  CREATE TRIGGER Inform_supervisor1
+  BEFORE INSERT OR UPDATE OF Salary, Supervisor_ssn
+    ON EMPLOYEE
+  FOR EACH ROW
+  WHEN ( NEW.Salary > ( SELECT Salary FROM EMPLOYEE
+                        WHERE Ssn = NEW.Supervisor_ssn ) )
+                        inform_supervisor(NEW.Supervisor_ssn, NEW.Ssn );
+  ```
+  - The keywords NEW and OLD are used in Oracle notation; NEW is used to refer to a newly inserted or newly updated tuple, whereas OLD is used to refer to a deleted tuple or to a tuple before it was updated.
+  - It is important to note the effect of the optional FOR EACH ROW clause, which signifies that the rule is triggered separately for each tuple. This is known as a row-level trigger. If this clause was left out, the trigger would be known as a statement-level trigger and would be triggered once for each triggering statement.
+  - Note that the keywords NEW and OLD can only be used with row-level triggers.
+  - Syntax for trigger:
+  ```
+  <trigger> ::= CREATE TRIGGER <trigger name>
+                ( AFTER I BEFORE ) <triggering events> ON <table name>
+                [ FOR EACH ROW ]
+                [ WHEN <condition> ]
+                <trigger actions> ;
+  <triggering events> ::= <trigger event> {OR <trigger event> }
+  <trigger event> ::= INSERT I DELETE I UPDATE [ OF <column name> { , <column name> } ]
+  <trigger action> ::= <PL/SQL block>
+  ```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 VIEWS AND AUTHORIZATION NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
