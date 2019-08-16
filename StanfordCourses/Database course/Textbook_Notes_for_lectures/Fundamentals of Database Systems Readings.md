@@ -103,7 +103,7 @@ Chapter 1.6.10 Additional Implications of Using the Database Approach
   - Potential for Enforcing Standards:
     - The DBA can enforce standards in a centralized database environment more easily than in an environment where each user group has control of its own data files and software.
   - Reduced Application Development Time
-    -  Development time using a DBMS is estimated to be one-sixth to one-fourth of that for a traditional file system.
+    - Development time using a DBMS is estimated to be one-sixth to one-fourth of that for a traditional file system.
   - Flexibility
   - Availability of Up-to-Date Information
   - Economies of Scale

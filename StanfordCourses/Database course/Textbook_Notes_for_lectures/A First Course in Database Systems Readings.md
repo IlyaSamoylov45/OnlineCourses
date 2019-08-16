@@ -59,9 +59,9 @@ Chapter 1.2.4 Transaction Processing
 Chapter 1.2.5 The Query Processor
   - Query processor is represented by two components:
     1. The query compiler often using relational algebra. Query compiler consists of three major units:
-        a) A query parser, which builds a tree structure from the textual form of the query.
-        b) A query preprocessor, which performs semantic checks on the query
-        c) A query optimizer that changes the initial query into the best available sequence of operations on the data.
+        - a) A query parser, which builds a tree structure from the textual form of the query.
+        - b) A query preprocessor, which performs semantic checks on the query
+        - c) A query optimizer that changes the initial query into the best available sequence of operations on the data.
     2. The execution engine which executes each of the steps in the chosen query plan -- It needs to interact with the scheduler to avoid accessing data that is locked, and with the log manager to make sure that all database changes are properly logged.
 
 Chapter 2.2 Basics of the Relational Mode
@@ -114,18 +114,18 @@ Chapter 2.3.2 Data Types
   - All attributes must have a data type.
   - Primitive Data types:
     1. Character strings of fixed or varying length.
-      a) CHAR(n): fixed length
-      b) VARCHAR(n): up to n characters
+      - a) CHAR(n): fixed length
+      - b) VARCHAR(n): up to n characters
     2. Bit Strings of fixed or varying length. Their values are strings of bits rather than characters.
-      a) BIT(n) : bit strings of length n
-      b) BIT VARYING(n): bit strings of length up to n
+      - a) BIT(n) : bit strings of length n
+      - b) BIT VARYING(n): bit strings of length up to n
     3. BOOLEAN: TRUE,FALSE, UNKNOWN
     4. INT or INTEGER. SHORTINT also but number of bits allowed may be less depending on implementation.
     5. Floating point numbers:
-      a) REAL or FLOAT (synonyms)
-      b) A higher precision : DOUBLE PRECIOSON
-      c) DECIMAL(n, d): allow values to be n decimal digits with d assumed to be after decimal point
-      d) NUMERIC is almost the same as DECIMAL but there are possible implementation differences.
+      - a) REAL or FLOAT (synonyms)
+      - b) A higher precision : DOUBLE PRECIOSON
+      - c) DECIMAL(n, d): allow values to be n decimal digits with d assumed to be after decimal point
+      - d) NUMERIC is almost the same as DECIMAL but there are possible implementation differences.
     6. DATE, TIME.
 
 Chapter 2.3.3 Simple Table Declarations
@@ -133,7 +133,9 @@ Chapter 2.3.3 Simple Table Declarations
 
 Chapter 2.3.4 Modifying Relation Schemas
   - We can delete a relation R by the SQL statement:
-    DROP TABLE R;
+  ```SQL
+  DROP TABLE R;
+  ```
   - We may need to modify the schema of an existing relation.
     1. ADD followed by an attribute name and its data type.
     2. DROP followed by an attribute name.
