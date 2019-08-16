@@ -1,4 +1,4 @@
-Chapter 5 SQL: QUERIES, CONSTRNNTS, TRIGGERS
+Chapter 5 SQL: QUERIES, CONSTRAINTS, TRIGGERS
   - Structured Query Language (SQL) is the most widely used commercial relational database language.
 
 Chapter 5.1 OVERVIEW

@@ -1163,7 +1163,7 @@ Chapter 3.3.1 Transactions and Constraints
     PRIMARY KEY (cid)
     FOREIGN KEY (grader) REFERENCES Students (sid))
   ```
-    - How are we to insert the very first course or student tuple? One cannot be inserted  without the other. The only way to accomplish this insertion is to defer the constraint checking that would normally be carried out at the end of an INSERT statement.
+  - How are we to insert the very first course or student tuple? One cannot be inserted  without the other. The only way to accomplish this insertion is to defer the constraint checking that would normally be carried out at the end of an INSERT statement.
   - SQL allows a constraint to be in DEFERRED or IMMEDIATE mode. ```SET CONSTRAINT ConstraintFoo DEFERRED``` A constraint in deferred mode is checked at commit time.
 
 Chapter 5.8 TRIGGERS AND ACTIVE DATABASES

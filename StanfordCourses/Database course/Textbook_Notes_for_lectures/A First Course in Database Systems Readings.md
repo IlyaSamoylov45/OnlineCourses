@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INTRODUCTION AND RELATIONAL DATABASES NOTES
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-CHAPTER 1.1 The Evolution of Database Systems
+Chapter 1.1 The Evolution of Database Systems
   - The term database refers to a collection of data that is managed by a DBMS.
   - DBMS expected to:
     1. Allow users to create new databases / specify schemas
@@ -10,65 +10,59 @@ CHAPTER 1.1 The Evolution of Database Systems
     4. Enable durability in case database fails
     5. Control access to the data from many users at the same time
 
-CHAPTER 1.1.1 Early Database Management Systems
+Chapter 1.1.1 Early Database Management Systems
   - The first important applications of DBMS's were ones where data was composed of many small items
     ex: Banks, Airlines etc.
 
-CHAPTER 1.1.2 Relational Database Systems
+Chapter 1.1.2 Relational Database Systems
   - view of data organized as tables called relations.
   - Object-oriented features have infiltrated the relational model.
 
-CHAPTER 1.1.3 Smaller and Smaller Systems
+Chapter 1.1.3 Smaller and Smaller Systems
   -  Today, hundreds of gigabytes fit on a single disk, and it is quite feasible to run a DBMS on a personal computer.
 
-CHAPTER 1.1.4 Bigger and Bigger Systems
+Chapter 1.1.4 Bigger and Bigger Systems
   - On the other hand, a gigabyte is not that much data any more.
 
-CHAPTER 1.1.5 Information Integration
+Chapter 1.1.5 Information Integration
   -  information integration: joining the information contained in many related databases into a whole.
 
-CHAPTER 1.2 Overview of a Database Management System
+Chapter 1.2 Overview of a Database Management System
   - Two distinct sources of commands to the DBMS:
     1. Conventional users and application programs that ask for data or modify data.
     2. A database administrator.
 
-CHAPTER 1.2.1 Data-Definition Language Commands
-  - schema-altering data-definition language (DDL) commands are parsed by a DDL processor and passed to the execution engine,
-     which then goes through the index/file/record manager to alter the metadata
+Chapter 1.2.1 Data-Definition Language Commands
+  - schema-altering data-definition language (DDL) commands are parsed by a DDL processor and passed to the execution engine, which then goes through the index/file/record manager to alter the metadata
 
-CHAPTER 1.2.2 Overview of Query Processing
+Chapter 1.2.2 Overview of Query Processing
   - The query is parsed and optimized by a query compiler.
   - Resulting query plan passed to the execution engine.
-  - Queries and other DML actions are grouped into transactions,
-    which are units that must be executed atomically and in isolation from one another.
+  - Queries and other DML actions are grouped into transactions, which are units that must be executed atomically and in isolation from one another.
   - They must also be durable
   - We divide the transaction processor into two major parts:
     1. A concurrency-control manager, or scheduler, responsible for assuring atomicity and isolation of transactions
     2. A logging and recovery manager, responsible for the durability of transactions.
 
-CHAPTER 1.2.3 Storage and Buffer Management
+Chapter 1.2.3 Storage and Buffer Management
   - The storage manager controls the placement of data on disk and its movement between disk and main memory.
   - The storage manager keeps track of the location of files on the disk and obtains the block or blocks containing a file on request from the buffer manager.
   - The buffer manager is responsible for partitioning the available main memory into buffers
 
-CHAPTER 1.2.4 Transaction Processing
+Chapter 1.2.4 Transaction Processing
   - Transaction: a unit of work that must be executed atomically and in apparent isolation from other transactions.
   - The transaction processor performs the following tasks:
-    1. Logging: every change in the database is logged separately on disk. A recovery manager will be able to examine the
-              log of changes and restore the database to some consistent state.
-    2. Concurrency control: Transactions must appear to execute in isolation.  A typical scheduler does its work by maintaining
-              locks on certain pieces of the database. Locks are generally stored in a main-memory lock table.
+    1. Logging: every change in the database is logged separately on disk. A recovery manager will be able to examine the log of changes and restore the database to some consistent state.
+    2. Concurrency control: Transactions must appear to execute in isolation.  A typical scheduler does its work by maintaining locks on certain pieces of the database. Locks are generally stored in a main-memory lock table.
     3. Deadlock resolution: cancel transaction in case of deadlock
 
-CHAPTER 1.2.5 The Query Processor
-  Query processor is represented by two components:
+Chapter 1.2.5 The Query Processor
+  - Query processor is represented by two components:
     1. The query compiler often using relational algebra. Query compiler consists of three major units:
         a) A query parser, which builds a tree structure from the textual form of the query.
         b) A query preprocessor, which performs semantic checks on the query
         c) A query optimizer that changes the initial query into the best available sequence of operations on the data.
-    2. The execution engine which executes each of the steps in the chosen query plan It needs to interact with the scheduler
-       to avoid accessing data that is locked, and with the log manager to make sure that all database changes are properly
-       logged.
+    2. The execution engine which executes each of the steps in the chosen query plan -- It needs to interact with the scheduler to avoid accessing data that is locked, and with the log manager to make sure that all database changes are properly logged.
 
 Chapter 2.2 Basics of the Relational Mode
   - A two-dimensional table called a relation.
@@ -143,13 +137,15 @@ Chapter 2.3.4 Modifying Relation Schemas
   - We may need to modify the schema of an existing relation.
     1. ADD followed by an attribute name and its data type.
     2. DROP followed by an attribute name.
+    ```
     ALTER TABLE Star ADD birthdate CHAR(16); (creates attribute birthdate)
     ALTER TABLE Star DROP birthdate; (deletes attribute birthdate)
+    ```
 
 Chapter 2.3.5 Default Values
   - Any place we declare an attribute and its data type, we may add the keyword DEFAULT and an appropriate value.
-    ex: gender CHAR(l) DEFAULT '?',
-    ex: birthdate DATE DEFAULT DATE '0000-00-00'
+    - ex: gender CHAR(1) DEFAULT '?',
+    - ex: birthdate DATE DEFAULT DATE '0000-00-00'
 
 Chapter 2.3.6 Declaring Keys
   - Two ways if a set of attributes make a key must use option 2:
@@ -202,15 +198,15 @@ Chapter 11.2.3 Well-Formed XML
 - <Book> here is the root.
 
 Chapter 11.2.4 Attributes
-- An attribute is an alternative way to represent a leaf node of semi-structured data.
-  ex: <Movie title = "Star Wars" year = 1977></Movie>
+  - An attribute is an alternative way to represent a leaf node of semi-structured data.
+    - ex: <Movie title = "Star Wars" year = 1977></Movie>
 
 Chapter 11.2.5 Attributes That Connect Elements
   - Important use for attributes is to represent connections in a semi-structured data graph
 
 Chapter 11.2.6 Namespaces
   - To say that an element's tag should be interpreted as part of a certain namespace, we can use the attribute xmlns in its opening tag.
-    ex: xmlns: name="URI”
+    - ex: xmlns: name="URI”
 
 Chapter 11.2.7 XML and Databases
   - Two approaches to storing XML to provide some efficiency:
@@ -229,9 +225,8 @@ Chapter 11.3.1 The Form of a DTD
     ]>
   ```
   - There are two important special cases of components:
-    1.(#PCDATA) (“parsed character data”) after an element name means that element has a value that is text there are no elements nested within.
-      ex. <!ELEMENT Title (#PCDATA)>
-      says that between <Title> and </Title> tags a character string can appear.
+    1. (#PCDATA) (“parsed character data”) after an element name means that element has a value that is text there are no elements nested within.
+      - ex. ```<!ELEMENT Title (#PCDATA)> says that between <Title> and </Title>``` tags a character string can appear.
     2. keyword EMPTY, with no parentheses says there is no matched closing tag.
 
 Chapter 11.3.2 Using a DTD
