@@ -81,7 +81,7 @@ Chapter 3.1.1 Creating and Modifying Relations Using SQL
       INTO <table-name>(<attributes>)
       VALUES (<values>)
   ```
-    - You do not need to list of column names and just list values in appropriate order but it is better to be explicit
+  - You do not need to list of column names and just list values in appropriate order but it is better to be explicit
   - Delete Tuples with DELETE command:
   ```SQL
       DELETE

@@ -9,7 +9,7 @@ Chapter 1.2 Purpose of Database Systems
   - Disadvantages (file-processing system):
     1. Data redundancy and inconsistency
     2. Difficulty accessing data
-        -  Conventional file-processing environments do not allow needed data to be retrieved in a convenient and efficient manner
+        - Conventional file-processing environments do not allow needed data to be retrieved in a convenient and efficient manner
     3. Data isolation
     4. Integrity problems
     5. Atomicity problems

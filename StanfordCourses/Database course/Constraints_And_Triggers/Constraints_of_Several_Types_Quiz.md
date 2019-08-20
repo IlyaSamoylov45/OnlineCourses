@@ -1,0 +1,26 @@
+Constraints of Several Types
+
+  - Q1 : Consider the following general assertion on tables Faculty(name,homeDept) and Teaches(prof,course,dept): create assertion A (not exists (select * from Faculty where name not in (select prof from Teaches where dept = homeDept))) Which of the following modifications can NOT cause the constraint to become violated?
+    - update to Faculty.homeDept
+    - deletion from Teaches
+    - update to Teaches.prof
+    - insertion into Teaches
+    - Solution : insertion into Teaches
+  - Q2 : Consider the following general assertion on table Item(category,price): create assertion A (25 < any (select sum(price) from Item group by category)) Which of the following modifications can NOT cause the constraint to become violated? Choose the best (most reasonable) answer of the four choices.
+    - insertion into Item
+    - deletion from Item
+    - update to Item.category
+    - update to Item.price
+    - Solution : insertion into Item
+  - Q3 : Consider two tables Dorm(name,address), Student(name,dormName,roommateName). Suppose some students live in single rooms (roommateName is NULL) and no dorms are empty. Which of the following referential integrity constraints does NOT hold?
+    - Student.dormName to Dorm.name
+    - Dorm.name to Student.dormName
+    - Student.name to Student.roommateName
+    - Student.roommateName to Student.name
+    - Solution : Student.name to Student.roommateName
+  - Q4 : Consider tables Dorm(name,address) and Student(name,dormName,roommateName) with referential integrity constraints: (1) Student.dormName to Dorm.name; (2) Dorm.name to Student.dormName; (3) Student.roommateName to Student.name. Which of the following modifications can NOT cause a referential integrity violation?
+    - insertion into Student
+    - deletion from Student
+    - update Student.roommateName
+    - All of them can cause violations
+    - Solution : All of them can cause violations

@@ -12,20 +12,20 @@ Chapter 1.1 The Evolution of Database Systems
 
 Chapter 1.1.1 Early Database Management Systems
   - The first important applications of DBMS's were ones where data was composed of many small items
-    ex: Banks, Airlines etc.
+    - ex: Banks, Airlines etc.
 
 Chapter 1.1.2 Relational Database Systems
-  - view of data organized as tables called relations.
+  - View of data organized as tables called relations.
   - Object-oriented features have infiltrated the relational model.
 
 Chapter 1.1.3 Smaller and Smaller Systems
-  -  Today, hundreds of gigabytes fit on a single disk, and it is quite feasible to run a DBMS on a personal computer.
+  - Today, hundreds of gigabytes fit on a single disk, and it is quite feasible to run a DBMS on a personal computer.
 
 Chapter 1.1.4 Bigger and Bigger Systems
   - On the other hand, a gigabyte is not that much data any more.
 
 Chapter 1.1.5 Information Integration
-  -  information integration: joining the information contained in many related databases into a whole.
+  - Information integration: joining the information contained in many related databases into a whole.
 
 Chapter 1.2 Overview of a Database Management System
   - Two distinct sources of commands to the DBMS:
@@ -33,7 +33,7 @@ Chapter 1.2 Overview of a Database Management System
     2. A database administrator.
 
 Chapter 1.2.1 Data-Definition Language Commands
-  - schema-altering data-definition language (DDL) commands are parsed by a DDL processor and passed to the execution engine, which then goes through the index/file/record manager to alter the metadata
+  - Schema-altering data-definition language (DDL) commands are parsed by a DDL processor and passed to the execution engine, which then goes through the index/file/record manager to alter the metadata
 
 Chapter 1.2.2 Overview of Query Processing
   - The query is parsed and optimized by a query compiler.
@@ -53,7 +53,7 @@ Chapter 1.2.4 Transaction Processing
   - Transaction: a unit of work that must be executed atomically and in apparent isolation from other transactions.
   - The transaction processor performs the following tasks:
     1. Logging: every change in the database is logged separately on disk. A recovery manager will be able to examine the log of changes and restore the database to some consistent state.
-    2. Concurrency control: Transactions must appear to execute in isolation.  A typical scheduler does its work by maintaining locks on certain pieces of the database. Locks are generally stored in a main-memory lock table.
+    2. Concurrency control: Transactions must appear to execute in isolation. A typical scheduler does its work by maintaining locks on certain pieces of the database. Locks are generally stored in a main-memory lock table.
     3. Deadlock resolution: cancel transaction in case of deadlock
 
 Chapter 1.2.5 The Query Processor
@@ -91,8 +91,7 @@ Chapter 2.2.6 Relation Instances
   - A set of tuples for a given relation an instance of that relation.
 
 Chapter 2.2.7 Keys of Relations
-  - A set of attributes forms a key for a relation if we do not allow two tuples in a relation instance to have the same values in all the attributes
-     of the key.
+  - A set of attributes forms a key for a relation if we do not allow two tuples in a relation instance to have the same values in all the attributes of the key.
   - We indicate the attribute or attributes that form a key for a relation by underlining.
 
 Chapter 2.2.8 An Example Database Schema
@@ -114,18 +113,18 @@ Chapter 2.3.2 Data Types
   - All attributes must have a data type.
   - Primitive Data types:
     1. Character strings of fixed or varying length.
-      - a) CHAR(n): fixed length
-      - b) VARCHAR(n): up to n characters
+      a. CHAR(n): fixed length
+      b. VARCHAR(n): up to n characters
     2. Bit Strings of fixed or varying length. Their values are strings of bits rather than characters.
-      - a) BIT(n) : bit strings of length n
-      - b) BIT VARYING(n): bit strings of length up to n
+      a. BIT(n) : bit strings of length n
+      b. BIT VARYING(n): bit strings of length up to n
     3. BOOLEAN: TRUE,FALSE, UNKNOWN
     4. INT or INTEGER. SHORTINT also but number of bits allowed may be less depending on implementation.
     5. Floating point numbers:
-      - a) REAL or FLOAT (synonyms)
-      - b) A higher precision : DOUBLE PRECIOSON
-      - c) DECIMAL(n, d): allow values to be n decimal digits with d assumed to be after decimal point
-      - d) NUMERIC is almost the same as DECIMAL but there are possible implementation differences.
+      a. REAL or FLOAT (synonyms)
+      b. A higher precision : DOUBLE PRECIOSON
+      c. DECIMAL(n, d): allow values to be n decimal digits with d assumed to be after decimal point
+      d. NUMERIC is almost the same as DECIMAL but there are possible implementation differences.
     6. DATE, TIME.
 
 Chapter 2.3.3 Simple Table Declarations
@@ -171,7 +170,7 @@ Chapter 11.2 XML
 Chapter 11.2.1 Semantic Tags
   - A pair of matching tags and everything that comes between them is called an element.
   - A single tag, with no matched closing tag, is also permitted in XML.
-    ex: <form/>
+    - ex: <form/>
     - This can have attributes but is not allowed to have any other elements or text.
 
 Chapter 11.2.2 XML With and Without a Schema

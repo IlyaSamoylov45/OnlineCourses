@@ -80,8 +80,7 @@ Chapter 1.6.3 Providing Persistent Storage for Program Objects
   - Databases can be used to provide persistent storage for program objects and data structures.
 
 Chapter 1.6.4 Providing Storage Structures and Search Techniques for Efficient Query Processing
-  - DBMS must provide specialized data structures and search techniques to speed up disk search for the desired records. Auxiliary files called indexes are
-    used for this purpose.
+  - DBMS must provide specialized data structures and search techniques to speed up disk search for the desired records. Auxiliary files called indexes are used for this purpose.
   - The DBMS often has a buffering or caching module that maintains parts of the database in main memory buffers.
   - Most DBMSs do their own data buffering even though this is normally an OS operation.
 
