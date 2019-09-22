@@ -1,5 +1,8 @@
 Single-Table Queries
 
+Reading
+  - 5.1, 5.2, 12.4.3
+
 SQL and Query Processing
   - Start with single-table queries
   - Basic SQL
