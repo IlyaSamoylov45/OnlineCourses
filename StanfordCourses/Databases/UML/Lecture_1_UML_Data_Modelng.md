@@ -1,0 +1,61 @@
+UML Data Modeling
+  - Data Modeling
+    - How to represent data for application
+      - Relational model - with design principles
+      - XML
+      - Database design model
+        - Not implemented by system
+        - Translated into model of DBMS
+  - Higher-Level Database Design Models
+    - Entity-Relationship Model (E/R)
+    - Unified Modeling Language (UML)
+      - Data Modeling subset
+    - Both are graphical
+    - Both can be translated to relations automatically
+      - Or semi-automatically
+  - UML Data Modeling: 5 Concepts
+    - Classes
+    - Associations
+    - Association classes
+    - Subclasses
+    - Composition & aggregation
+  - UML Data Modeling: Classes
+    - Name, attributes, methods
+      - For data modeling : add "pk", drop methods
+  - UML Data Modeling Association
+    - Relationships between objects of two classes
+    - Multiplicity of Associations
+      - Relationships between objects of two classes
+  - Multiplicity of Associations:
+    - Types of Relationships
+      - One to One
+      - Many to One
+      - Many to Many
+      - Complete
+  - UML Data Modeling : Association Classes
+    - Relationships between objects of two classes with attributes on relationships
+  - Eliminating Association Classes
+    - Unnecessary if 0 .. 1 or 1 .. 1 multiplicity if we allow NULL
+  - Self Associations
+    - Associations between a class and itself
+  - UML Data Modeling : Subclasses
+  - Subclass & properties
+    - Superclass = Generalization
+    - Subclass = Specialization
+    - Incomplete (Partial) v.s. Complete
+      - If complete, all objects in superclass belong to one or more subclasses.
+    - Disjoint (Exclusive) v.s. Overlapping
+      - If disjoint, no object is in more than one subclass.
+  - UML Data Modeling: Composition & Aggregation
+    - Objects of one class belong to object of another class
+  - High-Level Database Design
+    - Unified Modeling Language (UML)
+      - Data Modeling subset
+    - Graphical
+    - 5 concepts
+      - Classes
+      - Associations
+      - Association classes
+      - Subclasses
+      - Composition & aggregation
+    - Can be translated to relations automatically

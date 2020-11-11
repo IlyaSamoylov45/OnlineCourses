@@ -1,0 +1,64 @@
+Shortcomings of BCNF
+  - Boyce-Codd Normal Form
+    - Relation R with FDs is in BCNF if:
+      - For each A → B, A is a key
+  - Fourth Normal Form
+    - Relation R with MVDs is in 4NF if:
+      - For each nontrivial A ↠ B, B is a key.
+  - Example College application info
+    - Apply(SSN, cName, major, date)
+    - Can apply to each college once for one major
+    - Colleges have non-overlapping application dates
+      - FDs : SSN,cName → date,major, date → cName
+      - Keys: SSN, cName
+      - BCNF: No
+        - A1(date, cName)
+        - A2(SSN, date, major)
+      - Good design?
+        - Not necessarily.
+        - 3NF better
+    - 3rd Normal Form weaker than BCNF
+  - Example 2
+    - Student(SSN, HSname, GPA, priority)
+    - Multiple HS okay
+    - priority is determined by GPA
+      - FDs: SSN → GPA, GPA → priority => SSN → priority
+      - Keys: SSN, HSname
+      - BCNF: No
+        - S1(SSN, priority)
+        - S2(SSN, HSname, GPA)
+          - S3(SSN, HSname)
+          - S4(SSN, GPA)
+      - Good design?
+        - Not necessarily.
+  - After Decomposition there is no guarantee dependencies can be checked on decomposed relations.
+  - Example 3
+    - Scores(SSN, sName, SAT, ACT)
+    - Multiple SAT and ACT scores are allowed
+      - FDs: SSN → sName
+      - Key: No key
+      - MVD : SSN, sName ↠ SAT "rest" [ACT]
+      - 4NF: No
+        - S1(SSN, sName)
+        - S2(SSN, SAT)
+        - S3(SSN, ACT)
+  - Example 4
+    - College(cName, state)
+      - cName → state
+    - CollegeSize(cName, enrollment)
+      - cName → enrollment
+    - CollegeScores(cName, avgSAT)
+      - cName → avgSAT
+    - CollegeGrades(cName, avgGPA)  
+      - cName → avgGPA
+    - BCNF/4NF: Yes
+      - Good design?
+        - Not necessarily, too decomposed
+  - Designing database schema
+    - Usually many designs possible
+    - Some are much better than others
+    - How do we choose?
+  - Very nice theory for relational database design
+    - Normal Forms : "Good" relations
+    - Design by decomposition
+    - Usually intuitive and works well
