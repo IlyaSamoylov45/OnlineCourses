@@ -60,6 +60,7 @@ Fully Understanding the Component Selector
   <div app-servers></div>
   <div class="app-servers"><div>
   ```
+  
 What is Databinding?
   - communication between component ts and template html.
   - Output data from ts to template :
