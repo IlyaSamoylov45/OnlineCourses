@@ -1,0 +1,38 @@
+Container Lifetime & Persistent Data
+  - Containers are usually immutable and ephemeral
+  - Immutable infrastructure : only deploy containers, never change.
+  - This is the ideal scenario, but what about databases, or unique data.
+  - Docker gives us features to ensure these separation of concerns.
+  - Known as persistent data.
+  - Two solutions : volumes and Bind mounts
+  - Volumes : make special location outside of container UFS
+  - Bind mounts : link container path to host path.
+
+Volumes
+  - VOLUME command in dockerfile is one way to deal with it.
+  - mysql needs -e MYSQL_ALLOW_EMPTY_PASSWORD=True
+  - docker volume ls
+  - docker volume inspect <volume id>
+  - Can see data in file location linux, but it's harder in Windows and Mac
+  - Named volumes : friendly way to assign vols to containers.
+  - docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-db:/var/lib/mysql mysql
+  = docker volume create -- => required to do this before "docker run" to use custom drivers and labels.
+
+Bind Mounts
+  - Maps a host file or directory to a container file or directory.
+  - Basically just two locations pointing to the same file(s)
+  - Again, skips UFS and host files overwrite any in container
+  - Can't use in Dockerfile, must be at container run
+  - ... run -v /Users/file/stuff:/path/container => Linux/Mac
+  - ... run -v //c/Users/file/stuff:/path/container => Linux/Mac
+
+Interesting notes :
+  ```dockerfile
+  WORKDIR /usr/src/app
+  VOLUME . /usr/src/app
+  ```
+    - The WORKDIR line there creates the directory if it doesn't exist, and updates some image metadata to specify all relative paths, along with the current directory for commands like RUN will be in that location. The VOLUME line there specifies two volumes, one is the relative path ., and the other is /usr/src/app, both just happen to be the same directory. Most often the VOLUME line only contains a single directory, but it can contain multiple, or it can be a json formatted array.
+    - You cannot specify a volume source in the Dockerfile: A common source of confusion when specifying volumes in a Dockerfile is trying to match the runtime syntax of a source and destination at image build time, this will not work. The Dockerfile can only specify the destination of the volume. It would be a trivial security exploit if someone could define the source of a volume since they could update a common image on the docker hub to mount the root directory into the container and then launch a background process inside the container as part of an entrypoint that adds logins to /etc/passwd, configures systemd to launch a bitcoin miner on next reboot, or searches the filesystem for credit cards, SSNs, and private keys to send off to a remote site.
+    - What does the VOLUME line do? As mentioned, it sets some image metadata to say a directory inside the image is a volume. How is this metadata used? Every time you create a container from this image, docker will force that directory to be a volume. If you do not provide a volume in your run command, or compose file, the only option for docker is to create an anonymous volume. This is a local named volume with a long unique id for the name and no other indication for why it was created or what data it contains (anonymous volumes are were data goes to get lost). If you override the volume, pointing to a named or host volume, your data will go there instead.
+    - VOLUME breaks things: You cannot disable a volume once defined in a Dockerfile. And more importantly, the RUN command in docker is implemented with temporary containers. Those temporary containers will get a temporary anonymous volume. That anonymous volume will be initialized with the contents of your image. Any writes inside the container from your RUN command will be made to that volume. When the RUN command finishes, changes to the image are saved, and changes to the anonymous volume are discarded. Because of this, I strongly recommend against defining a VOLUME inside the Dockerfile. It results in unexpected behavior for downstream users of your image that wish to extend the image with initial data in volume location.
+    - How should you specify a volume? To specify where you want to include volumes with your image, provide a docker-compose.yml. Users can modify that to adjust the volume location to their local environment, and it captures other runtime settings like publishing ports and networking.
