@@ -62,3 +62,22 @@ Docker Networks : CLI Management
   - By using the 'docker exec -it <container> sh' (or bash) command on a container, we can connect to a shell from inside it.
   - To start a container in detached mode, you use -d=true or just -d option. By design, containers started in detached mode exit when the root process used to run the container exits, unless you also specify the --rm option. If you use -d with --rm, the container is removed when it exits or when the daemon exits, whichever happens first.
   - docker container run -d --net dude --net-alias search elasticsearch:2
+
+
+---------------------------
+
+External Notes
+
+---------------------------
+
+
+
+Additional information :
+  - With:
+    - cgroup: Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future children, into hierarchical groups with specialized behaviour.
+    - namespace: wraps a global system resource in an abstraction that makes it appear to the processes within the namespace that they have their own isolated instance of the global resource.
+  - In short:
+    - Cgroups = limits how much you can use;
+    - namespaces = limits what you can see (and therefore use)
+  - Cgroups determines how much host machine resources to be given to containers.
+  - Namespaces: provides process isolation, complete isolation of containers, separate file system.

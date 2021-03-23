@@ -1,0 +1,254 @@
+Container Lifetime & Persistent Data
+  - Containers are usually immutable and ephemeral
+  - Immutable infrastructure : only deploy containers, never change.
+  - This is the ideal scenario, but what about databases, or unique data.
+  - Docker gives us features to ensure these separation of concerns.
+  - Known as persistent data.
+  - Two solutions : volumes and Bind mounts
+  - Volumes : make special location outside of container UFS
+  - Bind mounts : link container path to host path.
+
+Volumes
+  - VOLUME command in dockerfile is one way to deal with it.
+  - mysql needs -e MYSQL_ALLOW_EMPTY_PASSWORD=True
+  - docker volume ls
+  - docker volume inspect <volume id>
+  - Can see data in file location linux, but it's harder in Windows and Mac
+  - Named volumes : friendly way to assign vols to containers.
+  - docker container run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-db:/var/lib/mysql mysql
+  = docker volume create -- => required to do this before "docker run" to use custom drivers and labels.
+
+Bind Mounts
+  - Maps a host file or directory to a container file or directory.
+  - Basically just two locations pointing to the same file(s)
+  - Again, skips UFS and host files overwrite any in container
+  - Can't use in Dockerfile, must be at container run
+  - ... run -v /Users/file/stuff:/path/container => Linux/Mac
+  - ... run -v //c/Users/file/stuff:/path/container => Linux/Mac
+
+---------------------------
+
+External Notes
+
+---------------------------
+
+Interesting notes :
+  ```dockerfile
+  WORKDIR /usr/src/app
+  VOLUME . /usr/src/app
+  ```
+  - The WORKDIR line there creates the directory if it doesn't exist, and updates some image metadata to specify all relative paths, along with the current directory for commands like RUN will be in that location. The VOLUME line there specifies two volumes, one is the relative path ., and the other is /usr/src/app, both just happen to be the same directory. Most often the VOLUME line only contains a single directory, but it can contain multiple, or it can be a json formatted array.
+  - You cannot specify a volume source in the Dockerfile: A common source of confusion when specifying volumes in a Dockerfile is trying to match the runtime syntax of a source and destination at image build time, this will not work. The Dockerfile can only specify the destination of the volume. It would be a trivial security exploit if someone could define the source of a volume since they could update a common image on the docker hub to mount the root directory into the container and then launch a background process inside the container as part of an entrypoint that adds logins to /etc/passwd, configures systemd to launch a bitcoin miner on next reboot, or searches the filesystem for credit cards, SSNs, and private keys to send off to a remote site.
+  - What does the VOLUME line do? As mentioned, it sets some image metadata to say a directory inside the image is a volume. How is this metadata used? Every time you create a container from this image, docker will force that directory to be a volume. If you do not provide a volume in your run command, or compose file, the only option for docker is to create an anonymous volume. This is a local named volume with a long unique id for the name and no other indication for why it was created or what data it contains (anonymous volumes are were data goes to get lost). If you override the volume, pointing to a named or host volume, your data will go there instead.
+  - VOLUME breaks things: You cannot disable a volume once defined in a Dockerfile. And more importantly, the RUN command in docker is implemented with temporary containers. Those temporary containers will get a temporary anonymous volume. That anonymous volume will be initialized with the contents of your image. Any writes inside the container from your RUN command will be made to that volume. When the RUN command finishes, changes to the image are saved, and changes to the anonymous volume are discarded. Because of this, I strongly recommend against defining a VOLUME inside the Dockerfile. It results in unexpected behavior for downstream users of your image that wish to extend the image with initial data in volume location.
+  - How should you specify a volume? To specify where you want to include volumes with your image, provide a docker-compose.yml. Users can modify that to adjust the volume location to their local environment, and it captures other runtime settings like publishing ports and networking.
+
+An introduction to immutable infrastructure : https://www.oreilly.com/radar/an-introduction-to-immutable-infrastructure/
+  - Immutable infrastructure (II) provides stability, efficiency, and fidelity to your applications through automation and the use of successful patterns from programming.
+  - The basic idea is that you create and operate your infrastructure using the programming concept of immutability: once you instantiate something, you never change it. Instead, you replace it with another instance to make changes or ensure proper behavior.
+  - Historically, we’ve thought of machine uptime and maintenance as desirable because we associate the health of the overall service or application with them. In the data center, hardware is expensive and we need to carefully craft and maintain each individual server to preserve our investments over time. In the cloud, this is an anachronistic perspective and one we should give up on in order to create more resilient, simpler, and ultimately more secure services and applications.
+  - Increasing operational complexity. The rise of distributed service architectures, and the use of dynamic scaling results in vastly more stuff to keep track of. Using mutable maintenance methods for updates or patching configurations across fleets of hundreds or thousands of compute instances is difficult, error-prone, and a time sink.
+  - Slower deployments, more failures. When infrastructure is comprised of snowflake components resulting from mutable maintenance methods (whether via scripts or configuration management tools), there’s a lot more that can go wrong. Deviating from a straight-from-source-control process means accurately knowing the state of your infrastructure is impossible. Fidelity is lost as infrastructure behaves in unpredictable ways and time is wasted chasing down configuration drift and debugging the runtime.
+  - Identifying errors and threats in order to mitigate harm. Long-lived, mutable systems rely on identifying error or threat to prevent damage. We now know that this is a Sisyphean undertaking, as the near daily announcements of high profile and damaging enterprise exploits attest. And those are only the ones reported. With II and automated regeneration of compute resources, many errors and threats are mitigated whether they are detected or not.
+  - Fire drills. Artisanal infrastructure allows us to take shortcuts on automation that come back to bite us in unexpected ways, such as when a cloud provider reboots underlying instances to perform their own updates or patches. If we build and maintain our infrastructure manually, and aren’t in the regular routine of II automation, these events become fire drills.
+  - The benefits of immutable infrastructure are manifold if applied appropriately to your application and have fully automated deployment and recovery methods for your infrastructure.
+    - Simplifying operations. With fully-automated deployment methods, you can replace old components with new versions to ensure your systems are never far in time from their initial “known-good” state. Maintaining a fleet of instances becomes much simpler with II since there’s no need to track the changes that occur with mutable maintenance methods.
+    - Continuous deployments, fewer failures. With II, you know what’s running and how it behaves, deploying updates can become routine and continuous, with fewer failures occurring in production. All change is tracked by your source control and Continuous Integration/Continuous Deployment processes.
+    - Reduces errors and threats. Services are built atop a complex stack of hardware and software, and things do go wrong over time. By automating replacement instead of maintaining instances, we are, in effect, regenerating instances regularly and more often. This reduces configuration drift, vulnerability surface, and level of effort to keep Service Level Agreements. Many of the maintenance fire drills in mutable systems are taken care of naturally.
+    - Cloud reboot? No problem! With II you know what you have running, and with fully automated recovery methods for your services in place, cloud reboots of your underlying instances should be handled gracefully and with minimal, if any, application downtime.
+
+Tweleve Factor apps : https://12factor.net/
+  - Introduction
+    - In the modern era, software is commonly delivered as a service: called web apps, or software-as-a-service.
+    - The twelve-factor app is a methodology for building software-as-a-service apps that:
+      - Use declarative formats for setup automation, to minimize time and cost for new developers joining the project;
+      - Have a clean contract with the underlying operating system, offering maximum portability between execution environments;
+      - Are suitable for deployment on modern cloud platforms, obviating the need for servers and systems administration;
+      - Minimize divergence between development and production, enabling continuous deployment for maximum agility;
+      - And can scale up without significant changes to tooling, architecture, or development practices.
+  - I. Codebase
+    - A twelve-factor app is always tracked in a version control system, such as Git, Mercurial, or Subversion. A copy of the revision tracking database is known as a code repository, often shortened to code repo or just repo.
+    - There is always a one-to-one correlation between the codebase and the app:
+      - If there are multiple codebases, it’s not an app – it’s a distributed system. Each component in a distributed system is an app, and each can individually comply with twelve-factor.
+      - Multiple apps sharing the same code is a violation of twelve-factor. The solution here is to factor shared code into libraries which can be included through the dependency manager.
+    - II. Dependencies
+      - Explicitly declare and isolate dependencies
+      - Libraries installed through a packaging system can be installed system-wide (known as “site packages”) or scoped into the directory containing the app (known as “vendoring” or “bundling”).
+      - A twelve-factor app never relies on implicit existence of system-wide packages.
+        - It declares all dependencies, completely and exactly, via a dependency declaration manifest.
+        - it uses a dependency isolation tool during execution to ensure that no implicit dependencies “leak in” from the surrounding system.
+      - Twelve-factor apps also do not rely on the implicit existence of any system tools. Examples include shelling out to ImageMagick or curl. While these tools may exist on many or even most systems, there is no guarantee that they will exist on all systems where the app may run in the future, or whether the version found on a future system will be compatible with the app. If the app needs to shell out to a system tool, that tool should be vendored into the app.
+  - III. Config
+    - An app’s config is everything that is likely to vary between deploys (staging, production, developer environments, etc). This includes:
+      - Resource handles to the database, Memcached, and other backing services
+      - Credentials to external services such as Amazon S3 or Twitter
+      - Per-deploy values such as the canonical hostname for the deploy
+    - Apps sometimes store config as constants in the code. This is a violation of twelve-factor, which requires strict separation of config from code. Config varies substantially across deploys, code does not.
+    - A litmus test for whether an app has all config correctly factored out of the code is whether the codebase could be made open source at any moment, without compromising any credentials.
+    - The twelve-factor app stores config in environment variables (often shortened to env vars or env). Env vars are easy to change between deploys without changing any code; unlike config files, there is little chance of them being checked into the code repo accidentally; and unlike custom config files, or other config mechanisms such as Java System Properties, they are a language- and OS-agnostic standard.
+    - Another aspect of config management is grouping. Sometimes apps batch config into named groups (often called “environments”) named after specific deploys, such as the development, test, and production environments in Rails. This method does not scale cleanly: as more deploys of the app are created, new environment names are necessary, such as staging or qa. As the project grows further, developers may add their own special environments like joes-staging, resulting in a combinatorial explosion of config which makes managing deploys of the app very brittle.
+      - all the author is saying is that each environment variable can be changed independently of the others. So rather than just being limited to development, test, and production environments, you can have factorial(number of environment variables) environments.
+      - Of course, testers will tell you there's a flaw to using environment variables like this. That independence means there's also factorial(number of environment variables) environments to test for full test coverage. But often the flexibility and scalability will outweigh that disadvantage
+  - IV. Backing services
+    - Treat backing services as attached resources
+    - A backing service is any service the app consumes over the network as part of its normal operation. Examples include datastores (such as MySQL or CouchDB), messaging/queueing systems (such as RabbitMQ or Beanstalkd), SMTP services for outbound email (such as Postfix), and caching systems (such as Memcached).
+    - The code for a twelve-factor app makes no distinction between local and third party services.
+      - To the app, both are attached resources, accessed via a URL or other locator/credentials stored in the config.
+      - A deploy of the twelve-factor app should be able to swap out a local MySQL database with one managed by a third party (such as Amazon RDS) without any changes to the app’s code.
+    - Each distinct backing service is a resource.
+  - V. Build, release, run
+    - Strictly separate build and run stages
+    - A codebase is transformed into a (non-development) deploy through three stages:
+      - The build stage is a transform which converts a code repo into an executable bundle known as a build. Using a version of the code at a commit specified by the deployment process, the build stage fetches vendors dependencies and compiles binaries and assets.
+      - The release stage takes the build produced by the build stage and combines it with the deploy’s current config. The resulting release contains both the build and the config and is ready for immediate execution in the execution environment.
+      - The run stage (also known as “runtime”) runs the app in the execution environment, by launching some set of the app’s processes against a selected release.
+    - The twelve-factor app uses strict separation between the build, release, and run stages.
+    - Every release should always have a unique release ID, such as a timestamp of the release (such as 2011-04-06-20:32:17) or an incrementing number (such as v100). Releases are an append-only ledger and a release cannot be mutated once it is created. Any change must create a new release.
+    - Builds are initiated by the app’s developers whenever new code is deployed. Runtime execution, by contrast, can happen automatically in cases such as a server reboot, or a crashed process being restarted by the process manager
+  - VI. Processes
+    - Execute the app as one or more stateless processes
+    - The app is executed in the execution environment as one or more processes.
+    - Twelve-factor processes are stateless and share-nothing. Any data that needs to persist must be stored in a stateful backing service, typically a database.
+    - The twelve-factor app never assumes that anything cached in memory or on disk will be available on a future request or job – with many processes of each type running, chances are high that a future request will be served by a different process.
+    - Even when running only one process, a restart (triggered by code deploy, config change, or the execution environment relocating the process to a different physical location) will usually wipe out all local (e.g., memory and filesystem) state.
+    - Some web systems rely on “sticky sessions” – that is, caching user session data in memory of the app’s process and expecting future requests from the same visitor to be routed to the same process. Sticky sessions are a violation of twelve-factor and should never be used or relied upon. Session state data is a good candidate for a datastore that offers time-expiration, such as Memcached or Redis.
+  - VII. Port binding
+    - Export services via port binding
+    - Web apps are sometimes executed inside a webserver container. For example, Java apps might run inside Tomcat.
+    - The twelve-factor app is completely self-contained and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.
+    - The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
+    - HTTP is not the only service that can be exported by port binding. Nearly any kind of server software can be run via a process binding to a port and awaiting incoming requests.
+    - Note also that the port-binding approach means that one app can become the backing service for another app, by providing the URL to the backing app as a resource handle in the config for the consuming app.
+    - Spring Boot embeds Tomcat in applications and exports HTTP as a service by binding to a port and listening to incoming requests to that port.
+  - VIII. Concurrency
+    - Scale out via the process model
+    - Any computer program, once run, is represented by one or more processes.
+    - Java processes with the JVM provide one massive uberprocess that reserves a large block of system resources (CPU and memory) on startup, with concurrency managed internally via threads.
+    - In the twelve-factor app, processes are a first class citizen.
+    - Processes in the twelve-factor app take strong cues from the unix process model for running service daemons. Using this model, the developer can architect their app to handle diverse workloads by assigning each type of work to a process type. For example, HTTP requests may be handled by a web process, and long-running background tasks handled by a worker process.
+    - The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation. The array of process types and number of processes of each type is known as the process formation.
+    - Twelve-factor app processes should never daemonize or write PID files. Instead, rely on the operating system’s process manager (such as systemd, a distributed process manager on a cloud platform, or a tool like Foreman in development) to manage output streams, respond to crashed processes, and handle user-initiated restarts and shutdowns.
+  - IX. Disposability
+    - Maximize robustness with fast startup and graceful shutdown
+    - The twelve-factor app’s processes are disposable, meaning they can be started or stopped at a moment’s notice. This facilitates fast elastic scaling, rapid deployment of code or config changes, and robustness of production deploys.
+    - Processes should strive to minimize startup time. Ideally, a process takes a few seconds from the time the launch command is executed until the process is up and ready to receive requests or jobs. Short startup time provides more agility for the release process and scaling up.
+    - Processes shut down gracefully when they receive a SIGTERM signal from the process manager. For a web process, graceful shutdown is achieved by ceasing to listen on the service port (thereby refusing any new requests), allowing any current requests to finish, and then exiting.
+    - For a worker process, graceful shutdown is achieved by returning the current job to the work queue.
+    - Lock-based systems such as Delayed Job need to be sure to release their lock on the job record. Implicit in this model is that all jobs are reentrant, which typically is achieved by wrapping the results in a transaction, or making the operation idempotent.
+    - Processes should also be robust against sudden death, in the case of a failure in the underlying hardware.
+    -  While this is a much less common occurrence than a graceful shutdown with SIGTERM, it can still happen. A recommended approach is use of a robust queueing backend, such as Beanstalkd, that returns jobs to the queue when clients disconnect or time out.
+  - X. Dev/prod parity
+    - Keep development, staging, and production as similar as possible
+    - Historically, there have been substantial gaps between development (a developer making live edits to a local deploy of the app) and production (a running deploy of the app accessed by end users).
+    - These gaps manifest in three areas:
+      - The time gap: A developer may work on code that takes days, weeks, or even months to go into production.
+      - The personnel gap: Developers write code, ops engineers deploy it.
+      - The tools gap: Developers may be using a stack like Nginx, SQLite, and OS X, while the production deploy uses Apache, MySQL, and Linux.
+    - The twelve-factor app is designed for continuous deployment by keeping the gap between development and production small. Looking at the three gaps described above:
+      - Make the time gap small: a developer may write code and have it deployed hours or even just minutes later.
+      - Make the personnel gap small: developers who wrote code are closely involved in deploying it and watching its behavior in production.
+      - Make the tools gap small: keep development and production as similar
+      - Backing services, such as the app’s database, queueing system, or cache, is one area where dev/prod parity is important. as possible.
+      - The twelve-factor developer resists the urge to use different backing services between development and production, even when adapters theoretically abstract away any differences in backing services.
+      - Lightweight local services are less compelling than they once were. Modern backing services such as Memcached, PostgreSQL, and RabbitMQ are not difficult to install and run thanks to modern packaging systems, such as Homebrew and apt-get.
+  - XI. Logs
+    - Treat logs as event streams
+    - Logs provide visibility into the behavior of a running app. In server-based environments they are commonly written to a file on disk (a “logfile”); but this is only an output format.
+    - Logs are the stream of aggregated, time-ordered events collected from the output streams of all running processes and backing services. Logs in their raw form are typically a text format with one event per line.
+    - A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. During local development, the developer will view this stream in the foreground of their terminal to observe the app’s behavior.
+    - In staging or production deploys, each process’ stream will be captured by the execution environment, collated together with all other streams from the app, and routed to one or more final destinations for viewing and long-term archival. These archival destinations are not visible to or configurable by the app, and instead are completely managed by the execution environment.
+  - XII. Admin processes
+    - Run admin/management tasks as one-off processes
+    - The process formation is the array of processes that are used to do the app’s regular business (such as handling web requests) as it runs. Separately, developers will often wish to do one-off administrative or maintenance tasks for the app, such as:
+      - Running database migrations (e.g. manage.py migrate in Django, rake db:migrate in Rails).
+      - Running a console (also known as a REPL shell) to run arbitrary code or inspect the app’s models against the live database. Most languages provide a REPL by running the interpreter without any arguments (e.g. python or perl) or in some cases have a separate command (e.g. irb for Ruby, rails console for Rails).
+      - Running one-time scripts committed into the app’s repo (e.g. php scripts/fix_bad_records.php).
+    - One-off admin processes should be run in an identical environment as the regular long-running processes of the app. They run against a release, using the same codebase and config as any process run against that release.
+    - Admin code must ship with application code to avoid synchronization issues.
+
+12 Fractured Apps : https://medium.com/@kelseyhightower/12-fractured-apps-1080c73d481c#.cjvkgw4b3
+  - Once Docker hit the scene the benefits of the 12 Factor App (12FA) really started to shine. For example, 12FA recommends that logging should be done to stdout and be treated as an event stream. Ever run the docker logs command? That’s 12FA in action!
+  - Docker makes environment variables for configuration trivial by providing the ability to set env vars programmatically when creating containers.
+  - Applications, even modern ones, make too many assumptions and do very little to ensure a clean startup. Applications that require an external database will normally initialize the database connection during startup. However, if that database is unreachable, even temporarily, many applications will simply exit.
+  - Configuration management tools can solve the “missing” database problem by ensuring the database is started before the applications that depend on it. This is nothing more then a band-aid covering up the larger problem. The application should simply retry the database connection, using some sort of backoff, and log errors along the way.
+  - Another challenge for applications moving to Docker is around configuration. Many applications, even modern ones, still rely on local, on-disk, configuration files. It’s often suggested to simply build new “deployment” containers that bundle the configuration files in the container image.
+    - DONT DO THIS!!!!!!
+    - If you go down this road you will end up with an endless number of container images named something like this:
+    - application-v2–prod-01022015
+    - application-v2-dev-02272015
+    - Once you go all in on Docker and refuse to use tools that don’t bear the Docker logo you paint yourself into a corner and start abusing Docker.
+  - Remember, ship artifacts not build environments.
+    - Artifact is highly associated and related to specific methods or processes of development. Methods or processes can be project plans, business cases, or risk assessments. Distinct gathering and collections of detailed information are generally organized and incorporated into artifact sets. A set generally represents complete aspect of system. This is simply done to make development and establishment of complete software system in manageable manner.
+    - An artifact is one of many kinds of tangible by-product produced during the development of software. Some artifacts (e.g., use cases, class diagrams, and other UML models, requirements and design documents) help describe the function, architecture, and design of software. Other artifacts are concerned with the process of development itself—such as project plans, business cases, and risk assessments.
+  - One way to address our startup problems is to create a shell script and use it as the Docker entrypoint in place of the actual application. Here’s a short list of things we can accomplish using a shell script as the Docker entrypoint:
+    - Generate the required /etc/config.json configuration file
+    - Create the required /var/lib/data directory
+    - Test the database connection and block until it’s available
+  - Notice the custom shell script is copied into the Docker image and used as the entrypoint in place of the application binary.
+    - The ABI defines the structures and methods that your compiled application will use to access the external library (just like the API did), only on a lower level. Your API defines the order in which you pass arguments to a function. Your ABI defines the mechanics of how these arguments are passed (registers, stack, etc.). Your API defines which functions are part of your library. Your ABI defines how your code is stored inside the library file, so that any program using your library can locate the desired function and execute it.
+    - ABIs are important when it comes to applications that use external libraries. Libraries are full of code and other resources, but your program has to know how to locate what it needs inside the library file. Your ABI defines how the contents of a library are stored inside the file, and your program uses the ABI to search through the file and find what it needs. If everything in your system conforms to the same ABI, then any program is able to work with any library file, no matter who created them.
+    - The other drawback to this approach is the inability to use a configuration file with the image. We can continue scripting and add support for both the configuration file and env vars, but this is just going down the wrong path, and it will come back to bite us at some point when the wrapper script gets out of sync with the application.
+  - Each of the issues being addressed in the docker-entrypoint.sh script can be handled directly by the application.
+    - Using an entrypoint script is ok for applications you don’t have control over, but when you rely on custom entrypoint scripts for applications you write, you add another layer of complexity to the deployment process for no good reason.
+    - Config files should be optional
+    - I would suggest loading the configuration file if it exists, and falling back to sane defaults.
+    - Instead of punting the responsibility of creating working directories to external tools or custom entrypoint scripts your application should manage them directly. If they are missing create them.
+    - Do not require anyone to start your application in a specific order. I’ve seen too many deployment guides warn users to deploy an application after the database because the application would fail to start.
+      - STOP DOING THAT!!!!
+  - Finally, we wrap up the startup process with a friendly log message that the application has started correctly. Trust me, your sysadmin will thank you.
+
+Manage data in Docker : https://docs.docker.com/storage/
+  - By default all files created inside a container are stored on a writable container layer. This means that:
+    - The data doesn’t persist when that container no longer exists, and it can be difficult to get the data out of the container if another process needs it.
+    - A container’s writable layer is tightly coupled to the host machine where the container is running. You can’t easily move the data somewhere else.
+    - Writing into a container’s writable layer requires a storage driver to manage the filesystem. The storage driver provides a union filesystem, using the Linux kernel. This extra abstraction reduces performance as compared to using data volumes, which write directly to the host filesystem.
+  - Docker has two options for containers to store files in the host machine, so that the files are persisted even after the container stops:
+    - volumes
+    - bind mounts
+    - If you’re running Docker on Linux you can also use a tmpfs mount. If you’re running Docker on Windows you can also use a named pipe.
+  - Choose the right type of mount
+    - No matter which type of mount you choose to use, the data looks the same from within the container.
+    - An easy way to visualize the difference among volumes, bind mounts, and tmpfs mounts is to think about where the data lives on the Docker host.
+    - Differences between storage:
+      - Volumes
+        - stored in a part of the host filesystem which is managed by Docker (/var/lib/docker/volumes/ on Linux). Non-Docker processes should not modify this part of the filesystem. Volumes are the best way to persist data in Docker.
+        - Created and managed by Docker. You can create a volume explicitly using the docker volume create command, or Docker can create a volume during container or service creation.
+        - When you create a volume, it is stored within a directory on the Docker host. When you mount the volume into a container, this directory is what is mounted into the container. This is similar to the way that bind mounts work, except that volumes are managed by Docker and are isolated from the core functionality of the host machine.
+        - A given volume can be mounted into multiple containers simultaneously.
+        - You can remove unused volumes using 'docker volume prune'.
+        - When you mount a volume, it may be named or anonymous. Anonymous volumes are not given an explicit name when they are first mounted into a container, so Docker gives them a random name that is guaranteed to be unique within a given Docker host.
+        - Also support the use of volume drivers, which allow you to store your data on remote hosts or cloud providers, among other possibilities.
+      - Bind Mounts
+        - Stored anywhere on the host system. They may even be important system files or directories. Non-Docker processes on the Docker host or a Docker container can modify them at any time.
+        - When you use a bind mount, a file or directory on the host machine is mounted into a container. The file or directory is referenced by its full path on the host machine. The file or directory does not need to exist on the Docker host already. It is created on demand if it does not yet exist.
+        - Bind mounts are very performant, but they rely on the host machine’s filesystem having a specific directory structure available.
+        - If you are developing new Docker applications, consider using named volumes instead.
+        - You can’t use Docker CLI commands to directly manage bind mounts.
+        - Bind mounts allow access to sensitive files. This is a powerful ability which can have security implications, including impacting non-Docker processes on the host system.
+      - tmpfs Mounts
+        -  stored in the host system’s memory only, and are never written to the host system’s filesystem.
+        - A tmpfs mount is not persisted on disk, either on the Docker host or within a container. It can be used by a container during the lifetime of the container, to store non-persistent state or sensitive information. For instance, internally, swarm services use tmpfs mounts to mount secrets into a service’s containers.
+      - named pipe
+        - An npipe (named pipe) mount can be used for communication between the Docker host and a container. Common use case is to run a third-party tool inside of a container and connect to the Docker Engine API using a named pipe.
+      - Bind mounts and volumes can both be mounted into containers using the -v or --volume flag, but the syntax for each is slightly different. For tmpfs mounts, you can use the --tmpfs flag. We recommend using the --mount flag for both containers and services, for bind mounts, volumes, or tmpfs mounts, as the syntax is more clear.
+  - Good use cases for volumes
+    - Volumes are the preferred way to persist data in Docker containers and services.
+    - Some use cases include :
+      - Sharing data among multiple running containers. If you don’t explicitly create it, a volume is created the first time it is mounted into a container. When that container stops or is removed, the volume still exists. Multiple containers can mount the same volume simultaneously, either read-write or read-only. Volumes are only removed when you explicitly remove them.
+      - When the Docker host is not guaranteed to have a given directory or file structure. Volumes help you decouple the configuration of the Docker host from the container runtime.
+      - When you want to store your container’s data on a remote host or a cloud provider, rather than locally.
+      - When you need to back up, restore, or migrate data from one Docker host to another, volumes are a better choice. You can stop containers using the volume, then back up the volume’s directory (such as /var/lib/docker/volumes/<volume-name>).
+      - When your application requires high-performance I/O on Docker Desktop. Volumes are stored in the Linux VM rather than the host, which means that the reads and writes have much lower latency and higher throughput.
+      - When your application requires fully native file system behavior on Docker Desktop. For example, a database engine requires precise control over disk flushing to guarantee transaction durability. Volumes are stored in the Linux VM and can make these guarantees, whereas bind mounts are remoted to macOS or Windows, where the file systems behave slightly differently.
+  - Good use cases for bind mounts
+    - In general, you should use volumes where possible.
+    - Bind mounts are appropriate for the following types of use case:
+      - Sharing configuration files from the host machine to containers. This is how Docker provides DNS resolution to containers by default, by mounting /etc/resolv.conf from the host machine into each container.
+      - Sharing source code or build artifacts between a development environment on the Docker host and a container. For instance, you may mount a Maven target/ directory into a container, and each time you build the Maven project on the Docker host, the container gets access to the rebuilt artifacts.
+      - If you use Docker for development this way, your production Dockerfile would copy the production-ready artifacts directly into the image, rather than relying on a bind mount.
+      - When the file or directory structure of the Docker host is guaranteed to be consistent with the bind mounts the containers require.
+  - Good use cases for tmpfs mounts
+    - tmpfs mounts are best used for cases when you do not want the data to persist either on the host machine or within the container. This may be for security reasons or to protect the performance of the container when your application needs to write a large volume of non-persistent state data.
+  - Tips for using bind mounts or volumes
+    - If you mount an empty volume into a directory in the container in which files or directories exist, these files or directories are propagated (copied) into the volume. Similarly, if you start a container and specify a volume which does not already exist, an empty volume is created for you. This is a good way to pre-populate data that another container needs.
+    - If you mount a bind mount or non-empty volume into a directory in the container in which some files or directories exist, these files or directories are obscured by the mount, just as if you saved files into /mnt on a Linux host and then mounted a USB drive into /mnt. The contents of /mnt would be obscured by the contents of the USB drive until the USB drive were unmounted. The obscured files are not removed or altered, but are not accessible while the bind mount or volume is mounted.

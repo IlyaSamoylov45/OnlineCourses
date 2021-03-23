@@ -1646,7 +1646,7 @@ Chapter 7.5.1 Triggers in SQL
   REFERENCING
     OLD ROW AS OldTuple,
     NEW ROW AS NewTuple
-  FOR EACH ROW  
+  FOR EACH ROW
   WHEN (OldTuple.netWorth > NewTuple.netWorth)
       UPDATE MovieExec
       SET netWorth = OldTuple.netWorth

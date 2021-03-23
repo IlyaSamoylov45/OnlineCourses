@@ -96,3 +96,23 @@ Using Compose to Build
   - Will build then with docker-compose up if not found in cache
   - Also rebuild with docker-compose build
   - Great for complex builds that have lots of vars or build args
+
+---------------------------
+
+External Notes
+
+---------------------------
+
+YAML Syntax : https://yaml.org/refcard.html
+
+Compose file versions and upgrading : https://docs.docker.com/compose/compose-file/compose-versioning/
+  - There are several versions of the Compose file format – 1, 2, 2.x, and 3.x
+  - There are three legacy versions of the Compose file format:
+    - Version 1. This is specified by omitting a version key at the root of the YAML.
+    - Version 2.x. This is specified with a version: '2' or version: '2.1', etc., entry at the root of the YAML.
+    - Version 3.x, designed to be cross-compatible between Compose and the Docker Engine’s swarm mode. This is specified with a version: '3' or version: '3.1', etc., entry at the root of the YAML.
+  - Note: When specifying the Compose file version to use, make sure to specify both the major and minor numbers. If no minor version is given, 0 is used by default and not the latest minor version.
+  - Note: If you’re using multiple Compose files or extending services, each file must be of the same version - you cannot, for example, mix version 1 and 2 in a single project.
+  - We recommend against using --compatibility mode in production. Because the resulting configuration is only an approximate using non-Swarm mode properties, it may produce unexpected results.
+
+Compose file : https://docs.docker.com/compose/compose-file/#links

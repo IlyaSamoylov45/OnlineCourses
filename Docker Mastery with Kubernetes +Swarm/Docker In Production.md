@@ -1,0 +1,132 @@
+Docker and Swarm in Production
+  - Limit Your simultaneous innovation
+    - Many initial container projects are too big in scope.
+    - Solutions you maybe don't need day one :
+      - Fully automatic CI/CD
+      - Dynamic performance testing.
+      - Containerizing all or nothing.
+      - Starting with persistent data.
+  - Legacy apps work in containers too.
+    - microservice conversion is not required.
+    - 12 Factor is a horizon we're always chasing.
+    - Don't let these ideals delay containerization.
+  - What to focus on first : DockerFiles
+    - More important than fancy orchestration.
+    - It's your new build and environment documentation.
+    - Study dockerfile/ENTRYPOINT of Hub Officials.
+    - FROM Official distros that are most familiar.
+  - Dockerfile Maturity model
+    - Make it start
+    - Mkae it og all things to stdout/stderr
+    - Make it documented in file.
+    - Make it work for others.
+    - Make it lean.
+    - Make it scale.
+  - Docker file anti-pattern:
+    - Trapping Data:
+      - Problem : Storing unique data in container.
+      - Solution: Define VOLUME for each location.
+    - Using Latest.
+      - Latest = Image builds will be ????
+      - Problems : Image builds pull FROM latest.
+      - Solution: Use Specific FROM tags.
+      - Problem : Image Builds install latest packages.
+      - Solution : Specify version for critical apt/yum/apk packages.
+    - Leaving Default Config:
+      - Problem : Not changing app defaults or blindly copying VM conf.
+        - php.ini, mysql.conf.d, java memory.
+      - Solution : Update default configs via ENV, RUN, and ENtRYPOINT
+  - Containers-on-VM or Container-on-Bare-Metal
+    - Do either, or both. Lots of pro/cons to either.
+    - Stick with what you know at first.
+    - Do some basic performance testing. You will learn lots!
+  - OS Linux Dist/Kernel Matters
+    - Docker is very kernel and storage diver dependent
+    - Minimum version != best version.
+    - No pre-existing option? Use Ubuntu 16.04 LTs
+    - Get correct Docker for your dist.
+  - Container Base Dist : Which One?
+    - Which FROM image should you use?
+    - Don't make a decision based on image size ( remember its single instance storage )
+    - At first : match  your existing deployment process.
+    - Consider changing to Alpine later, maybe much later.
+  - Good Defaults : Swarm Architectures
+    - Simple sizing guidelines based off:
+      - Docker internal testing
+      - Docker reference architectures.
+      - Real world deployments.
+      - Swarm3k lessons learned.
+  - Baby Swarm : 1-Node
+    - It is okay to run one node.
+    - docker swarm init
+    - Solo VM's do it, so can Swarm.
+    - More features than docker run.
+  - HA Swarm : 3-Node
+    - Minimum for HA
+    - All managers.
+    - One node can fail.
+    - Use when very small budget.
+    - Pet projects or Test/CI
+  - Biz Swarm : 5-Node
+    - Better high-availablity.
+    - All Managers
+    - Two nodes can fail.
+    - My min for uptime that affects $$$
+  - Flexy Swarm : 10+ Nodes.
+    - 5 dedicated Managers.
+    - Workers in DMZ.
+    - Anything beyond 5 nodes, stick with 5 managers and the rest workers.
+    - Control container placement with labels + constraints.
+  - Swole Swarm: 100+ Nodes.
+    - 5 dedicated Managers.
+    - Resize Managers as you grow.
+    - Multiple Worker subnets on Private/DMZ
+    - Control container placement with labels + constraints.
+  - Don't turn cattle into pets.
+    - Assume nodes will be replaced.
+    - Assume containers will be recreated.
+    - Docker for (AWS/Azure) does this.
+    - LinuxKit and InfraKit expect it.
+  - Reasons for multiple Swarms
+    - Bad reasons
+      - Different hardware configs.
+      - Diff subnets or security groups.
+      - Diff availability zones.
+      - Security boundaries for compliance.
+    - Good reasons
+      - Learning : Run stuff on test swarm.
+      - Geographical boundaries
+      - Management boundaries using docker API (or Docker EE RBAC, or other auth plugin).
+  - Outsource Well-Defined Plumbing.
+    - Beware the "not implemented here" syndrome.
+    - If challenge to implement and maintain.
+    - SaaS/commercial market is mature.
+    - Opportunities for outsourcing.
+  - Outsourcing : For Your consideration
+    - Image registry.
+    - Logs.
+    - Monitoring and alerting.
+  - Must We have an orchestrator?
+    - Let's accelerate docker migration even more.
+    - Already have good infrastructure automation?
+    - Maybe you have great VM autoscale.
+    - Like the security boundary of the VM OS?
+  - One Container per VM.
+    - Why don't we talk about this more?
+    - Least amount of infrastructure change but also :
+      - Run Dockerfiles recipes rather then Puppet etc.
+      - Improve your Docker management skills.
+      - Simplify your VM OS build.
+  - One Container Per VM : Not New
+    - Windows does this with Hyper-V containers.
+    - Linux does it with Intel Clear Containers
+    - LinuxKit will make this easier with Immutable OS.
+    - Watch out for Windows "LCOW" using LinuxKit.
+  - Summary
+    - Trim the optional requirements at first.
+    - First, focus on Dockerfile/docker-compose.yml
+    - Watch out for Dockerfile anti-patterns.
+    - Stick with familiar OS and FROM images.
+    - Grow Swarm as you grow.
+    - Find ways to outsource your plumbing.
+    - Realie pparts of your tech stack may change, stay flexible.
