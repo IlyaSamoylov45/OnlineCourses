@@ -175,11 +175,92 @@ Kubernetes Services DNS
   - Starting with 1.11, internal DNS is provided by CoreDNS
     - Like swarm, this is a DNS-Based Service Discovery
   - So far we've been using hostnames to access Services.
-    - curl <hostname>
+    - curl ```<hostname>```
   - But this only works for services in the same namespace.
     - kubectl get namespaces
   - Services also have a FQDN
-    - curl <hostname>.<namespace>.svc.cluster.local
+    - curl ```<hostname>.<namespace>.svc.cluster.local```
+
+Kubernetes : Run, Expose, and Create Generators
+  - These commands use helper templates called "generators"
+  - Every resource in Kubernetes has a specification or "spec"
+    - kubectl create deployment sample --image nginx --dry-run -o yaml
+  - You can output those templates with --dry-run -o yaml
+  - You can use those YAML defaults as a starting point
+  - Generators are "opinionated defaults"
+
+Generator Examples
+  - Use dry-run with yaml output we can see the generators
+    - kubectl create deployment test --image nginx --dry-run -o yaml
+    - kubectl create job test --image nginx --dry-run -o yaml
+    - kubectl expose deployment/test --port 80 --dry-run -o yaml
+      - You need the deployment to exist before this works.
+  - A lot of generators with the kubectl run command are going away.
+
+The Future of kubectl run
+  - 1.12 - 1.15 run is a state of flux
+  - The goal is to reduce its features to only create Pods.
+    - Right now it defaults to creating Deployments (with the warning).
+    - It has lots of generators but they are all deprecated.
+    - The idea is to make it easy like docker run for one-off tasks.
+  - It's not recommended for production
+  - Use for simple dev/test or troubleshooting pods.
+
+Old Run Confusion
+  - The generators activate different Controllers based on options.
+  - Using dry-run we can see which generators are used.
+    - kubectl run test --image nginx --dry-run
+    - kubectl run test --image nginx --port 80 --expose --dry-run
+    - kubectl run test --image nginx --restart OnFailure --dry-run
+    - kubectl run test --image nginx --restart Never --dry-run
+    - kubectl run test --image nginx --schedule "*/1 * * * *" --dry-run
+  - Should only use run commands for pods!
+
+Imperative vs Declarative
+  - Imperative : Focus on how a program operates
+  - Declarative : Focus on what a program should accomplish
+  - Ex : "I'd like a cup of coffee"
+    - Imperative : I boil water, scoop out 42 grams of medium-fine grounds, pour 700 grams of water, etc.
+    - Declarative : "Barista, I'd like a cup of coffee."
+  - Kubernetes Imperative :
+    - Example : kubctl run , kubectl create deployment, kubectl update
+      - We start with a state we know (No deployment exists)
+      - We ask kubectl run to create a deployment.
+    - Different commands are required to change that deployment.
+    - Different commands are required per object.
+    - Imperative is easier when you know the state.
+    - Imperative is easier to get started.
+    - Imperative is easier for humans at the CLI
+    - Imperative is NOT east to automate.
+  - Kubernetes Declarative :
+    - Example : kubectl apply -f my-resources.yaml
+      - We don't know the current state.
+      - We only know what we want the end result to be (yaml contents)
+      - Same command each time (tiny exception for delete)
+      - Resources can be all in a file, or many files (apply a whole dir)
+      - Requires understanding the YAML keys and values
+      - More work than kubectl run for just starting a pod.
+      - The easiest way to automate.
+      - The eventual way to Gitops happiness.
+
+Three Management Approaches
+  - Imperative commands : run, expose, scale, edit, create deployment
+    - Best for dev / learning / personal projects
+    - Easy to learn, hardest to manage over time
+  - Imperative objects : create -f file.yml, replace -f file.yml, delete...
+    - Good for prod of small environments, single file per command.
+    - Store your changes in git-based yaml files.
+    - Hard to automate
+  - Declarative objects : apply -f file.yml or dir\, diff
+    - Best for prod, easier to automate
+    - Harder to understand and predict changes.
+  - Most Important Rule :
+    - Don't mix the three approaches
+  - Bret's recommendations :
+    - Learn the Imperative CLI for easy control of local and test setups.
+    - Move to apply -f file.yml and apply -f directory\ for prod
+    - Store yaml in git, git commit each change before you apply.
+    - This trains you for later doing GitOps (where git commits are automatically applied to clusters)
 
 ---------------------------
 
@@ -191,10 +272,10 @@ Kubernetes : https://en.wikipedia.org/wiki/Kubernetes
   - Kubernetes is loosely coupled and extensible to meet different workloads. This extensibility is provided in large part by the Kubernetes API, which is used by internal components as well as extensions and containers that run on Kubernetes.
   - The Kubernetes master is the main controlling unit of the cluster, managing its workload and directing communication across the system. The Kubernetes control plane consists of various components, each its own process, that can run both on a single master node or on multiple masters supporting high-availability clusters.
   - The various components of the Kubernetes control plane are as follows:
-    - <b>etcd</b>: etcd[28] is a persistent, lightweight, distributed, key-value data store developed by CoreOS that reliably stores the configuration data of the cluster, representing the overall state of the cluster at any given point of time.
-    - <b>API server</b> : The API server is a key component and serves the Kubernetes API using JSON over HTTP, which provides both the internal and external interface to Kubernetes. The API server processes and validates REST requests and updates state of the API objects in etcd, thereby allowing clients to configure workloads and containers across Worker nodes.
-    - <b>Scheduler</b>: The scheduler is the pluggable component that selects which node an unscheduled pod (the basic entity managed by the scheduler) runs on, based on resource availability. The scheduler tracks resource use on each node to ensure that workload is not scheduled in excess of available resources. For this purpose, the scheduler must know the resource requirements, resource availability, and other user-provided constraints and policy directives such as quality-of-service, affinity/anti-affinity requirements, data locality, and so on. In essence, the scheduler's role is to match resource "supply" to workload "demand".
-    - <b>Controller manager</b> : A controller is a reconciliation loop that drives actual cluster state toward the desired cluster state, communicating with the API server to create, update, and delete the resources it manages (pods, service endpoints, etc.). The controller manager is a process that manages a set of core Kubernetes controllers. One kind of controller is a Replication Controller, which handles replication and scaling by running a specified number of copies of a pod across the cluster. It also handles creating replacement pods if the underlying node fails.
+    - ```<b>etcd</b>```: etcd[28] is a persistent, lightweight, distributed, key-value data store developed by CoreOS that reliably stores the configuration data of the cluster, representing the overall state of the cluster at any given point of time.
+    - ```<b>API server</b>``` : The API server is a key component and serves the Kubernetes API using JSON over HTTP, which provides both the internal and external interface to Kubernetes. The API server processes and validates REST requests and updates state of the API objects in etcd, thereby allowing clients to configure workloads and containers across Worker nodes.
+    - ```<b>Scheduler</b>```: The scheduler is the pluggable component that selects which node an unscheduled pod (the basic entity managed by the scheduler) runs on, based on resource availability. The scheduler tracks resource use on each node to ensure that workload is not scheduled in excess of available resources. For this purpose, the scheduler must know the resource requirements, resource availability, and other user-provided constraints and policy directives such as quality-of-service, affinity/anti-affinity requirements, data locality, and so on. In essence, the scheduler's role is to match resource "supply" to workload "demand".
+    - ```<b>Controller manager</b>``` : A controller is a reconciliation loop that drives actual cluster state toward the desired cluster state, communicating with the API server to create, update, and delete the resources it manages (pods, service endpoints, etc.). The controller manager is a process that manages a set of core Kubernetes controllers. One kind of controller is a Replication Controller, which handles replication and scaling by running a specified number of copies of a pod across the cluster. It also handles creating replacement pods if the underlying node fails.
   - Nodes
     - A Node, also known as a Worker or a Minion, is a machine where containers (workloads) are deployed. Every node in the cluster must run a container runtime such as Docker, as well as the below-mentioned components, for communication with the primary for network configuration of these containers.
       - Kubelet: Kubelet is responsible for the running state of each node, ensuring that all containers on the node are healthy. It takes care of starting, stopping, and maintaining application containers organized into pods as directed by the control plane. Kubelet monitors the state of a pod, and if not in the desired state, the pod re-deploys to the same node. Node status is relayed every few seconds via heartbeat messages to the primary. Once the primary detects a node failure, the Replication Controller observes this state change and launches pods on other healthy nodes.
@@ -292,7 +373,7 @@ Namespaces : https://kubernetes.io/docs/concepts/overview/working-with-objects/n
       kubectl config view --minify | grep namespace:
       ```
   - Namespaces and DNS
-    - When you create a Service, it creates a corresponding DNS entry. This entry is of the form <service-name>.<namespace-name>.svc.cluster.local, which means that if a container just uses <service-name>, it will resolve to the service which is local to a namespace. This is useful for using the same configuration across multiple namespaces such as Development, Staging and Production. If you want to reach across namespaces, you need to use the fully qualified domain name (FQDN).
+    - When you create a Service, it creates a corresponding DNS entry. This entry is of the form ```<service-name>.<namespace-name>.svc.cluster.local```, which means that if a container just uses ```<service-name>```, it will resolve to the service which is local to a namespace. This is useful for using the same configuration across multiple namespaces such as Development, Staging and Production. If you want to reach across namespaces, you need to use the fully qualified domain name (FQDN).
   - Not All Objects are in a Namespace
     - Most Kubernetes resources (e.g. pods, services, replication controllers, and others) are in some namespaces. However namespace resources are not themselves in a namespace. And low-level resources, such as nodes and persistentVolumes, are not in any namespace.
     - To see which Kubernetes resources are and aren't in a namespace:
@@ -506,7 +587,7 @@ Service : https://kubernetes.io/docs/concepts/services-networking/service/
     - Kubernetes ServiceTypes allow you to specify what kind of Service you want. The default is ClusterIP.
     - Type values and their behaviors are:
       - ClusterIP: Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default ServiceType.
-      - NodePort: Exposes the Service on each Node's IP at a static port (the NodePort). A ClusterIP Service, to which the NodePort Service routes, is automatically created. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>.
+      - NodePort: Exposes the Service on each Node's IP at a static port (the NodePort). A ClusterIP Service, to which the NodePort Service routes, is automatically created. You'll be able to contact the NodePort Service, from outside the cluster, by requesting ```<NodeIP>:<NodePort>```.
       - LoadBalancer: Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
       - ExternalName: Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up.
         - Note: You need either kube-dns version 1.7 or CoreDNS version 0.0.8 or higher to use the ExternalName type.
@@ -905,7 +986,7 @@ Kubernetes DNS-Based Service Discovery : https://github.com/kubernetes/dns/blob/
       - II. SRV Records
         - For each port in the Service with name ```<port>``` and number ```<port-number>``` using protocol ```<proto>```, an SRV record of the following form must exist.
           - Record Format:
-_             - ```<port>.<proto>.<service>.<ns>.svc.<zone>. <ttl> IN SRV <weight> <priority> <port-number> <service>.<ns>.svc.<zone>.```
+            - ```<port>.<proto>.<service>.<ns>.svc.<zone>. <ttl> IN SRV <weight> <priority> <port-number> <service>.<ns>.svc.<zone>.```
         - The priority ```<priority>``` and weight ```<weight>``` are numbers as described in RFC2782 and whose values are not prescribed by this specification.
         - Unnamed ports do not have an SRV record.
           - Question Example:
@@ -913,7 +994,7 @@ _             - ```<port>.<proto>.<service>.<ns>.svc.<zone>. <ttl> IN SRV <weigh
           - Answer Example:
             - ```_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 kubernetes.default.svc.cluster.local.```
       - III. PTR Record
-        - Given an IPv4 Service ClusterIP <a>.<b>.<c>.<d>, a PTR record of the following form must exist.
+        - Given an IPv4 Service ClusterIP ```<a>.<b>.<c>.<d>```, a PTR record of the following form must exist.
           - Record Format:
             - ```<d>.<c>.<b>.<a>.in-addr.arpa. <ttl> IN PTR <service>.<ns>.svc.<zone>.```
           - Question Example:
@@ -958,7 +1039,7 @@ _             - ```<port>.<proto>.<service>.<ns>.svc.<zone>. <ttl> IN SRV <weigh
     - Although each Pod has a unique IP address, those IPs are not exposed outside the cluster without a Service.
     - Services allow your applications to receive traffic. Services can be exposed in different ways by specifying a type in the ServiceSpec:
       - ClusterIP (default) - Exposes the Service on an internal IP in the cluster. This type makes the Service only reachable from within the cluster.
-      - NodePort - Exposes the Service on the same port of each selected Node in the cluster using NAT. Makes a Service accessible from outside the cluster using <NodeIP>:<NodePort>. Superset of ClusterIP.
+      - NodePort - Exposes the Service on the same port of each selected Node in the cluster using NAT. Makes a Service accessible from outside the cluster using ```<NodeIP>:<NodePort>```. Superset of ClusterIP.
       - LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
       - ExternalName - Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.
   - Services and Labels
@@ -968,3 +1049,607 @@ _             - ```<port>.<proto>.<service>.<ns>.svc.<zone>. <ttl> IN SRV <weigh
       - Designate objects for development, test, and production
       - Embed version tags
       - Classify an object using tags
+
+kubectl Usage Conventions - https://kubernetes.io/docs/reference/kubectl/conventions/
+  - Using kubectl in Reusable Scripts
+    - For a stable output in a script:
+      - Request one of the machine-oriented output forms, such as -o name, -o json, -o yaml, -o go-template, or -o jsonpath.
+      - Fully-qualify the version. For example, jobs.v1.batch/myjob. This will ensure that kubectl does not use its default version that can change over time.
+      - Don't rely on context, preferences, or other implicit states.
+  - Best Practices
+    - kubectl run
+      - Satisfy infrastructure as code :
+        - Tag the image with a version-specific tag and don't move that tag to a new version.
+        - Check in the script for an image that is heavily parameterized.
+        - Switch to configuration files checked into source control for features that are needed, but not expressible via kubectl run flags.
+      - You can use the --dry-run=client flag to preview the object that would be sent to your cluster, without really submitting it.
+    - Generators : (Note: All kubectl run generators are deprecated.)
+      - You can generate the following resources with a kubectl command, kubectl create --dry-run=client -o yaml:
+        - clusterrole: Create a ClusterRole.
+        - clusterrolebinding: Create a ClusterRoleBinding for a particular ClusterRole.
+        - configmap: Create a ConfigMap from a local file, directory or literal value.
+        - cronjob: Create a CronJob with the specified name.
+        - deployment: Create a Deployment with the specified name.
+        - job: Create a Job with the specified name.
+        - namespace: Create a Namespace with the specified name.
+        - poddisruptionbudget: Create a PodDisruptionBudget with the specified name.
+        - priorityclass: Create a PriorityClass with the specified name.
+        - quota: Create a Quota with the specified name.
+        - role: Create a Role with single rule.
+        - rolebinding: Create a RoleBinding for a particular Role or ClusterRole.
+        - secret: Create a Secret using specified subcommand.
+        - service: Create a Service using specified subcommand.
+        - serviceaccount: Create a ServiceAccount with the specified name.
+    - kubectl apply
+      - You can use kubectl apply to create or update resources.
+
+Kubernetes Object Management : https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/
+  - The kubectl command-line tool supports several different ways to create and manage Kubernetes objects.
+  - Management techniques
+    - Warning: A Kubernetes object should be managed using only one technique. Mixing and matching techniques for the same object results in undefined behavior.
+    - Management technique : Imperative commands
+      - Operates on : Live objects
+      - Recommended environment :	Development projects
+      - Supported writers : 1+
+      -	Learning curve : Lowest
+    - Management technique : Imperative object configuration
+      - Operates on : Individual files
+      - Recommended environment :	Production projects
+      - Supported writers : 1
+      -	Learning curve : Moderate
+    - Management technique : Declarative object configuration
+      - Operates on : Directories of files
+      - Recommended environment :	Production projects
+      - Supported writers : 1+
+      -	Learning curve : Highest
+  - Imperative commands
+    - When using imperative commands, a user operates directly on live objects in a cluster.
+    - The user provides operations to the kubectl command as arguments or flags.
+    - When using imperative commands, a user operates directly on live objects in a cluster. The user provides operations to the kubectl command as arguments or flags.
+    - Because this technique operates directly on live objects, it provides no history of previous configurations.
+    - Example :
+      - Run an instance of the nginx container by creating a Deployment object:
+        - kubectl create deployment nginx --image nginx
+    - Trade-offs
+      - Advantages compared to object configuration:
+        - Commands are expressed as a single action word.
+        - Commands require only a single step to make changes to the cluster.
+      - Disadvantages compared to object configuration:
+        - Commands do not integrate with change review processes.
+        - Commands do not provide an audit trail associated with changes.
+        - Commands do not provide a source of records except for what is live.
+        - Commands do not provide a template for creating new objects.
+  - Imperative object configuration
+    - In imperative object configuration, the kubectl command specifies the operation (create, replace, etc.), optional flags and at least one file name. The file specified must contain a full definition of the object in YAML or JSON format.
+    - Warning: The imperative replace command replaces the existing spec with the newly provided one, dropping all changes to the object missing from the configuration file. This approach should not be used with resource types whose specs are updated independently of the configuration file. Services of type LoadBalancer, for example, have their externalIPs field updated independently from the configuration by the cluster
+    - Examples :
+      - Create the objects defined in a configuration file:
+        - kubectl create -f nginx.yaml
+      - Delete the objects defined in two configuration files:
+        - kubectl delete -f nginx.yaml -f redis.yaml
+      - Update the objects defined in a configuration file by overwriting the live configuration:
+        - kubectl replace -f nginx.yaml
+    - Trade-offs
+      - Advantages compared to imperative commands:
+        - Object configuration can be stored in a source control system such as Git.
+        - Object configuration can integrate with processes such as reviewing changes before push and audit trails.
+        - Object configuration provides a template for creating new objects.
+      - Disadvantages compared to imperative commands:  
+        - Object configuration requires basic understanding of the object schema.
+        - Object configuration requires the additional step of writing a YAML file.
+      - Advantages compared to declarative object configuration:
+        - Imperative object configuration behavior is simpler and easier to understand.
+        - As of Kubernetes version 1.5, imperative object configuration is more mature.
+      - Disadvantages compared to declarative object configuration:
+        - Imperative object configuration works best on files, not directories.
+        - Updates to live objects must be reflected in configuration files, or they will be lost during the next replacement.
+  - Declarative object configuration
+    - When using declarative object configuration, a user operates on object configuration files stored locally, however the user does not define the operations to be taken on the files. Create, update, and delete operations are automatically detected per-object by kubectl. This enables working on directories, where different operations might be needed for different objects.
+    - Note: Declarative object configuration retains changes made by other writers, even if the changes are not merged back to the object configuration file. This is possible by using the patch API operation to write only observed differences, instead of using the replace API operation to replace the entire object configuration.
+    - Examples
+      - Process all object configuration files in the configs directory, and create or patch the live objects. You can first diff to see what changes are going to be made, and then apply:
+        - kubectl diff -f configs/
+        - kubectl apply -f configs/
+      - Recursively process directories:
+        - kubectl diff -R -f configs/
+        - kubectl apply -R -f configs/
+    - Trade-offs
+      - Advantages compared to imperative object configuration:
+        - Changes made directly to live objects are retained, even if they are not merged back into the configuration files.
+        - Declarative object configuration has better support for operating on directories and automatically detecting operation types (create, patch, delete) per-object.
+      - Disadvantages compared to imperative object configuration:
+        - Declarative object configuration is harder to debug and understand results when they are unexpected.
+        - Partial updates using diffs create complex merge and patch operations.
+
+Managing Kubernetes Objects Using Imperative Commands : https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/
+  - Kubernetes objects can quickly be created, updated, and deleted directly using imperative commands built into the kubectl command-line tool.
+  - Trade-offs
+    - The kubectl tool supports three kinds of object management:
+      - Imperative commands
+      - Imperative object configuration
+      - Declarative object configuration
+  - How to create objects
+    - The kubectl tool supports verb-driven commands for creating some of the most common object types. The commands are named to be recognizable to users unfamiliar with the Kubernetes object types.
+      - run: Create a new Pod to run a Container.
+      - expose: Create a new Service object to load balance traffic across Pods.
+      - autoscale: Create a new Autoscaler object to automatically horizontally scale a controller, such as a Deployment.
+    - The kubectl tool also supports creation commands driven by object type. These commands support more object types and are more explicit about their intent, but require users to know the type of objects they intend to create.
+      - ``` create <objecttype> [<subtype>] <instancename> ```
+    - Some objects types have subtypes that you can specify in the create command.
+      - For example, the Service object has several subtypes including ClusterIP, LoadBalancer, and NodePort.
+      - ``` kubectl create service nodeport <myservicename> ```
+    - You can use the -h flag to find the arguments and flags supported by a subcommand:
+      - ``` kubectl create service nodeport -h ```
+  - How to update objects
+    - The kubectl command supports verb-driven commands for some common update operations. These commands are named to enable users unfamiliar with Kubernetes objects to perform updates without knowing the specific fields that must be set:
+      - scale: Horizontally scale a controller to add or remove Pods by updating the replica count of the controller.
+      - annotate: Add or remove an annotation from an object.
+      - label: Add or remove a label from an object.
+    - The kubectl command also supports update commands driven by an aspect of the object. Setting this aspect may set different fields for different object types:
+      - set <field>: Set an aspect of an object.
+    - Note: In Kubernetes version 1.5, not every verb-driven command has an associated aspect-driven command.
+    - The kubectl tool supports these additional ways to update a live object directly, however they require a better understanding of the Kubernetes object schema.
+      - edit: Directly edit the raw configuration of a live object by opening its configuration in an editor.
+      - patch: Directly modify specific fields of a live object by using a patch string. For more details on patch strings, see the patch section in API Conventions.
+  - How to delete objects
+    - ```delete <type>/<name>```
+    -  Note: You can use kubectl delete for both imperative commands and imperative object configuration. The difference is in the arguments passed to the command. To use kubectl delete as an imperative command, pass the object to be deleted as an argument.
+    - Example that passes a Deployment object named nginx:
+      - ```kubectl delete deployment/nginx```
+  - How to view an object
+    - There are several commands for printing information about an object:
+      - get: Prints basic information about matching objects. Use get -h to see a list of options.
+      - describe: Prints aggregated detailed information about matching objects.
+      - logs: Prints the stdout and stderr for a container running in a Pod.
+  - Using set commands to modify objects before creation
+    - There are some object fields that don't have a flag you can use in a create command.
+    - In some of those cases, you can use a combination of set and create to specify a value for the field before object creation.
+    - This is done by piping the output of the create command to the set command, and then back to the create command.
+    - Example :
+      ```bash
+      kubectl create service clusterip my-svc --clusterip="None" -o yaml --dry-run=client | kubectl set selector --local -f - 'environment=qa' -o yaml | kubectl create -f -
+      ```
+      1. The kubectl create service -o yaml --dry-run=client command creates the configuration for the Service, but prints it to stdout as YAML instead of sending it to the Kubernetes API server.
+      2. The kubectl set selector --local -f - -o yaml command reads the configuration from stdin, and writes the updated configuration to stdout as YAML.
+      3. The kubectl create -f - command creates the object using the configuration provided via stdin
+  - Using --edit to modify objects before creation
+    - You can use kubectl create --edit to make arbitrary changes to an object before it is created.
+    - Example:
+      ```bash
+      kubectl create service clusterip my-svc --clusterip="None" -o yaml --dry-run=client > /tmp/srv.yaml
+      kubectl create --edit -f /tmp/srv.yaml
+      ```
+      1. The kubectl create service command creates the configuration for the Service and saves it to /tmp/srv.yaml.
+      2. The kubectl create --edit command opens the configuration file for editing before it creates the object.
+
+Imperative Management of Kubernetes Objects Using Configuration Files : https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/
+  - Kubernetes objects can be created, updated, and deleted by using the kubectl command-line tool along with an object configuration file written in YAML or JSON.
+  - How to create objects
+    - You can use kubectl create -f to create an object from a configuration file.
+      - ``` kubectl create -f <filename|url> ```
+  - How to update objects
+    - Warning: Updating objects with the replace command drops all parts of the spec not specified in the configuration file. This should not be used with objects whose specs are partially managed by the cluster, such as Services of type LoadBalancer, where the externalIPs field is managed independently from the configuration file. Independently managed fields must be copied to the configuration file to prevent replace from dropping them.
+    - You can use kubectl replace -f to update a live object according to a configuration file.
+      - ``` kubectl replace -f <filename|url> ```
+  - How to delete objects
+    - You can use kubectl delete -f to delete an object that is described in a configuration file.
+      - ``` kubectl delete -f <filename|url> ```
+    - If configuration file has specified the generateName field in the metadata section instead of the name field, you cannot delete the object using the above. You will have to use other flags for deleting the object.
+  - How to view an object
+    - You can use kubectl get -f to view information about an object that is described in a configuration file.
+      - ``` kubectl get -f <filename|url> -o yaml ```
+    - The -o yaml flag specifies that the full object configuration is printed. Use kubectl get -h to see a list of options.
+  - Limitations
+    - The create, replace, and delete commands work well when each object's configuration is fully defined and recorded in its configuration file. However when a live object is updated, and the updates are not merged into its configuration file, the updates will be lost the next time a replace is executed. This can happen if a controller, such as a HorizontalPodAutoscaler, makes updates directly to a live object.
+      - Example :
+        1. You create an object from a configuration file.
+        2. Another source updates the object by changing some field.
+        3. You replace the object from the configuration file. Changes made by the other source in step 2 are lost.
+    - If you need to support multiple writers to the same object, you can use kubectl apply to manage the object.
+  - Creating and editing an object from a URL without saving the configuration
+    - Suppose you have the URL of an object configuration file. You can use kubectl create --edit to make changes to the configuration before the object is created. This is particularly useful for tutorials and tasks that point to a configuration file that could be modified by the reader.
+      - ``` kubectl create -f <url> --edit ```
+  - Migrating from imperative commands to imperative object configuration
+    - Migrating from imperative commands to imperative object configuration involves several manual steps.
+      1. Export the live object to a local object configuration file:
+        - ``` kubectl get <kind>/<name> -o yaml > <kind>_<name>.yaml ```
+      2. Manually remove the status field from the object configuration file.
+      3. For subsequent object management, use replace exclusively.
+        - ``` kubectl replace -f <kind>_<name>.yaml ```
+  - Defining controller selectors and PodTemplate labels
+    - Warning: Updating selectors on controllers is strongly discouraged.
+    - The recommended approach is to define a single, immutable PodTemplate label used only by the controller selector with no other semantic meaning.
+    - Example :
+    ```yaml
+    selector:
+    matchLabels:
+        controller-selector: "apps/v1/deployment/nginx"
+    template:
+      metadata:
+        labels:
+          controller-selector: "apps/v1/deployment/nginx"
+    ```
+
+Declarative Management of Kubernetes Objects Using Configuration Files : https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/
+  - Kubernetes objects can be created, updated, and deleted by storing multiple object configuration files in a directory and using kubectl apply to recursively create and update those objects as needed. This method retains writes made to live objects without merging the changes back into the object configuration files. kubectl diff also gives you a preview of what changes apply will make.
+  - Overview
+    - Following are definitions for terms used in this document:
+      - object configuration file / configuration file: A file that defines the configuration for a Kubernetes object. This topic shows how to pass configuration files to kubectl apply. Configuration files are typically stored in source control, such as Git.
+      - live object configuration / live configuration: The live configuration values of an object, as observed by the Kubernetes cluster. These are kept in the Kubernetes cluster storage, typically etcd.
+      - declarative configuration writer / declarative writer: A person or software component that makes updates to a live object. The live writers referred to in this topic make changes to object configuration files and run kubectl apply to write the changes.
+  - How to create objects
+    - Use kubectl apply to create all objects, except those that already exist, defined by configuration files in a specified directory:
+      - ``` kubectl apply -f <directory>/ ```
+    - This sets the kubectl.kubernetes.io/last-applied-configuration: '{...}' annotation on each object. The annotation contains the contents of the object configuration file that was used to create the object.
+    - Note: Add the -R flag to recursively process directories.
+    - Here's an example of an object configuration file:
+      ```yaml
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: nginx-deployment
+      spec:
+        selector:
+          matchLabels:
+            app: nginx
+        minReadySeconds: 5
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+      ```
+    - Run kubectl diff to print the object that will be created:
+      - ``` kubectl diff -f https://k8s.io/examples/application/simple_deployment.yaml ```
+    - diff uses server-side dry-run, which needs to be enabled on kube-apiserver. Since diff performs a server-side apply request in dry-run mode, it requires granting PATCH, CREATE, and UPDATE permissions.
+    - Create the object using kubectl apply:
+        - ``` kubectl apply -f https://k8s.io/examples/application/simple_deployment.yaml ```
+    - Print the live configuration using kubectl get:
+      - ``` kubectl get -f https://k8s.io/examples/application/simple_deployment.yaml -o yaml ```
+  - How to update objects
+    - You can also use kubectl apply to update all objects defined in a directory, even if those objects already exist. This approach accomplishes the following:
+      1. Sets fields that appear in the configuration file in the live configuration.
+      2. Clears fields removed from the configuration file in the live configuration.
+        - ``` kubectl diff -f <directory>/ ```
+        - ``` kubectl apply -f <directory>/ ```
+    - Directly update the replicas field in the live configuration by using kubectl scale. This does not use kubectl apply:
+      - ``` kubectl scale deployment/nginx-deployment --replicas=2 ```
+      - If we print the  live configuration using kubectl get:
+        - The output shows that the replicas field has been set to 2, and the last-applied-configuration annotation does not contain a replicas field:
+    - Update the simple_deployment.yaml configuration file to change the image from nginx:1.14.2 to nginx:1.16.1, and delete the minReadySeconds field:
+      - diff then apply the changes to the config file.
+      - When we do ```kubectl get``` The output shows the following changes to the live configuration:
+        - The replicas field retains the value of 2 set by kubectl scale. This is possible because it is omitted from the configuration file.
+        - The image field has been updated to nginx:1.16.1 from nginx:1.14.2.
+        - The last-applied-configuration annotation has been updated with the new image.
+        - The minReadySeconds field has been cleared.
+        - The last-applied-configuration annotation no longer contains the minReadySeconds field.
+    - Warning: Mixing kubectl apply with the imperative object configuration commands create and replace is not supported. This is because create and replace do not retain the kubectl.kubernetes.io/last-applied-configuration that kubectl apply uses to compute updates.
+  - How to delete objects
+    - There are two approaches to delete objects managed by kubectl apply.
+      - Recommended: ``` kubectl delete -f <filename> ```
+        - Manually deleting objects using the imperative command is the recommended approach, as it is more explicit about what is being deleted, and less likely to result in the user deleting something unintentionally.
+      - Alternative: ``` kubectl apply -f <directory/> --prune -l your=label ```
+        - Only use this if you know what you are doing.
+        - Warning: kubectl apply --prune is in alpha, and backwards incompatible changes might be introduced in subsequent releases.
+        - Warning: You must be careful when using this command, so that you do not delete objects unintentionally.
+        - As an alternative to kubectl delete, you can use kubectl apply to identify objects to be deleted after their configuration files have been removed from the directory. Apply with --prune queries the API server for all objects matching a set of labels, and attempts to match the returned live object configurations against the object configuration files. If an object matches the query, and it does not have a configuration file in the directory, and it has a last-applied-configuration annotation, it is deleted.
+        - Warning: Apply with prune should only be run against the root directory containing the object configuration files. Running against sub-directories can cause objects to be unintentionally deleted if they are returned by the label selector query specified with -l <labels> and do not appear in the subdirectory.
+  - How to view an object
+    - You can use kubectl get with -o yaml to view the configuration of a live object:
+      - ``` kubectl get -f <filename|url> -o yaml ```
+  - How apply calculates differences and merges changes
+    - Caution: A patch is an update operation that is scoped to specific fields of an object instead of the entire object. This enables updating only a specific set of fields on an object without reading the object first.
+    - When kubectl apply updates the live configuration for an object, it does so by sending a patch request to the API server. The patch defines updates scoped to specific fields of the live object configuration. The kubectl apply command calculates this patch request using the configuration file, the live configuration, and the last-applied-configuration annotation stored in the live configuration.
+    - Merge patch calculation
+      - The kubectl apply command writes the contents of the configuration file to the kubectl.kubernetes.io/last-applied-configuration annotation. This is used to identify fields that have been removed from the configuration file and need to be cleared from the live configuration. Here are the steps used to calculate which fields should be deleted or set:
+        1. Calculate the fields to delete. These are the fields present in last-applied-configuration and missing from the configuration file.
+        2. Calculate the fields to add or set. These are the fields present in the configuration file whose values don't match the live configuration.
+      - Here are the merge calculations that would be performed by kubectl apply:
+        1. Calculate the fields to delete by reading values from last-applied-configuration and comparing them to values in the configuration file. Clear fields explicitly set to null in the local object configuration file regardless of whether they appear in the last-applied-configuration.
+        2. Calculate the fields to set by reading values from the configuration file and comparing them to values in the live configuration.
+        3. Set the last-applied-configuration annotation to match the value of the configuration file.
+        4. Merge the results from 1, 2, 3 into a single patch request to the API server.
+    - How different types of fields are merged
+      - How a particular field in a configuration file is merged with the live configuration depends on the type of the field. There are several types of fields:
+        - primitive: A field of type string, integer, or boolean. For example, image and replicas are primitive fields. Action: Replace.
+        - map, also called object: A field of type map or a complex type that contains subfields. For example, labels, annotations,spec and metadata are all maps. Action: Merge elements or subfields.
+        - list: A field containing a list of items that can be either primitive types or maps. For example, containers, ports, and args are lists. Action: Varies.
+      - When kubectl apply updates a map or list field, it typically does not replace the entire field, but instead updates the individual subelements. For instance, when merging the spec on a Deployment, the entire spec is not replaced. Instead the subfields of spec, such as replicas, are compared and merged.
+    - Merging changes to primitive fields
+      - Primitive fields are replaced or cleared.
+        - Action : Set live to configuration file value.
+          - Field in object configuration file
+            - YES
+          - Field in live object configuration
+            - YES
+          - Field in last-applied-configuration
+            - N/A
+        - Action : Set live to local configuration.
+          - Field in object configuration file
+            - YES
+          - Field in live object configuration
+            - NO
+          - Field in last-applied-configuration
+            - N/A
+        - Action : Clear from live configuration.
+          - Field in object configuration file
+            - NO
+          - Field in live object configuration
+            - N/A
+          - Field in last-applied-configuration
+            - YES
+        - Action : Do nothing. Keep live value.
+          - Field in object configuration file
+            - NO
+          - Field in live object configuration
+            - N/A
+          - Field in last-applied-configuration
+            - NO
+    - Merging changes to map fields
+      - Fields that represent maps are merged by comparing each of the subfields or elements of the map
+        - Action : Compare sub fields values.
+          - Key in object configuration file
+            - YES
+          - Key in live object configuration
+            - YES
+          - Field in last-applied-configuration
+            - N/A
+        - Action : Set live to local configuration.
+          - Key in object configuration file
+            - YES
+          - Key in live object configuration
+            - NO
+          - Field in last-applied-configuration
+            - N/A
+        - Action : Delete from live configuration.
+          - Key in object configuration file
+            - NO
+          - Key in live object configuration
+            - N/A
+          - Field in last-applied-configuration
+            - YES
+        - Action : Do nothing. Keep live value.
+          - Key in object configuration file
+            - NO
+          - Key in live object configuration
+            - N/A
+          - Field in last-applied-configuration
+            - NO
+    - Merging changes for fields of type list
+      - Merging changes to a list uses one of three strategies:
+        - Replace the list if all its elements are primitives.
+        - Merge individual elements in a list of complex elements.
+        - Merge a list of primitive elements.
+      - Replace the list if all its elements are primitives
+        - Treat the list the same as a primitive field. Replace or delete the entire list. This preserves ordering.
+        - Example :
+          ```yaml
+          # last-applied-configuration value
+              args: ["a", "b"]
+
+          # configuration file value
+              args: ["a", "c"]
+
+          # live configuration
+              args: ["a", "b", "d"]
+
+          # result after merge
+              args: ["a", "c"]
+          ```
+          - Explanation: The merge used the configuration file value as the new list value.
+      - Merge individual elements of a list of complex elements:
+        - Treat the list as a map, and treat a specific field of each element as a key. Add, delete, or update individual elements. This does not preserve ordering.
+        - This merge strategy uses a special tag on each field called a patchMergeKey. The patchMergeKey is defined for each field in the Kubernetes source code: types.go When merging a list of maps, the field specified as the patchMergeKey for a given element is used like a map key for that element.
+        - Example :
+          ```yaml
+          # last-applied-configuration value
+              containers:
+              - name: nginx
+                image: nginx:1.16
+              - name: nginx-helper-a # key: nginx-helper-a; will be deleted in result
+                image: helper:1.3
+              - name: nginx-helper-b # key: nginx-helper-b; will be retained
+                image: helper:1.3
+
+          # configuration file value
+              containers:
+              - name: nginx
+                image: nginx:1.16
+              - name: nginx-helper-b
+                image: helper:1.3
+              - name: nginx-helper-c # key: nginx-helper-c; will be added in result
+                image: helper:1.3
+
+          # live configuration
+              containers:
+              - name: nginx
+                image: nginx:1.16
+              - name: nginx-helper-a
+                image: helper:1.3
+              - name: nginx-helper-b
+                image: helper:1.3
+                args: ["run"] # Field will be retained
+              - name: nginx-helper-d # key: nginx-helper-d; will be retained
+                image: helper:1.3
+
+          # result after merge
+              containers:
+              - name: nginx
+                image: nginx:1.16
+                # Element nginx-helper-a was deleted
+              - name: nginx-helper-b
+                image: helper:1.3
+                args: ["run"] # Field was retained
+              - name: nginx-helper-c # Element was added
+                image: helper:1.3
+              - name: nginx-helper-d # Element was ignored
+                image: helper:1.3
+          ```
+          - The container named "nginx-helper-a" was deleted because no container named "nginx-helper-a" appeared in the configuration file.
+          - The container named "nginx-helper-b" retained the changes to args in the live configuration. kubectl apply was able to identify that "nginx-helper-b" in the live configuration was the same "nginx-helper-b" as in the configuration file, even though their fields had different values (no args in the configuration file). This is because the patchMergeKey field value (name) was identical in both.
+          - The container named "nginx-helper-c" was added because no container with that name appeared in the live configuration, but one with that name appeared in the configuration file.
+          - The container named "nginx-helper-d" was retained because no element with that name appeared in the last-applied-configuration.
+      - Merge a list of primitive elements
+        - As of Kubernetes 1.5, merging lists of primitive elements is not supported.
+        - Note: Which of the above strategies is chosen for a given field is controlled by the patchStrategy tag in types.go If no patchStrategy is specified for a field of type list, then the list is replaced.
+  - Default field values
+    - The API server sets certain fields to default values in the live configuration if they are not specified when the object is created.
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    # ...
+    spec:
+      selector:
+        matchLabels:
+          app: nginx
+      minReadySeconds: 5
+      replicas: 1 # defaulted by apiserver
+      strategy:
+        rollingUpdate: # defaulted by apiserver - derived from strategy.type
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate # defaulted by apiserver
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: nginx
+        spec:
+          containers:
+          - image: nginx:1.14.2
+            imagePullPolicy: IfNotPresent # defaulted by apiserver
+            name: nginx
+            ports:
+            - containerPort: 80
+              protocol: TCP # defaulted by apiserver
+            resources: {} # defaulted by apiserver
+            terminationMessagePath: /dev/termination-log # defaulted by apiserver
+          dnsPolicy: ClusterFirst # defaulted by apiserver
+          restartPolicy: Always # defaulted by apiserver
+          securityContext: {} # defaulted by apiserver
+          terminationGracePeriodSeconds: 30 # defaulted by apiserver
+    # ...
+    ```
+    - In a patch request, defaulted fields are not re-defaulted unless they are explicitly cleared as part of a patch request. This can cause unexpected behavior for fields that are defaulted based on the values of other fields. When the other fields are later changed, the values defaulted from them will not be updated unless they are explicitly cleared.
+    - For this reason, it is recommended that certain fields defaulted by the server are explicitly defined in the configuration file, even if the desired values match the server defaults. This makes it easier to recognize conflicting values that will not be re-defaulted by the server.
+    - Example :
+      ```yaml
+      # last-applied-configuration
+      spec:
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+
+      # configuration file
+      spec:
+        strategy:
+          type: Recreate # updated value
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+
+      # live configuration
+      spec:
+        strategy:
+          type: RollingUpdate # defaulted value
+          rollingUpdate: # defaulted value derived from type
+            maxSurge : 1
+            maxUnavailable: 1
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+
+      # result after merge - ERROR!
+      spec:
+        strategy:
+          type: Recreate # updated value: incompatible with rollingUpdate
+          rollingUpdate: # defaulted value: incompatible with "type: Recreate"
+            maxSurge : 1
+            maxUnavailable: 1
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+      ```
+      - Explanation
+        1. The user creates a Deployment without defining strategy.type.
+        2. The server defaults strategy.type to RollingUpdate and defaults the strategy.rollingUpdate values.
+        3. The user changes strategy.type to Recreate. The strategy.rollingUpdate values remain at their defaulted values, though the server expects them to be cleared. If the strategy.rollingUpdate values had been defined initially in the configuration file, it would have been more clear that they needed to be deleted.
+        4. Apply fails because strategy.rollingUpdate is not cleared. The strategy.rollingupdate field cannot be defined with a strategy.type of Recreate.
+      - Recommendation: These fields should be explicitly defined in the object configuration file:
+        - Selectors and PodTemplate labels on workloads, such as Deployment, StatefulSet, Job, DaemonSet, ReplicaSet, and ReplicationController
+        - Deployment rollout strategy
+    - How to clear server-defaulted fields or fields set by other writers
+      - Fields that do not appear in the configuration file can be cleared by setting their values to null and then applying the configuration file. For fields defaulted by the server, this triggers re-defaulting the values.
+  - How to change ownership of a field between the configuration file and direct imperative writers
+    - These are the only methods you should use to change an individual object field:
+      - Use kubectl apply.
+      - Write directly to the live configuration without modifying the configuration file: for example, use kubectl scale
+    - Changing the owner from a direct imperative writer to a configuration file
+      - Add the field to the configuration file. For the field, discontinue direct updates to the live configuration that do not go through kubectl apply.
+    - Changing the owner from a configuration file to a direct imperative writer
+      - As of Kubernetes 1.5, changing ownership of a field from a configuration file to an imperative writer requires manual steps:
+        - Remove the field from the configuration file.
+        - Remove the field from the kubectl.kubernetes.io/last-applied-configuration annotation on the live object.  
+  - Changing management methods
+    - Kubernetes objects should be managed using only one method at a time. Switching from one method to another is possible, but is a manual process.
+    - Note: It is OK to use imperative deletion with declarative management.
+    - Migrating from imperative command management to declarative object configuration
+      - Migrating from imperative command management to declarative object configuration involves several manual steps:
+      1. Export the live object to a local configuration file :
+        - ``` kubectl get <kind>/<name> -o yaml > <kind>_<name>.yaml ```
+      2. Manually remove the status field from the configuration file.
+        - Note : This step is optional, as kubectl apply does not update the status field even if it is present in the configuration file.
+      3. Set the kubectl.kubernetes.io/last-applied-configuration annotation on the object:
+        - ``` kubectl replace --save-config -f <kind>_<name>.yaml ```
+      4. Change processes to use kubectl apply for managing the object exclusively
+    - Migrating from imperative object configuration to declarative object configuration
+      1. Set the kubectl.kubernetes.io/last-applied-configuration annotation on the object:
+        - ``` kubectl replace --save-config -f <kind>_<name>.yaml ```
+      2. Change processes to use kubectl apply for managing the object exclusively.
+  - Defining controller selectors and PodTemplate labels
+    - Warning: Updating selectors on controllers is strongly discouraged.
+    - The recommended approach is to define a single, immutable PodTemplate label used only by the controller selector with no other semantic meaning.
+    - Example :
+    ```yaml
+    selector:
+      matchLabels:
+          controller-selector: "apps/v1/deployment/nginx"
+    template:
+      metadata:
+        labels:
+          controller-selector: "apps/v1/deployment/nginx"
+    ```
